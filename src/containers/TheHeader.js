@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import {change_sidebarshow} from '../modules/sideBarShow'
 import {
   CHeader,
   CToggler,
@@ -25,16 +26,19 @@ import {
 
 const TheHeader = () => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector(state => state.sidebarShow)
+  const {sidebarShow} = useSelector(({sideBarShow}) =>({
+    sidebarShow : sideBarShow.sidebarShow
+  }))
+
 
   const toggleSidebar = () => {
     const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
+    dispatch(change_sidebarshow(val))
   }
 
   const toggleSidebarMobile = () => {
     const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
+    dispatch(change_sidebarshow(val))
   }
 
   return (
