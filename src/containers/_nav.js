@@ -34,7 +34,7 @@ export default [
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: '멤버',
+    name: '회원',
     route: '/member',
     icon: 'cil-puzzle',
     _children: [
@@ -84,10 +84,32 @@ export default [
     ],
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: '공통코드',
     to: '/charts',
-    icon: 'cil-chart-pie'
+    icon: 'cil-chart-pie',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: '공통 코드 그룹 전체 조회',
+        to: '/code/codegrouplist',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ddd',
+        to: '/code/brand-buttons',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Buttons groups',
+        to: '/code/button-groups',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Dropdowns',
+        to: '/code/button-dropdowns',
+      }
+    ],
   },
   {
     _tag: 'CSidebarNavDropdown',

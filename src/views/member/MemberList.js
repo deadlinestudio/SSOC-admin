@@ -16,10 +16,10 @@ import { initMemberList, getMemberList } from "../../modules/member/member"
 
 const getBadge = status => {
     switch (status) {
-        case 'Active': return 'success'
+        case '10': return 'success'
         case 'Inactive': return 'secondary'
         case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
+        case '40': return 'danger'
         default: return 'primary'
     }
 }
@@ -80,7 +80,7 @@ const MemberList = () => {
                 items={memberList}
                 fields={[
                 { key: 'username', _classes: 'font-weight-bold' },
-                'signUpDateTime', 'email', 'birthDay'
+                'signUpDateTime', 'email', 'birthDay','statusCode'
                 ]}
                 hover
                 striped
@@ -89,11 +89,11 @@ const MemberList = () => {
                 clickableRows
                 onRowClick={(item) => history.push(`/users/${item.id}`)}
                 scopedSlots = {{
-                'status':
+                'statusCode':
                     (item)=>(
                     <td>
-                        <CBadge color={getBadge(item.status)}>
-                        {item.status}
+                        <CBadge color={getBadge(item.statusCode)}>
+                        {item.statusCode === '10' ? "정상" : item.statusCode === '40' ? "정지" : "몰라"}
                         </CBadge>
                     </td>
                     )

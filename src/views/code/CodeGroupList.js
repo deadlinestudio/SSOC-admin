@@ -12,24 +12,24 @@ import {
   CPagination
 } from '@coreui/react'
 
-import { initClubList, getClubList } from "../../modules/club/club"
+import { getCodeGroupList, initCodeGroupList } from "../../modules/code/codeGroup"
 
 const getBadge = status => {
     switch (status) {
         case '10': return 'success'
-        case '20': return 'secondary'
-        case '30': return 'warning'
+        case 'Inactive': return 'secondary'
+        case 'Pending': return 'warning'
         case '40': return 'danger'
         default: return 'primary'
     }
 }
 
-const ClubList = () => {
+const MemberList = () => {
     const dispatch = useDispatch()
-    const { clubList, initDone, getDone } = useSelector(({club}) => ({
-        clubList : club.clubList,
-        initDone : club.initDone,
-        getDone : club.getDone
+    const { codeGroupList, initDone, getDone } = useSelector(({codeGroup}) => ({
+        codeGroupList : codeGroup.codeGroupList,
+        initDone : codeGroup.initDone,
+        getDone : codeGroup.getDone
     }))
     const history = useHistory()
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
@@ -37,22 +37,22 @@ const ClubList = () => {
     const [page, setPage] = useState(currentPage)
 
     const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/club/clublist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+        currentPage !== newPage && history.push(`/code/codegrouplist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
     }
     
     // 화면 첫 렌더링
     useEffect(()=>{
         console.log("user first rendering")
-        dispatch(initClubList())
+        dispatch(initCodeGroupList())
     },[dispatch])
 
     // 멤버리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
     useEffect(()=>{
         if(initDone === null)
             return
-        console.log("get clublist start")
-        dispatch(getClubList())
-        console.log("get clublist end")
+        console.log("get codegrouplist start")
+        dispatch(getCodeGroupList())
+        console.log("get odegrouplist end")
     },[dispatch, initDone])
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const ClubList = () => {
         if(getDone === null)
             return
         console.log("getDone : ",getDone)
-        console.log("clubList : ",clubList);
+        console.log("codeGroupList : ",codeGroupList);
     })
 
     return (
@@ -72,15 +72,15 @@ const ClubList = () => {
         <CCol xl={6}>
             <CCard>
             <CCardHeader>           
-                클럽목록
+                공통 코드 그룹 목록
                 <small className="text-muted"> example</small>
             </CCardHeader>
             <CCardBody>
             <CDataTable
-                items={clubList}
+                items={codeGroupList}
                 fields={[
-                { key: 'title', _classes: 'font-weight-bold' },
-                'body', 'categoryCode', 'statusCode'
+                { key: 'id', _classes: 'font-weight-bold' },
+                'definition', 'createDateTime', 'updateDateTime'
                 ]}
                 hover
                 striped
@@ -93,7 +93,7 @@ const ClubList = () => {
                     (item)=>(
                     <td>
                         <CBadge color={getBadge(item.statusCode)}>
-                        {item.statusCode === '10' ? "활성화" : item.statusCode === '20' ? "몰라" : "더 몰라"}
+                        {item.statusCode === '10' ? "정상" : item.statusCode === '40' ? "정지" : "몰라"}
                         </CBadge>
                     </td>
                     )
@@ -113,7 +113,7 @@ const ClubList = () => {
     )
 }
 
-export default ClubList
+export default MemberList
 
 
 /*
