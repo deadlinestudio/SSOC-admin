@@ -2,8 +2,8 @@ import {createAction, handleActions} from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
     createRequestActionTypes
-} from '../lib/createRequestSaga';
-import * as authAPI from '../lib/api/auth';
+} from '../../lib/createRequestSaga';
+import * as authAPI from '../../lib/api/auth';
 
 // 멤버리스트 초기화
 const INITIALIZE_MEMBERLIST = 'member/INITIALIZE_MEMBERLIST';

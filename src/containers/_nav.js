@@ -40,7 +40,7 @@ export default [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: '멤버 리스트 조회',
+        name: '회원 목록 조회',
         to: '/member/memberlist',
       },
       {
@@ -58,23 +58,23 @@ export default [
   {
     _tag: 'CSidebarNavDropdown',
     name: '클럽',
-    route: '/buttons',
+    route: '/club',
     icon: 'cil-cursor',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Buttons',
-        to: '/buttons/buttons',
+        name: '클럽 목록 조회',
+        to: '/club/clublist',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Brand buttons',
-        to: '/buttons/brand-buttons',
+        to: '/club/brand-buttons',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Buttons groups',
-        to: '/buttons/button-groups',
+        to: '/club/button-groups',
       },
       {
         _tag: 'CSidebarNavItem',

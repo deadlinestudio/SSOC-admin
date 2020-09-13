@@ -12,7 +12,7 @@ import {
   CPagination
 } from '@coreui/react'
 
-import { initMemberList, getMemberList } from "../../modules/member"
+import { initMemberList, getMemberList } from "../../modules/member/member"
 
 const getBadge = status => {
     switch (status) {

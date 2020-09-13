@@ -12,24 +12,24 @@ import {
   CPagination
 } from '@coreui/react'
 
-import { initMemberList, getMemberList } from "../../modules/member/member"
+import { initClubList, getClubList } from "../../modules/club/club"
 
 const getBadge = status => {
     switch (status) {
-        case 'Active': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
+        case '10': return 'success'
+        case '20': return 'secondary'
+        case '30': return 'warning'
+        case '40': return 'danger'
         default: return 'primary'
     }
 }
 
-const MemberList = () => {
+const ClubList = () => {
     const dispatch = useDispatch()
-    const { memberList, initDone, getDone } = useSelector(({member}) => ({
-        memberList : member.memberList,
-        initDone : member.initDone,
-        getDone : member.getDone
+    const { clubList, initDone, getDone } = useSelector(({club}) => ({
+        clubList : club.clubList,
+        initDone : club.initDone,
+        getDone : club.getDone
     }))
     const history = useHistory()
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
@@ -37,22 +37,22 @@ const MemberList = () => {
     const [page, setPage] = useState(currentPage)
 
     const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/member/memberlist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+        currentPage !== newPage && history.push(`/club/clublist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
     }
     
     // 화면 첫 렌더링
     useEffect(()=>{
         console.log("user first rendering")
-        dispatch(initMemberList())
+        dispatch(initClubList())
     },[dispatch])
 
     // 멤버리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
     useEffect(()=>{
         if(initDone === null)
             return
-        console.log("get memberlist start")
-        dispatch(getMemberList())
-        console.log("get memberlist end")
+        console.log("get clublist start")
+        dispatch(getClubList())
+        console.log("get clublist end")
     },[dispatch, initDone])
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const MemberList = () => {
         if(getDone === null)
             return
         console.log("getDone : ",getDone)
-        console.log("memberList : ",memberList);
+        console.log("clubList : ",clubList);
     })
 
     return (
@@ -72,15 +72,15 @@ const MemberList = () => {
         <CCol xl={6}>
             <CCard>
             <CCardHeader>           
-                회원목록
+                클럽목록
                 <small className="text-muted"> example</small>
             </CCardHeader>
             <CCardBody>
             <CDataTable
-                items={memberList}
+                items={clubList}
                 fields={[
-                { key: 'username', _classes: 'font-weight-bold' },
-                'signUpDateTime', 'email', 'birthDay'
+                { key: 'title', _classes: 'font-weight-bold' },
+                'body', 'categoryCode', 'statusCode'
                 ]}
                 hover
                 striped
@@ -89,11 +89,15 @@ const MemberList = () => {
                 clickableRows
                 onRowClick={(item) => history.push(`/users/${item.id}`)}
                 scopedSlots = {{
-                'status':
+                'statusCode':
                     (item)=>(
                     <td>
-                        <CBadge color={getBadge(item.status)}>
-                        {item.status}
+                        <CBadge color={getBadge(item.statusCode)}>
+                        {
+                            item.statusCode === '10' ? "활성화" : 
+                            item.statusCode === '20' ? "몰라" : 
+                            "더 몰라"
+                        }
                         </CBadge>
                     </td>
                     )
@@ -113,7 +117,7 @@ const MemberList = () => {
     )
 }
 
-export default MemberList
+export default ClubList
 
 
 /*
