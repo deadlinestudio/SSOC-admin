@@ -4,7 +4,7 @@ import CIcon from '@coreui/icons-react'
 export default [
   {
     _tag: 'CSidebarNavItem',
-    name: 'Dashboard',
+    name: '관리자 페이지',
     to: '/dashboard',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
     badge: {
@@ -34,112 +34,47 @@ export default [
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Base',
-    route: '/base',
+    name: '회원',
+    route: '/member',
     icon: 'cil-puzzle',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Breadcrumb',
-        to: '/base/breadcrumbs',
+        name: '회원 목록 조회',
+        to: '/member/memberlist',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Cards',
-        to: '/base/cards',
+        to: '/member/cards',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Carousel',
-        to: '/base/carousels',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Collapse',
-        to: '/base/collapses',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Forms',
-        to: '/base/forms',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Jumbotron',
-        to: '/base/jumbotrons',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'List group',
-        to: '/base/list-groups',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Navs',
-        to: '/base/navs',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Navbars',
-        to: '/base/navbars',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Pagination',
-        to: '/base/paginations',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Popovers',
-        to: '/base/popovers',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Progress',
-        to: '/base/progress-bar',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Switches',
-        to: '/base/switches',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Tables',
-        to: '/base/tables',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Tabs',
-        to: '/base/tabs',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Tooltips',
-        to: '/base/tooltips',
+        to: '/member/carousels',
       },
     ],
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Buttons',
-    route: '/buttons',
+    name: '클럽',
+    route: '/club',
     icon: 'cil-cursor',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Buttons',
-        to: '/buttons/buttons',
+        name: '클럽 목록 조회',
+        to: '/club/clublist',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Brand buttons',
-        to: '/buttons/brand-buttons',
+        to: '/club/brand-buttons',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Buttons groups',
-        to: '/buttons/button-groups',
+        to: '/club/button-groups',
       },
       {
         _tag: 'CSidebarNavItem',
@@ -149,21 +84,43 @@ export default [
     ],
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Charts',
-    to: '/charts',
-    icon: 'cil-chart-pie'
+    _tag: 'CSidebarNavDropdown',
+    name: '공통코드',
+    to: '/commoncode',
+    icon: 'cil-chart-pie',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: '공통 코드 그룹 전체 조회',
+        to: '/commoncode/codegrouplist',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'ddd',
+        to: '/code/brand-buttons',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Buttons groups',
+        to: '/code/button-groups',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Dropdowns',
+        to: '/code/button-dropdowns',
+      }
+    ],
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Icons',
-    route: '/icons',
+    name: '에러코드',
+    route: '/errorcode',
     icon: 'cil-star',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'CoreUI Free',
-        to: '/icons/coreui-icons',
+        name: '에러 코드 전체 조회',
+        to: '/errorcode/errorcodelist',
         badge: {
           color: 'success',
           text: 'NEW',
@@ -180,44 +137,6 @@ export default [
         to: '/icons/brands',
       },
     ],
-  },
-  {
-    _tag: 'CSidebarNavDropdown',
-    name: 'Notifications',
-    route: '/notifications',
-    icon: 'cil-bell',
-    _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Alerts',
-        to: '/notifications/alerts',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Badges',
-        to: '/notifications/badges',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Modal',
-        to: '/notifications/modals',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Toaster',
-        to: '/notifications/toaster'
-      }
-    ]
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Widgets',
-    to: '/widgets',
-    icon: 'cil-calculator',
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
   },
   {
     _tag: 'CSidebarNavDivider'

@@ -16,15 +16,15 @@ import { initMemberList, getMemberList } from "../../modules/member/member"
 
 const getBadge = status => {
     switch (status) {
-        case 'Active': return 'success'
+        case '10': return 'success'
         case 'Inactive': return 'secondary'
         case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
+        case '40': return 'danger'
         default: return 'primary'
     }
 }
 
-const Users = () => {
+const MemberList = () => {
     const dispatch = useDispatch()
     const { memberList, initDone, getDone } = useSelector(({member}) => ({
         memberList : member.memberList,
@@ -37,7 +37,7 @@ const Users = () => {
     const [page, setPage] = useState(currentPage)
 
     const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/users?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+        currentPage !== newPage && history.push(`/member/memberlist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
     }
     
     // 화면 첫 렌더링
@@ -80,20 +80,23 @@ const Users = () => {
                 items={memberList}
                 fields={[
                 { key: 'username', _classes: 'font-weight-bold' },
-                'signUpDateTime', 'email', 'birthDay'
+                'signUpDateTime', 'email', 'birthDay','statusCode'
                 ]}
                 hover
                 striped
                 itemsPerPage={10}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/${item.id}`)}
+                onRowClick={(item) => {
+                    //history.push(`/users/${item.id}`)
+                    console.log(item)
+                }}
                 scopedSlots = {{
-                'status':
+                'statusCode':
                     (item)=>(
                     <td>
-                        <CBadge color={getBadge(item.status)}>
-                        {item.status}
+                        <CBadge color={getBadge(item.statusCode)}>
+                        {item.statusCode === '10' ? "정상" : item.statusCode === '40' ? "정지" : "몰라"}
                         </CBadge>
                     </td>
                     )
@@ -113,7 +116,7 @@ const Users = () => {
     )
 }
 
-export default Users  
+export default MemberList
 
 
 /*

@@ -12,24 +12,24 @@ import {
   CPagination
 } from '@coreui/react'
 
-import { initMemberList, getMemberList } from "../../modules/member/member"
+import { getErrorCodeList, initErrorCodeList } from "../../modules/errorCode/errorCode"
 
 const getBadge = status => {
     switch (status) {
-        case 'Active': return 'success'
+        case '10': return 'success'
         case 'Inactive': return 'secondary'
         case 'Pending': return 'warning'
-        case 'Banned': return 'danger'
+        case '40': return 'danger'
         default: return 'primary'
     }
 }
 
-const Users = () => {
+const ErrorCodeList = () => {
     const dispatch = useDispatch()
-    const { memberList, initDone, getDone } = useSelector(({member}) => ({
-        memberList : member.memberList,
-        initDone : member.initDone,
-        getDone : member.getDone
+    const { errorCodeList, initDone, getDone } = useSelector(({errorCode}) => ({
+        errorCodeList : errorCode.errorCodeList,
+        initDone : errorCode.initDone,
+        getDone : errorCode.getDone
     }))
     const history = useHistory()
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
@@ -37,22 +37,22 @@ const Users = () => {
     const [page, setPage] = useState(currentPage)
 
     const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/users?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+        currentPage !== newPage && history.push(`/code/codegrouplist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
     }
     
     // 화면 첫 렌더링
     useEffect(()=>{
         console.log("user first rendering")
-        dispatch(initMemberList())
+        dispatch(initErrorCodeList())
     },[dispatch])
 
-    // 멤버리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
+    // 에러 코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
     useEffect(()=>{
         if(initDone === null)
             return
-        console.log("get memberlist start")
-        dispatch(getMemberList())
-        console.log("get memberlist end")
+        console.log("get codegrouplist start")
+        dispatch(getErrorCodeList())
+        console.log("get odegrouplist end")
     },[dispatch, initDone])
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const Users = () => {
         if(getDone === null)
             return
         console.log("getDone : ",getDone)
-        console.log("memberList : ",memberList);
+        console.log("codeGroupList : ",errorCodeList);
     })
 
     return (
@@ -72,28 +72,30 @@ const Users = () => {
         <CCol xl={6}>
             <CCard>
             <CCardHeader>           
-                회원목록
+                에러 코드 목록
                 <small className="text-muted"> example</small>
             </CCardHeader>
             <CCardBody>
             <CDataTable
-                items={memberList}
+                items={errorCodeList}
                 fields={[
-                { key: 'username', _classes: 'font-weight-bold' },
-                'signUpDateTime', 'email', 'birthDay'
-                ]}
+                { key: 'errorCode', _classes: 'font-weight-bold' },
+                'errorMessage']}
                 hover
                 striped
                 itemsPerPage={10}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/${item.id}`)}
+                onRowClick={(item) => {
+                    //history.push(`/users/${item.id}`)
+                    console.log(item)
+                }}
                 scopedSlots = {{
-                'status':
+                'statusCode':
                     (item)=>(
                     <td>
-                        <CBadge color={getBadge(item.status)}>
-                        {item.status}
+                        <CBadge color={getBadge(item.statusCode)}>
+                        {item.statusCode === '10' ? "정상" : item.statusCode === '40' ? "정지" : "몰라"}
                         </CBadge>
                     </td>
                     )
@@ -113,7 +115,7 @@ const Users = () => {
     )
 }
 
-export default Users  
+export default ErrorCodeList
 
 
 /*
