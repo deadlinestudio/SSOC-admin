@@ -87,7 +87,10 @@ const ClubList = () => {
                 itemsPerPage={10}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/${item.id}`)}
+                onRowClick={(item) => {
+                    //history.push(`/users/${item.id}`)
+                    console.log(item)
+                }}
                 scopedSlots = {{
                 'statusCode':
                     (item)=>(

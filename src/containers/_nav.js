@@ -86,13 +86,13 @@ export default [
   {
     _tag: 'CSidebarNavDropdown',
     name: '공통코드',
-    to: '/charts',
+    to: '/commoncode',
     icon: 'cil-chart-pie',
     _children: [
       {
         _tag: 'CSidebarNavItem',
         name: '공통 코드 그룹 전체 조회',
-        to: '/code/codegrouplist',
+        to: '/commoncode/codegrouplist',
       },
       {
         _tag: 'CSidebarNavItem',
@@ -113,14 +113,14 @@ export default [
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: '응답메세지',
-    route: '/icons',
+    name: '에러코드',
+    route: '/errorcode',
     icon: 'cil-star',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'CoreUI Free',
-        to: '/icons/coreui-icons',
+        name: '에러 코드 전체 조회',
+        to: '/errorcode/errorcodelist',
         badge: {
           color: 'success',
           text: 'NEW',

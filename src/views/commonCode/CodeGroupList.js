@@ -12,7 +12,7 @@ import {
   CPagination
 } from '@coreui/react'
 
-import { getCodeGroupList, initCodeGroupList } from "../../modules/code/codeGroup"
+import { getCodeGroupList, initCodeGroupList } from "../../modules/commonCode/codeGroup"
 
 const getBadge = status => {
     switch (status) {
@@ -24,7 +24,7 @@ const getBadge = status => {
     }
 }
 
-const MemberList = () => {
+const CodeGroupList = () => {
     const dispatch = useDispatch()
     const { codeGroupList, initDone, getDone } = useSelector(({codeGroup}) => ({
         codeGroupList : codeGroup.codeGroupList,
@@ -79,15 +79,18 @@ const MemberList = () => {
             <CDataTable
                 items={codeGroupList}
                 fields={[
-                { key: 'id', _classes: 'font-weight-bold' },
-                'definition', 'createDateTime', 'updateDateTime'
+                { key: 'codeGroupId', _classes: 'font-weight-bold' },
+                'codeGroupDefinition', 'createDateTime', 'updateDateTime'
                 ]}
                 hover
                 striped
                 itemsPerPage={10}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/${item.id}`)}
+                onRowClick={(item) => {
+                    //history.push(`/users/${item.id}`)
+                    console.log(item)
+                }}
                 scopedSlots = {{
                 'statusCode':
                     (item)=>(
@@ -113,7 +116,7 @@ const MemberList = () => {
     )
 }
 
-export default MemberList
+export default CodeGroupList
 
 
 /*

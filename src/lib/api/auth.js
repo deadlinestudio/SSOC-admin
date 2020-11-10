@@ -14,3 +14,13 @@ export const getClubList = ()=>{
 export const getCodeGroupList = ()=>{
     return client.get('api/common/code-group');
 }
+
+// 그룹 별 공통 코드 전체 조회
+export const getGroupCommonCodeList = ()=>{
+    return client.get('api/common/code-group');
+}
+
+// 에러 코드 전체 조회
+export const getErrorCodeList = ()=>{
+    return client.get('api/common/error-code');
+}
