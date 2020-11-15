@@ -5,6 +5,7 @@ const MemberList = React.lazy(() => import('./views/member/MemberList'));
 const ClubList = React.lazy(()=> import('./views/club/ClubList'));
 const CodeGroupList = React.lazy(()=> import('./views/commonCode/CodeGroupList'));
 const ErrorCodeList = React.lazy(()=> import('./views/errorCode/ErrorCodeList'));
+const ErrorCodeAdd = React.lazy(() => import('./views/errorCode/ErrorCodeRegister'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -12,7 +13,8 @@ const routes = [
   { path: '/member/memberlist', name: 'MemberList', component: MemberList },
   { path: '/club/clublist', name: 'ClubList', component: ClubList },
   { path: '/commoncode/codegrouplist', name: 'CodeGroupList', component: CodeGroupList },
-  { path: '/errorCode/errorcodelist', name: 'ErrorCodeList', component: ErrorCodeList}
+  { path: '/errorCode/errorcodelist', name: 'ErrorCodeList', component: ErrorCodeList },
+  { path: '/errorCode/register', name: 'ErrorCodeAdd', component: ErrorCodeAdd } 
 ];
 
 export default routes;
