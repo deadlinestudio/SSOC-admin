@@ -24,3 +24,8 @@ export const getGroupCommonCodeList = ()=>{
 export const getErrorCodeList = ()=>{
     return client.get('api/common/error-code');
 }
+
+// 에러 코드 등록
+export const postErrorCode = ({id, message})=>{
+    return client.post('api/common/error-code',{id, message});
+}

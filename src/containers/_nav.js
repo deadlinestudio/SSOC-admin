@@ -128,8 +128,8 @@ export default [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'CoreUI Flags',
-        to: '/icons/flags',
+        name: '에러 코드 등록',
+        to: '/errorcode/register',
       },
       {
         _tag: 'CSidebarNavItem',
