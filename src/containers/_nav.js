@@ -96,8 +96,8 @@ export default [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'ddd',
-        to: '/code/brand-buttons',
+        name: '공통 코드 그룹 등록',
+        to: '/commoncode/register',
       },
       {
         _tag: 'CSidebarNavItem',

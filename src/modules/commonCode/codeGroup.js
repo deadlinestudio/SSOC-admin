@@ -1,4 +1,5 @@
 import {createAction, handleActions} from 'redux-actions';
+import produce from 'immer';
 import { takeLatest } from 'redux-saga/effects';
 import createRequestSaga, {
     createRequestActionTypes
@@ -6,26 +7,52 @@ import createRequestSaga, {
 import * as authAPI from '../../lib/api/auth';
 
 // 코드그룹 리스트 초기화
-const INITIALIZE_CODEGROUPLIST = 'code/INITIALIZE_CODEGROUPLIST';
+const INITIALIZE_CODEGROUPLIST = 'common/INITIALIZE_CODEGROUPLIST';
 
 // 코드그룹 리스트 정보 확인
 const [GET_CODEGROUPLIST, GET_CODEGROUPLIST_SUCCESS, GET_CODEGROUPLIST_FAILURE] = createRequestActionTypes(
-    'code/GET_CODEGROUPLIST',
+    'common/GET_CODEGROUPLIST',
 );
+
+// 코드그룹 추가
+const [POST_CODEGROUP, POST_CODEGROUP_SUCCESS, POST_CODEGROUP_FAILURE] = createRequestActionTypes(
+    'common/POST_CODEGROUP',
+);
+
+const CHANGE_FIELD = 'common/CHANGE_FIELD';
+const INITIALIZE_FORM = 'common/INITIAL_FROM';
 
 export const getCodeGroupList = createAction(GET_CODEGROUPLIST);
 export const initCodeGroupList = createAction(INITIALIZE_CODEGROUPLIST);
+export const postCodeGroup = createAction(POST_CODEGROUP,({definition,id})=>({definition,id}));
+export const initializeForm = createAction(INITIALIZE_FORM, form => form);
+export const changeField = createAction(
+    CHANGE_FIELD,
+    ({ form, key, value }) => ({
+        form, // register , login
+        key, // id, message
+        value // 실제 바꾸려는 값
+    })
+);
 
 const getCodeGroupListSaga = createRequestSaga(GET_CODEGROUPLIST, authAPI.getCodeGroupList);
+const postCodeGroupSaga = createRequestSaga(POST_CODEGROUP, authAPI.postCodeGroup);
 
 export function* codeGroupSaga(){
     yield takeLatest(GET_CODEGROUPLIST, getCodeGroupListSaga);
+    yield takeLatest(POST_CODEGROUP, postCodeGroupSaga);
 }
 
 const initialState = {
+    register:{
+        definition: '',
+        id: ''
+    },
     codeGroupList: null,
     initDone : null,
     getDone : null,
+    registerDone: null,
+    regInitDone : null
 };
 
 const codeGroup = handleActions(
@@ -47,7 +74,30 @@ const codeGroup = handleActions(
         [GET_CODEGROUPLIST_FAILURE]: (state, { payload: error }) => ({
             ...state,
             getDone : error
-        })
+        }),
+        // 코드그룹 인풋 초기화
+        [INITIALIZE_FORM]: (state,{payload:form}) => ({
+            ...state,
+            [form]:initialState[form],
+            registerDone: null,
+            regInitDone : true
+        }),
+        // 코드그룹 인풋 수정
+        [CHANGE_FIELD]:(state, {payload : {form, key, value}}) =>
+            produce(state, draft => {
+                draft[form][key] = value;
+            })
+        ,
+        // 코드그룹 등록 성공
+        [POST_CODEGROUP_SUCCESS]: (state, { payload: success }) => ({
+            ...state,
+            registerDone : true,
+        }),
+        // 코드그룹 등록 실패
+        [POST_CODEGROUP_FAILURE]: (state, { payload: error }) => ({
+            ...state,
+            registerDone : error,
+        }),
     },
     initialState
 );
