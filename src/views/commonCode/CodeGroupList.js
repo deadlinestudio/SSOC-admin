@@ -37,7 +37,7 @@ const CodeGroupList = () => {
     const [page, setPage] = useState(currentPage)
 
     const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/code/codegrouplist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+        currentPage !== newPage && history.push(`/commoncode/codegrouplist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
     }
     
     // 화면 첫 렌더링
@@ -88,7 +88,7 @@ const CodeGroupList = () => {
                 activePage={page}
                 clickableRows
                 onRowClick={(item) => {
-                    //history.push(`/users/${item.id}`)
+                    history.push(`/commoncode/codegroupinfo/${item.codeGroupId}`)
                     console.log(item)
                 }}
                 scopedSlots = {{
