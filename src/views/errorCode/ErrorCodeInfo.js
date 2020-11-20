@@ -4,11 +4,11 @@ import { CCard, CButton, CCardBody, CCardHeader, CCol, CRow } from '@coreui/reac
 import CIcon from '@coreui/icons-react'
 
 const ErrorCodeInfo = ({match}) => {
-    const { codeGroupList } = useSelector(({codeGroup}) => ({
-        codeGroupList : codeGroup.codeGroupList
+    const { errorCodeList } = useSelector(({errorCode}) => ({
+        errorCodeList : errorCode.errorCodeList
     }))  
-    const codeGroupInfo = codeGroupList.find( info => info.codeGroupId.toString() === match.params.id)
-    const CodeGroupDetail = codeGroupInfo ? Object.entries(codeGroupInfo) : 
+    const errorCodeInfo = errorCodeList.find( info => info.errorCode.toString() === match.params.id)
+    const errorCodeDetail = errorCodeInfo ? Object.entries(errorCodeInfo) : 
         [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
     return (
@@ -16,13 +16,13 @@ const ErrorCodeInfo = ({match}) => {
         <CCol lg={6}>
             <CCard>
             <CCardHeader>
-                CodeGroup id: {match.params.id}
+                ErrorCode id: {match.params.id}
             </CCardHeader>
             <CCardBody>
                 <table className="table table-striped table-hover">
                     <tbody>
                     {
-                        CodeGroupDetail.map(([key, value], index) => {
+                        errorCodeDetail.map(([key, value], index) => {
                         return (
                             <tr key={index.toString()}>
                             <td>{`${key}:`}</td>

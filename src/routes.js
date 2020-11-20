@@ -19,7 +19,7 @@ const routes = [
   { path: '/commoncode/codegroupinfo/:id', name: 'CodeGroupInfo', component: CodeGroupInfo },
   { path: '/commoncode/register', name: 'CodeGroupRegister', component: CodeGroupRegister }, 
   { path: '/errorCode/errorcodelist', name: 'ErrorCodeList', component: ErrorCodeList },
-  { path: '/errorCode/errorcodelist/:id', name: 'ErrorCodeInfo', component: ErrorCodeInfo },
+  { path: '/errorCode/errorcodeinfo/:id', name: 'ErrorCodeInfo', component: ErrorCodeInfo },
   { path: '/errorCode/register', name: 'ErrorCodeRegister', component: ErrorCodeRegister } 
 ];
 

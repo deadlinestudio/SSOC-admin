@@ -53,7 +53,7 @@ const ErrorCodeList = () => {
         if(getDone === null)
             return
         console.log("getDone : ",getDone)
-        console.log("codeGroupList : ",errorCodeList);
+        console.log("errorCodeList : ",errorCodeList);
     })
 
     return (
@@ -75,8 +75,8 @@ const ErrorCodeList = () => {
                 itemsPerPage={10}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => {
-                    //history.push(`/users/${item.id}`)
+                onRowClick={(item) => {     // (item, key) 를 넣고 key로 넘길 수 있음
+                    history.push(`/errorcode/errorcodeinfo/${item.errorCode}`)
                     console.log(item)
                 }}
             />
