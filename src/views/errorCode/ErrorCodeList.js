@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
@@ -13,16 +12,6 @@ import {
 } from '@coreui/react'
 
 import { getErrorCodeList, initErrorCodeList } from "../../modules/errorCode/errorCode"
-
-const getBadge = status => {
-    switch (status) {
-        case '10': return 'success'
-        case 'Inactive': return 'secondary'
-        case 'Pending': return 'warning'
-        case '40': return 'danger'
-        default: return 'primary'
-    }
-}
 
 const ErrorCodeList = () => {
     const dispatch = useDispatch()
@@ -37,7 +26,7 @@ const ErrorCodeList = () => {
     const [page, setPage] = useState(currentPage)
 
     const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/code/codegrouplist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+        currentPage !== newPage && history.push(`/errorcode/errorcodelist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
     }
     
     // 화면 첫 렌더링
@@ -64,7 +53,7 @@ const ErrorCodeList = () => {
         if(getDone === null)
             return
         console.log("getDone : ",getDone)
-        console.log("codeGroupList : ",errorCodeList);
+        console.log("errorCodeList : ",errorCodeList);
     })
 
     return (
@@ -86,21 +75,12 @@ const ErrorCodeList = () => {
                 itemsPerPage={10}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => {
-                    //history.push(`/users/${item.id}`)
+                onRowClick={(item) => {     // (item, key) 를 넣고 key로 넘길 수 있음
+                    history.push(`/errorcode/errorcodeinfo/${item.errorCode}`)
                     console.log(item)
                 }}
-                scopedSlots = {{
-                'statusCode':
-                    (item)=>(
-                    <td>
-                        <CBadge color={getBadge(item.statusCode)}>
-                        {item.statusCode === '10' ? "정상" : item.statusCode === '40' ? "정지" : "몰라"}
-                        </CBadge>
-                    </td>
-                    )
-                }}
             />
+            
             <CPagination
                 activePage={page}
                 onActivePageChange={pageChange}
