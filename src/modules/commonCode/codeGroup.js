@@ -19,12 +19,19 @@ const [POST_CODEGROUP, POST_CODEGROUP_SUCCESS, POST_CODEGROUP_FAILURE] = createR
     'common/POST_CODEGROUP',
 );
 
+// 코드그룹 삭제
+const [DELETE_CODEGROUP, DELETE_CODEGROUP_SUCCESS, DELETE_CODEGROUP_FAILURE] = createRequestActionTypes(
+    'common/DELETE_CODEGROUP',
+);
+
 const CHANGE_FIELD = 'common/CHANGE_FIELD';
 const INITIALIZE_FORM = 'common/INITIAL_FROM';
 
 export const getCodeGroupList = createAction(GET_CODEGROUPLIST);
 export const initCodeGroupList = createAction(INITIALIZE_CODEGROUPLIST);
 export const postCodeGroup = createAction(POST_CODEGROUP,({definition,id})=>({definition,id}));
+export const deleteCodeGroup = createAction(DELETE_CODEGROUP,id => id);
+
 export const initializeForm = createAction(INITIALIZE_FORM, form => form);
 export const changeField = createAction(
     CHANGE_FIELD,
@@ -37,10 +44,12 @@ export const changeField = createAction(
 
 const getCodeGroupListSaga = createRequestSaga(GET_CODEGROUPLIST, authAPI.getCodeGroupList);
 const postCodeGroupSaga = createRequestSaga(POST_CODEGROUP, authAPI.postCodeGroup);
+const deleteCodeGroupSaga = createRequestSaga(DELETE_CODEGROUP, authAPI.deleteCodeGroup);
 
 export function* codeGroupSaga(){
     yield takeLatest(GET_CODEGROUPLIST, getCodeGroupListSaga);
     yield takeLatest(POST_CODEGROUP, postCodeGroupSaga);
+    yield takeLatest(DELETE_CODEGROUP, deleteCodeGroupSaga);
 }
 
 const initialState = {
@@ -52,7 +61,8 @@ const initialState = {
     initDone : null,
     getDone : null,
     registerDone: null,
-    regInitDone : null
+    regInitDone : null,
+    deleteDone : null,
 };
 
 const codeGroup = handleActions(
@@ -63,6 +73,7 @@ const codeGroup = handleActions(
             codeGroupList: null,
              initDone: true,
              getDone : null,
+             deleteDone : null
         }),
         // 코드그룹 리스트 조회 성공
         [GET_CODEGROUPLIST_SUCCESS]: (state, { payload: List }) => ({
@@ -98,6 +109,16 @@ const codeGroup = handleActions(
             ...state,
             registerDone : error,
         }),
+        // 코드그룹 삭제 성공
+        [DELETE_CODEGROUP_SUCCESS]: (state, { payload: success }) => ({
+            ...state,
+            deleteDone : true,
+        }),
+        // 코드그룹 삭제 실패
+        [DELETE_CODEGROUP_FAILURE]: (state, { payload: error }) => ({
+            ...state,
+            deleteDone : error,
+        })
     },
     initialState
 );

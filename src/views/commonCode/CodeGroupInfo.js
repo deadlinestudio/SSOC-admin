@@ -1,15 +1,40 @@
-import React from 'react'
-import { useSelector} from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector,useDispatch} from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { deleteCodeGroup } from "../../modules/commonCode/codeGroup"
 import { CCard, CButton, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 const CodeGroupInfo = ({match}) => {
-    const { codeGroupList } = useSelector(({codeGroup}) => ({
-        codeGroupList : codeGroup.codeGroupList
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const { codeGroupList, deleteDone } = useSelector(({codeGroup}) => ({
+        codeGroupList : codeGroup.codeGroupList,
+        deleteDone : codeGroup.deleteDone
     }))  
     const codeGroupInfo = codeGroupList.find( info => info.codeGroupId.toString() === match.params.id)
     const CodeGroupDetail = codeGroupInfo ? Object.entries(codeGroupInfo) : 
         [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
+
+    // 코드 그룹 삭제 dispatch 함수
+    const onRemove = () => {
+        console.log('코드 그룹 삭제 dispatch');
+        console.log('삭제할 ID : ',CodeGroupDetail[0][1]);
+
+        dispatch(deleteCodeGroup(CodeGroupDetail[0][1]));
+    };
+
+    // 코드 그룹 삭제 dispatch 이후 
+    useEffect(()=>{
+        if(deleteDone === null)
+            return;
+        
+        if(deleteDone === true){
+            console.log('코드그룹 삭제 성공!')
+            history.push(`/commoncode/codegrouplist`);
+        }else if(deleteDone !== null && deleteDone !== true)
+            console.log('코드그룹 삭제 실패!')
+    });
 
     return (
         <CRow>
@@ -38,7 +63,7 @@ const CodeGroupInfo = ({match}) => {
                 <tbody>
                     <tr>
                         <td align="right"> 
-                        <CButton color="danger">삭제</CButton>
+                        <CButton onClick={onRemove} color="danger">삭제</CButton>
                         <CButton color="info">수정</CButton>
                         </td>
                     </tr>
