@@ -25,6 +25,11 @@ export const deleteCodeGroup = (id)=>{
     return client.delete(`api/common/code-group/${id}`);
 }
 
+// 공통 코드 그룹 수정
+export const putCodeGroup = ({definition,id})=>{
+    return client.put(`api/common/code-group/${id}`,{definition});
+}
+
 // 공통 코드 키워드 검색 조회
 export const getGroupCommonCodeList = ()=>{
     return client.get('api/common/code');

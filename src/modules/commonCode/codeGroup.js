@@ -24,6 +24,11 @@ const [DELETE_CODEGROUP, DELETE_CODEGROUP_SUCCESS, DELETE_CODEGROUP_FAILURE] = c
     'common/DELETE_CODEGROUP',
 );
 
+// 코드그룹 수정
+const [PUT_CODEGROUP, PUT_CODEGROUP_SUCCESS, PUT_CODEGROUP_FAILURE] = createRequestActionTypes(
+    'common/PUT_CODEGROUP',
+);
+
 const CHANGE_FIELD = 'common/CHANGE_FIELD';
 const INITIALIZE_FORM = 'common/INITIAL_FROM';
 
@@ -31,6 +36,7 @@ export const getCodeGroupList = createAction(GET_CODEGROUPLIST);
 export const initCodeGroupList = createAction(INITIALIZE_CODEGROUPLIST);
 export const postCodeGroup = createAction(POST_CODEGROUP,({definition,id})=>({definition,id}));
 export const deleteCodeGroup = createAction(DELETE_CODEGROUP,id => id);
+export const putCodeGroup = createAction(PUT_CODEGROUP,({definition, id})=>({definition, id})); 
 
 export const initializeForm = createAction(INITIALIZE_FORM, form => form);
 export const changeField = createAction(
@@ -45,11 +51,13 @@ export const changeField = createAction(
 const getCodeGroupListSaga = createRequestSaga(GET_CODEGROUPLIST, authAPI.getCodeGroupList);
 const postCodeGroupSaga = createRequestSaga(POST_CODEGROUP, authAPI.postCodeGroup);
 const deleteCodeGroupSaga = createRequestSaga(DELETE_CODEGROUP, authAPI.deleteCodeGroup);
+const putCodeGroupSaga = createRequestSaga(PUT_CODEGROUP, authAPI.putCodeGroup);
 
 export function* codeGroupSaga(){
     yield takeLatest(GET_CODEGROUPLIST, getCodeGroupListSaga);
     yield takeLatest(POST_CODEGROUP, postCodeGroupSaga);
     yield takeLatest(DELETE_CODEGROUP, deleteCodeGroupSaga);
+    yield takeLatest(PUT_CODEGROUP, putCodeGroupSaga);
 }
 
 const initialState = {
@@ -57,12 +65,16 @@ const initialState = {
         definition: '',
         id: ''
     },
+    update:{
+        definition: ''
+    },
     codeGroupList: null,
     initDone : null,
     getDone : null,
     registerDone: null,
     regInitDone : null,
     deleteDone : null,
+    updateDone : null
 };
 
 const codeGroup = handleActions(
@@ -71,9 +83,10 @@ const codeGroup = handleActions(
          [INITIALIZE_CODEGROUPLIST]: (state) => ({
             ...state,
             codeGroupList: null,
-             initDone: true,
-             getDone : null,
-             deleteDone : null
+            initDone: true,
+            getDone : null,
+            deleteDone : null,
+            updateDone : null
         }),
         // 코드그룹 리스트 조회 성공
         [GET_CODEGROUPLIST_SUCCESS]: (state, { payload: List }) => ({
@@ -118,6 +131,16 @@ const codeGroup = handleActions(
         [DELETE_CODEGROUP_FAILURE]: (state, { payload: error }) => ({
             ...state,
             deleteDone : error,
+        }),
+        // 코드그룹 수정 성공
+        [PUT_CODEGROUP_SUCCESS]: (state, { payload: success }) => ({
+            ...state,
+            updateDone : true,
+        }),
+        // 코드그룹 수정 실패
+        [PUT_CODEGROUP_FAILURE]: (state, { payload: error }) => ({
+            ...state,
+            updateDone : error,
         })
     },
     initialState

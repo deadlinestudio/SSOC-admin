@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react'
 import { useSelector,useDispatch} from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { deleteCodeGroup } from "../../modules/commonCode/codeGroup"
-import { CCard, CButton, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
+import { changeField, initializeForm, deleteCodeGroup, putCodeGroup } from "../../modules/commonCode/codeGroup"
+import { CInput, CCard, CButton, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 const CodeGroupInfo = ({match}) => {
     const dispatch = useDispatch()
     const history = useHistory()
-    const { codeGroupList, deleteDone } = useSelector(({codeGroup}) => ({
+    const { form, codeGroupList, deleteDone, updateDone } = useSelector(({codeGroup}) => ({
+        form : codeGroup.update,
         codeGroupList : codeGroup.codeGroupList,
-        deleteDone : codeGroup.deleteDone
+        deleteDone : codeGroup.deleteDone,
+        updateDone : codeGroup.updateDone 
     }))  
+
     const codeGroupInfo = codeGroupList.find( info => info.codeGroupId.toString() === match.params.id)
     const CodeGroupDetail = codeGroupInfo ? Object.entries(codeGroupInfo) : 
         [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
@@ -24,6 +27,40 @@ const CodeGroupInfo = ({match}) => {
         dispatch(deleteCodeGroup(CodeGroupDetail[0][1]));
     };
 
+    // 코드 그룹 수정 dispatch 함수
+    const onUpdate = () =>{
+        console.log('코드 그룹 수정 dispatch')
+
+        const {definition} = form;
+        const id = CodeGroupDetail[0][1];
+        console.log('definition : ', definition)
+        console.log('id : ',id);
+        // 하나라도 비어있다면
+        if([definition].includes('')){
+            console.log('빈 칸을 모두 입력하세요');
+            return;
+        }
+
+        dispatch(putCodeGroup({definition, id}));
+    }
+
+    const onChange = e =>{
+        const {value, name} = e.target;
+        dispatch(
+            changeField({
+            form:'update',
+            key:name,
+            value
+            })
+        );
+    };
+
+    // 컴포넌트가 처음 렌더링될 때 form을 초기화함
+    useEffect(()=>{
+        console.log('공통코드 인풋필드 초기화');
+        dispatch(initializeForm('update'));
+    },[dispatch]);
+    
     // 코드 그룹 삭제 dispatch 이후 
     useEffect(()=>{
         if(deleteDone === null)
@@ -34,7 +71,19 @@ const CodeGroupInfo = ({match}) => {
             history.push(`/commoncode/codegrouplist`);
         }else if(deleteDone !== null && deleteDone !== true)
             console.log('코드그룹 삭제 실패!')
-    });
+    },[deleteDone, history]);
+
+    // 코드 그룹 수정 dispatch 이루
+    useEffect(()=>{
+        if(updateDone === null)
+            return;
+        
+        if(updateDone === true){
+            console.log('코드그룹 수정 성공!')
+            history.push(`/commoncode/codegrouplist`);
+        }else if(updateDone !== null && updateDone !== true)
+            console.log('코드그룹 수정 실패!')
+    },[updateDone, history]);
 
     return (
         <CRow>
@@ -51,7 +100,12 @@ const CodeGroupInfo = ({match}) => {
                         return (
                             <tr key={index.toString()}>
                             <td>{`${key}:`}</td>
-                            <td><strong>{value}</strong></td>
+                            <td>
+                                {key === "codeGroupDefinition" ?
+                                <CInput onChange={onChange} name="definition" type="text" placeholder={key.toString()} defaultValue={value}/>
+                                :
+                                <strong>{value}</strong>}
+                            </td>
                             </tr>
                         )
                         })
@@ -64,7 +118,7 @@ const CodeGroupInfo = ({match}) => {
                     <tr>
                         <td align="right"> 
                         <CButton onClick={onRemove} color="danger">삭제</CButton>
-                        <CButton color="info">수정</CButton>
+                        <CButton onClick={onUpdate} color="info">수정</CButton>
                         </td>
                     </tr>
                 </tbody>
