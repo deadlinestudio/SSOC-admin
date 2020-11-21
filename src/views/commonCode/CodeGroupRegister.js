@@ -26,7 +26,7 @@ const CodeGroupRegister = () => {
   
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(()=>{
-    console.log('에러코드 인풋필드 초기화');
+    console.log('공통코드 인풋필드 초기화');
     dispatch(initializeForm('register'));
   },[dispatch]);
 

@@ -59,14 +59,7 @@ const CodeGroupList = () => {
         currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
 
     }, [currentPage, page])
-
-    useEffect(()=>{
-        if(getDone === null)
-            return
-        console.log("getDone : ",getDone)
-        console.log("codeGroupList : ",codeGroupList);
-    })
-
+ 
     return (
         <CRow>
         <CCol xl={6}>
