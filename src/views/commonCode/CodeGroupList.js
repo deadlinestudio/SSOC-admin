@@ -46,14 +46,24 @@ const CodeGroupList = () => {
         dispatch(initCodeGroupList())
     },[dispatch])
 
-    // 멤버리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
+    // 코드그룹 리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
     useEffect(()=>{
         if(initDone === null)
             return
         console.log("get codegrouplist start")
         dispatch(getCodeGroupList())
-        console.log("get odegrouplist end")
+        console.log("get codegrouplist end")
     },[dispatch, initDone])
+
+
+    // 코드그룹 리스트 가져온 후 렌더링
+    useEffect(()=>{
+        if(getDone!== true)
+            return;
+        
+        console.log("get codegrouplist success");
+        console.log('getDone : ',getDone);
+    },[getDone]);
 
     useEffect(() => {
         currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
