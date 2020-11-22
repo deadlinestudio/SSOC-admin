@@ -55,17 +55,19 @@ const MemberList = () => {
         console.log("get memberlist end")
     },[dispatch, initDone])
 
+    // 멤버리스트 리스트 가져온 후 렌더링
+    useEffect(()=>{
+        if(getDone !== true)
+            return
+
+        console.log("get memberlist success");     
+        console.log("getDone : ",getDone)
+    },[getDone])
+
     useEffect(() => {
         currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
 
     }, [currentPage, page])
-
-    useEffect(()=>{
-        if(getDone === null)
-            return
-        console.log("getDone : ",getDone)
-        console.log("memberList : ",memberList);
-    })
 
     return (
         <CRow>

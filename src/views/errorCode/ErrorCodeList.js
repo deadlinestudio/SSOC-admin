@@ -35,7 +35,7 @@ const ErrorCodeList = () => {
         dispatch(initErrorCodeList())
     },[dispatch])
 
-    // 에러 코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
+    // 에러코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
     useEffect(()=>{
         if(initDone === null)
             return
@@ -44,17 +44,18 @@ const ErrorCodeList = () => {
         console.log("get odegrouplist end")
     },[dispatch, initDone])
 
+    // 에러코드 리스트 가져온 후 렌더링
+    useEffect(()=>{
+        if(getDone !== true)
+            return
+        console.log("get errorcodelist success");     
+        console.log("getDone : ",getDone)
+    },[getDone])
+
     useEffect(() => {
         currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
 
     }, [currentPage, page])
-
-    useEffect(()=>{
-        if(getDone === null)
-            return
-        console.log("getDone : ",getDone)
-        console.log("errorCodeList : ",errorCodeList);
-    })
 
     return (
         <CRow>
