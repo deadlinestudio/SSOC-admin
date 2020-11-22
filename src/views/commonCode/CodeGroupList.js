@@ -55,7 +55,6 @@ const CodeGroupList = () => {
         console.log("get codegrouplist end")
     },[dispatch, initDone])
 
-
     // 코드그룹 리스트 가져온 후 렌더링
     useEffect(()=>{
         if(getDone !== true)
@@ -64,7 +63,7 @@ const CodeGroupList = () => {
         console.log("get codegrouplist success");
         console.log('getDone : ',getDone);
     },[getDone]);
-
+ 
     useEffect(() => {
         currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
 
