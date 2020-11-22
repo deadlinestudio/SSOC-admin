@@ -46,7 +46,7 @@ const ClubList = () => {
         dispatch(initClubList())
     },[dispatch])
 
-    // 멤버리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
+    // 클럽리스트 초기화 이후 렌더링 = 클럽리스트 dispatch
     useEffect(()=>{
         if(initDone === null)
             return
@@ -55,17 +55,19 @@ const ClubList = () => {
         console.log("get clublist end")
     },[dispatch, initDone])
 
+    // 클럽리스트 가져온 후 렌더링
+    useEffect(()=>{
+        if(getDone !== true)
+            return
+
+        console.log("get clublist success");
+        console.log("getDone : ",getDone)
+    })
+    
     useEffect(() => {
         currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
 
     }, [currentPage, page])
-
-    useEffect(()=>{
-        if(getDone === null)
-            return
-        console.log("getDone : ",getDone)
-        console.log("clubList : ",clubList);
-    })
 
     return (
         <CRow>
