@@ -84,7 +84,7 @@ const CodeGroupRegister = () => {
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
                       <CInputGroupText>
-                        <CIcon name="cil-user" />
+                        <CIcon name="cil-user" /> 
                       </CInputGroupText>
                     </CInputGroupPrepend>
                     <CInput onChange={onChange} name="id" type="text" placeholder="id" autoComplete="id" value={form.id}/>
