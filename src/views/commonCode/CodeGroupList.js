@@ -58,7 +58,7 @@ const CodeGroupList = () => {
 
     // 코드그룹 리스트 가져온 후 렌더링
     useEffect(()=>{
-        if(getDone!== true)
+        if(getDone !== true)
             return;
         
         console.log("get codegrouplist success");
