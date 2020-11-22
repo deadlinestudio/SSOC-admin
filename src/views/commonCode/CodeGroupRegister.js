@@ -3,16 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeField, postCodeGroup, initializeForm} from '../../modules/commonCode/codeGroup'
 import {
   CButton,
+  CCardGroup,
   CCard,
   CCardBody,
-  CCol,
-  CContainer,
   CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -72,37 +70,31 @@ const CodeGroupRegister = () => {
   };
 
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md="9" lg="7" xl="6">
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                <CForm>
-                  <h1>CodeGroup Register</h1>
-                  <p className="text-muted">Create your CodeGroup</p>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-user" /> 
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput onChange={onChange} name="id" type="text" placeholder="id" autoComplete="id" value={form.id}/>
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupPrepend>
-                      <CInputGroupText>@</CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput onChange={onChange} name="definition" type="text" placeholder="definition" autoComplete="definition" value={form.definition}/>
-                  </CInputGroup>
-                  <CButton onClick={onSubmit} color="success" block>Create Account</CButton>
-                </CForm>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
-    </div>
+    <CCardGroup columns className = "cols-1" >
+      <CCard className="mx-4">
+        <CCardBody className="p-4">
+          <CForm>
+            <h1>CodeGroup Register</h1>
+            <p className="text-muted">Create your CodeGroup</p>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>
+                  <CIcon name="cil-user" /> 
+                </CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput onChange={onChange} name="id" type="text" placeholder="id" autoComplete="id" value={form.id}/>
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput onChange={onChange} name="definition" type="text" placeholder="definition" autoComplete="definition" value={form.definition}/>
+            </CInputGroup>
+            <CButton onClick={onSubmit} color="success" block>Create Account</CButton>
+          </CForm>
+        </CCardBody>
+      </CCard>
+    </CCardGroup>
   )
 }
 

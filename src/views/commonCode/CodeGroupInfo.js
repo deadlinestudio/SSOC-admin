@@ -1,136 +1,165 @@
-import React, { useEffect } from 'react'
-import { useSelector,useDispatch} from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { changeField, initializeForm, deleteCodeGroup, putCodeGroup } from "../../modules/commonCode/codeGroup"
-import { CInput, CCard, CButton, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import {
+  changeField,
+  initializeForm,
+  deleteCodeGroup,
+  putCodeGroup,
+} from "../../modules/commonCode/codeGroup";
+import {
+  CInput,
+  CCard,
+  CButton,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CRow,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
-const CodeGroupInfo = ({match}) => {
-    const dispatch = useDispatch()
-    const history = useHistory()
-    const { form, codeGroupList, deleteDone, updateDone } = useSelector(({codeGroup}) => ({
-        form : codeGroup.update,
-        codeGroupList : codeGroup.codeGroupList,
-        deleteDone : codeGroup.deleteDone,
-        updateDone : codeGroup.updateDone 
-    }))  
+const CodeGroupInfo = ({ match }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { form, codeGroupList, deleteDone, updateDone } = useSelector(
+    ({ codeGroup }) => ({
+      form: codeGroup.update,
+      codeGroupList: codeGroup.codeGroupList,
+      deleteDone: codeGroup.deleteDone,
+      updateDone: codeGroup.updateDone,
+    })
+  );
 
-    const codeGroupInfo = codeGroupList.find( info => info.codeGroupId.toString() === match.params.id)
-    const CodeGroupDetail = codeGroupInfo ? Object.entries(codeGroupInfo) : 
-        [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
+  const codeGroupInfo = codeGroupList.find(
+    (info) => info.codeGroupId.toString() === match.params.id
+  );
+  const CodeGroupDetail = codeGroupInfo
+    ? Object.entries(codeGroupInfo)
+    : [
+        [
+          "id",
+          <span>
+            <CIcon className="text-muted" name="cui-icon-ban" /> Not found
+          </span>,
+        ],
+      ];
 
-    // 코드 그룹 삭제 dispatch 함수
-    const onRemove = () => {
-        console.log('코드 그룹 삭제 dispatch');
-        console.log('삭제할 ID : ',CodeGroupDetail[0][1]);
+  // 코드 그룹 삭제 dispatch 함수
+  const onRemove = () => {
+    console.log("코드 그룹 삭제 dispatch");
+    console.log("삭제할 ID : ", CodeGroupDetail[0][1]);
 
-        dispatch(deleteCodeGroup(CodeGroupDetail[0][1]));
-    };
+    dispatch(deleteCodeGroup(CodeGroupDetail[0][1]));
+  };
 
-    // 코드 그룹 수정 dispatch 함수
-    const onUpdate = () =>{
-        console.log('코드 그룹 수정 dispatch')
+  // 코드 그룹 수정 dispatch 함수
+  const onUpdate = () => {
+    console.log("코드 그룹 수정 dispatch");
 
-        const {definition} = form;
-        const id = CodeGroupDetail[0][1];
-        console.log('definition : ', definition)
-        console.log('id : ',id);
-        // 하나라도 비어있다면
-        if([definition].includes('')){
-            console.log('빈 칸을 모두 입력하세요');
-            return;
-        }
-
-        dispatch(putCodeGroup({definition, id}));
+    const { definition } = form;
+    const id = CodeGroupDetail[0][1];
+    console.log("definition : ", definition);
+    console.log("id : ", id);
+    // 하나라도 비어있다면
+    if ([definition].includes("")) {
+      console.log("빈 칸을 모두 입력하세요");
+      return;
     }
 
-    const onChange = e =>{
-        const {value, name} = e.target;
-        dispatch(
-            changeField({
-            form:'update',
-            key:name,
-            value
-            })
-        );
-    };
+    dispatch(putCodeGroup({ definition, id }));
+  };
 
-    // 컴포넌트가 처음 렌더링될 때 form을 초기화함
-    useEffect(()=>{
-        console.log('공통코드 인풋필드 초기화');
-        dispatch(initializeForm('update'));
-    },[dispatch]);
-    
-    // 코드 그룹 삭제 dispatch 이후 
-    useEffect(()=>{
-        if(deleteDone === null)
-            return;
-        
-        if(deleteDone === true){
-            console.log('코드그룹 삭제 성공!')
-            history.push(`/commoncode/codegrouplist`);
-        }else if(deleteDone !== null && deleteDone !== true)
-            console.log('코드그룹 삭제 실패!')
-    },[deleteDone, history]);
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    dispatch(
+      changeField({
+        form: "update",
+        key: name,
+        value,
+      })
+    );
+  };
 
-    // 코드 그룹 수정 dispatch 이루
-    useEffect(()=>{
-        if(updateDone === null)
-            return;
-        
-        if(updateDone === true){
-            console.log('코드그룹 수정 성공!')
-            history.push(`/commoncode/codegrouplist`);
-        }else if(updateDone !== null && updateDone !== true)
-            console.log('코드그룹 수정 실패!')
-    },[updateDone, history]);
+  // 컴포넌트가 처음 렌더링될 때 form을 초기화함
+  useEffect(() => {
+    console.log("공통코드 인풋필드 초기화");
+    dispatch(initializeForm("update"));
+  }, [dispatch]);
 
-    return (
-        <CRow>
-        <CCol lg={6}>
-            <CCard>
-            <CCardHeader>
-                CodeGroup ID: {match.params.id}
-            </CCardHeader>
-            <CCardBody>
-                <table className="table table-striped table-hover">
-                    <tbody>
-                    {
-                        CodeGroupDetail.map(([key, value], index) => {
-                        return (
-                            <tr key={index.toString()}>
-                            <td>{`${key}:`}</td>
-                            <td>
-                                {key === "codeGroupDefinition" ?
-                                <CInput onChange={onChange} name="definition" type="text" placeholder={key.toString()} defaultValue={value}/>
-                                :
-                                <strong>{value}</strong>}
-                            </td>
-                            </tr>
-                        )
-                        })
-                    }
-                    </tbody>
-                </table>
-            </CCardBody>
-            <table>
-                <tbody>
-                    <tr>
-                        <td align="right"> 
-                        <CButton onClick={onRemove} color="danger">삭제</CButton>
-                        <CButton onClick={onUpdate} color="info">수정</CButton>
-                        </td>
+  // 코드 그룹 삭제 dispatch 이후
+  useEffect(() => {
+    if (deleteDone === null) return;
+
+    if (deleteDone === true) {
+      console.log("코드그룹 삭제 성공!");
+      history.push(`/commoncode/codegrouplist`);
+    } else if (deleteDone !== null && deleteDone !== true)
+      console.log("코드그룹 삭제 실패!");
+  }, [deleteDone, history]);
+
+  // 코드 그룹 수정 dispatch 이루
+  useEffect(() => {
+    if (updateDone === null) return;
+
+    if (updateDone === true) {
+      console.log("코드그룹 수정 성공!");
+      history.push(`/commoncode/codegrouplist`);
+    } else if (updateDone !== null && updateDone !== true)
+      console.log("코드그룹 수정 실패!");
+  }, [updateDone, history]);
+
+  return (
+    <CRow>
+      <CCol lg={6}>
+        <CCard>
+          <CCardHeader>CodeGroup ID: {match.params.id}</CCardHeader>
+          <CCardBody>
+            <table className="table table-striped table-hover">
+              <tbody>
+                {CodeGroupDetail.map(([key, value], index) => {
+                  return (
+                    <tr key={index.toString()}>
+                      <td>{`${key}:`}</td>
+                      <td>
+                        {key === "codeGroupDefinition" ? (
+                          <CInput
+                            onChange={onChange}
+                            name="definition"
+                            type="text"
+                            placeholder={key.toString()}
+                            defaultValue={value}
+                          />
+                        ) : (
+                          <strong>{value}</strong>
+                        )}
+                      </td>
                     </tr>
-                </tbody>
+                  );
+                })}
+              </tbody>
             </table>
-            
-            </CCard>
-        </CCol>
-        </CRow>
-    )
-}
+          </CCardBody>
+          <table>
+            <tbody>
+              <tr>
+                <td align="right">
+                  <CButton onClick={onRemove} color="danger">
+                    삭제
+                  </CButton>
+                  <CButton onClick={onUpdate} color="info">
+                    수정
+                  </CButton>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </CCard>
+      </CCol>
+    </CRow>
+  );
+};
 
-export default CodeGroupInfo
+export default CodeGroupInfo;
 
 // table 태그를 쓸 때 유의할 점
 // 브라우저에는 tbody태그가 필요합니다.

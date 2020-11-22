@@ -9,9 +9,11 @@ const CodeGroupRegister = React.lazy(()=>import('./views/commonCode/CodeGroupReg
 const ErrorCodeList = React.lazy(()=> import('./views/errorCode/ErrorCodeList'));
 const ErrorCodeInfo = React.lazy(()=> import('./views/errorCode/ErrorCodeInfo'));
 const ErrorCodeRegister = React.lazy(() => import('./views/errorCode/ErrorCodeRegister'));
+const Dashboard = React.lazy(()=> import('./views/dashboard/Dashboard'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/member/memberlist', name: 'MemberList', component: MemberList },
   { path: '/club/clublist', name: 'ClubList', component: ClubList },
