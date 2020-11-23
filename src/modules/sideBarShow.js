@@ -1,19 +1,22 @@
-import {createAction, handleActions} from 'redux-actions';
+import { createAction, handleActions } from "redux-actions";
 
-const CHANGE_SIDEBARSHOW = 'sidebar/CHANGE_SIDEBARSHOW';
+const CHANGE_SIDEBARSHOW = "sidebar/CHANGE_SIDEBARSHOW";
 
-export const change_sidebarshow = createAction(CHANGE_SIDEBARSHOW, (val) => (val));
+export const change_sidebarshow = createAction(
+  CHANGE_SIDEBARSHOW,
+  (val) => val
+);
 
 const initialState = {
-  sidebarShow: 'responsive'
-}
+  sidebarShow: "responsive",
+};
 
 const sideBarShow = handleActions(
   {
-    [CHANGE_SIDEBARSHOW] : (state, {payload: val}) =>({
+    [CHANGE_SIDEBARSHOW]: (state, { payload: val }) => ({
       ...state,
-      sidebarShow : val
-    })
+      sidebarShow: val,
+    }),
   },
   initialState
 );

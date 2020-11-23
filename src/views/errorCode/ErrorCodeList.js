@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CCard,
   CCardBody,
@@ -8,96 +8,98 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
-} from '@coreui/react'
+  CPagination,
+} from "@coreui/react";
 
-import { getErrorCodeList, initErrorCodeList } from "../../modules/errorCode/errorCode"
+import {
+  getErrorCodeList,
+  initErrorCodeList,
+} from "../../modules/errorCode/errorCode";
 
 const ErrorCodeList = () => {
-    const dispatch = useDispatch()
-    const { errorCodeList, initDone, getDone } = useSelector(({errorCode}) => ({
-        errorCodeList : errorCode.errorCodeList,
-        initDone : errorCode.initDone,
-        getDone : errorCode.getDone
-    }))
-    const history = useHistory()
-    const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-    const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
-    const [page, setPage] = useState(currentPage)
+  const dispatch = useDispatch();
+  const { errorCodeList, initDone, getDone } = useSelector(({ errorCode }) => ({
+    errorCodeList: errorCode.errorCodeList,
+    initDone: errorCode.initDone,
+    getDone: errorCode.getDone,
+  }));
+  const history = useHistory();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
+  const [page, setPage] = useState(currentPage);
 
-    const pageChange = newPage => {
-        currentPage !== newPage && history.push(`/errorcode/errorcodelist?page=${newPage}`)   // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
-    }
-    
-    // 화면 첫 렌더링
-    useEffect(()=>{
-        console.log("user first rendering")
-        dispatch(initErrorCodeList())
-    },[dispatch])
+  const pageChange = (newPage) => {
+    currentPage !== newPage &&
+      history.push(`/errorcode/errorcodelist?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+  };
 
-    // 에러코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
-    useEffect(()=>{
-        if(initDone === null)
-            return
-        console.log("get codegrouplist start")
-        dispatch(getErrorCodeList())
-        console.log("get odegrouplist end")
-    },[dispatch, initDone])
+  // 화면 첫 렌더링
+  useEffect(() => {
+    console.log("user first rendering");
+    dispatch(initErrorCodeList());
+  }, [dispatch]);
 
-    // 에러코드 리스트 가져온 후 렌더링
-    useEffect(()=>{
-        if(getDone !== true)
-            return
-        console.log("get errorcodelist success");     
-        console.log("getDone : ",getDone)
-    },[getDone])
+  // 에러코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
+  useEffect(() => {
+    if (initDone === null) return;
+    console.log("get codegrouplist start");
+    dispatch(getErrorCodeList());
+    console.log("get odegrouplist end");
+  }, [dispatch, initDone]);
 
-    useEffect(() => {
-        currentPage !== page && setPage(currentPage)                        // currentPage !== newPage 이면 setPage(currentPage)  
+  // 에러코드 리스트 가져온 후 렌더링
+  useEffect(() => {
+    if (getDone !== true) return;
+    console.log("get errorcodelist success");
+    console.log("getDone : ", getDone);
+  }, [getDone]);
 
-    }, [currentPage, page])
+  useEffect(() => {
+    currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
+  }, [currentPage, page]);
 
-    return (
-        <CRow>
-        <CCol xl={6}>
-            <CCard>
-            <CCardHeader>           
-                에러 코드 목록
-                <small className="text-muted"> example</small>
-            </CCardHeader>
-            <CCardBody>
+  return (
+    <CRow>
+      <CCol xl={6}>
+        <CCard>
+          <CCardHeader>
+            에러 코드 목록
+            <small className="text-muted"> example</small>
+          </CCardHeader>
+          <CCardBody>
             <CDataTable
-                items={errorCodeList}
-                fields={[
-                { key: 'errorCode', _classes: 'font-weight-bold' },
-                'errorMessage']}
-                hover
-                striped
-                itemsPerPage={10}
-                activePage={page}
-                clickableRows
-                onRowClick={(item) => {     // (item, key) 를 넣고 key로 넘길 수 있음
-                    history.push(`/errorcode/errorcodeinfo/${item.errorCode}`)
-                    console.log(item)
-                }}
+              items={errorCodeList}
+              fields={[
+                { key: "errorCode", _classes: "font-weight-bold" },
+                "errorMessage",
+              ]}
+              hover
+              striped
+              itemsPerPage={10}
+              activePage={page}
+              clickableRows
+              onRowClick={(item) => {
+                // (item, key) 를 넣고 key로 넘길 수 있음
+                history.push(`/errorcode/errorcodeinfo/${item.errorCode}`);
+                console.log(item);
+              }}
             />
-            
+
             <CPagination
-                activePage={page}
-                onActivePageChange={pageChange}
-                pages={5}
-                doubleArrows={false} 
-                align="center"
+              activePage={page}
+              onActivePageChange={pageChange}
+              pages={5}
+              doubleArrows={false}
+              align="center"
             />
-            </CCardBody>
-            </CCard>
-        </CCol>
-        </CRow>
-    )
-}
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
+  );
+};
 
-export default ErrorCodeList
-
+export default ErrorCodeList;
 
 /*
 useHistory : location객체에 접근할 수 있게 해주는 hook입니다.
