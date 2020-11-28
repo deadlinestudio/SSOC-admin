@@ -66,7 +66,7 @@ const CodeGroupInfo = ({ match }) => {
       return;
     }
 
-    dispatch(putCodeGroup({ definition, id }));
+    dispatch(putCodeGroup({ id, definition }));
   };
 
   const onChange = (e) => {

@@ -7,24 +7,38 @@ import createRequestSaga, {
 import * as authAPI from "../../lib/api/auth";
 
 // 에러코드 리스트 초기화
-const INITIALIZE_ERRORCODELIST = "code/INITIALIZE_ERRORCODELIST";
+const INITIALIZE_ERRORCODELIST = "error/INITIALIZE_ERRORCODELIST";
 
 // 에러코드 리스트 정보 확인
 const [
   GET_ERRORCODELIST,
   GET_ERRORCODELIST_SUCCESS,
   GET_ERRORCODELIST_FAILURE,
-] = createRequestActionTypes("code/GET_ERRORCODELIST");
+] = createRequestActionTypes("error/GET_ERRORCODELIST");
 
 // 에러코드 추가
 const [
   POST_ERRORCODE,
   POST_ERRORCODE_SUCCESS,
   POST_ERRORCODE_FAILURE,
-] = createRequestActionTypes("code/POST_ERRORCODE");
+] = createRequestActionTypes("error/POST_ERRORCODE");
 
-const CHANGE_FIELD = "code/CHANGE_FIELD";
-const INITIALIZE_FORM = "code/INITIAL_FROM";
+// 에러코드 삭제
+const [
+  DELETE_ERRORCODE,
+  DELETE_ERRORCODE_SUCCESS,
+  DELETE_ERRORCODE_FAILURE,
+] = createRequestActionTypes("error/DELETE_ERRORCODE");
+
+// 에러코드 수정
+const [
+  PUT_ERRORCODE,
+  PUT_ERRORCODE_SUCCESS,
+  PUT_ERRORCODE_FAILURE,
+] = createRequestActionTypes("error/PUT_ERRORCODE");
+
+const CHANGE_FIELD = "error/CHANGE_FIELD";
+const INITIALIZE_FORM = "error/INITIAL_FROM";
 
 export const getErrorCodeList = createAction(GET_ERRORCODELIST);
 export const initErrorCodeList = createAction(INITIALIZE_ERRORCODELIST);
@@ -32,6 +46,12 @@ export const postErrorCode = createAction(
   POST_ERRORCODE,
   ({ id, message }) => ({ id, message })
 );
+export const deleteErrorCode = createAction(DELETE_ERRORCODE, (id) => id);
+export const putErrorCode = createAction(
+  PUT_ERRORCODE,
+  ({ id, message }) => ({ id, message })
+);
+
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const changeField = createAction(
   CHANGE_FIELD,
@@ -49,10 +69,17 @@ const postErrorCodeSaga = createRequestSaga(
   POST_ERRORCODE,
   authAPI.postErrorCode
 );
+const deleteErrorCodeSaga = createRequestSaga(
+  DELETE_ERRORCODE,
+  authAPI.deleteErrorCode
+);
+const putErrorCodeSaga = createRequestSaga(PUT_ERRORCODE, authAPI.putErrorCode);
 
 export function* errorCodeSaga() {
   yield takeLatest(GET_ERRORCODELIST, getErrorCodeListSaga);
   yield takeLatest(POST_ERRORCODE, postErrorCodeSaga);
+  yield takeLatest(DELETE_ERRORCODE, deleteErrorCodeSaga);
+  yield takeLatest(PUT_ERRORCODE, putErrorCodeSaga);
 }
 
 const initialState = {
@@ -60,11 +87,16 @@ const initialState = {
     id: "",
     message: "",
   },
+  update: {
+    message : ""
+  },
   errorCodeList: null,
   initDone: null,
   getDone: null,
   registerDone: null,
   regInitDone: null,
+  deleteDone: null,
+  updateDone: null,
 };
 
 const errorCode = handleActions(
@@ -75,6 +107,10 @@ const errorCode = handleActions(
       errorCodeList: null,
       initDone: true,
       getDone: null,
+      registerDone: null,
+      regInitDone: null,
+      deleteDone: null,
+      updateDone: null,
     }),
     // 에러코드 리스트 조회 성공
     [GET_ERRORCODELIST_SUCCESS]: (state, { payload: List }) => ({
@@ -108,6 +144,26 @@ const errorCode = handleActions(
     [POST_ERRORCODE_FAILURE]: (state, { payload: error }) => ({
       ...state,
       registerDone: error,
+    }),
+    // 에러코드 삭제 성공
+    [DELETE_ERRORCODE_SUCCESS]: (state, { payload: success }) => ({
+      ...state,
+      deleteDone: true,
+    }),
+    // 에러코드 삭제 실패
+    [DELETE_ERRORCODE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      deleteDone: error,
+    }),
+    // 에러코드 수정 성공
+    [PUT_ERRORCODE_SUCCESS]: (state, { payload: success }) => ({
+      ...state,
+      updateDone: true,
+    }),
+    // 에러코드 수정 실패
+    [PUT_ERRORCODE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      updateDone: error,
     }),
   },
   initialState

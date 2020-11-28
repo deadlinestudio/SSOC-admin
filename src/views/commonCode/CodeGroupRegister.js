@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {changeField, postCodeGroup, initializeForm} from '../../modules/commonCode/codeGroup'
+import { useHistory } from "react-router-dom";
 import {
   CButton,
   CCardGroup,
@@ -15,6 +16,7 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const CodeGroupRegister = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { form, registerDone, regInitDone} = useSelector(({codeGroup})=>({
     form : codeGroup.register,
@@ -37,11 +39,12 @@ const CodeGroupRegister = () => {
       console.log(registerDone);
       console.log('코드그룹 등록 성공!');
       dispatch(initializeForm('register'));
+      history.push(`/commoncode/codegrouplist`);
     }else if(registerDone !== true && registerDone !== null){
       console.log(registerDone);
       console.log('코드그룹 등록 실패!');
     }
-  },[registerDone,regInitDone,dispatch]);
+  },[registerDone,regInitDone,dispatch, history]);
   
    // 인풋 변경 이벤트 핸들러
   const onChange = e =>{

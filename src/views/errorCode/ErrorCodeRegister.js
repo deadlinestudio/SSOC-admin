@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {changeField, postErrorCode, initializeForm} from '../../modules/errorCode/errorCode'
+import { useHistory } from "react-router-dom";
 import {
   CButton,
   CCardGroup,
@@ -16,6 +17,7 @@ import CIcon from '@coreui/icons-react'
 
 const ErrorCodeRegister = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { form, registerDone, regInitDone} = useSelector(({errorCode})=>({
     form : errorCode.register,
     registerDone : errorCode.registerDone,
@@ -37,11 +39,12 @@ const ErrorCodeRegister = () => {
       console.log(registerDone);
       console.log('에러코드 등록 성공!');
       dispatch(initializeForm('register'));
+      history.push(`/errorCode/errorcodelist`);
     }else if(registerDone !== true && registerDone !== null){
       console.log(registerDone);
       console.log('에러코드 등록 실패!');
     }
-  },[registerDone,regInitDone,dispatch]);
+  },[registerDone,regInitDone,dispatch, history]);
   
    // 인풋 변경 이벤트 핸들러
   const onChange = e =>{

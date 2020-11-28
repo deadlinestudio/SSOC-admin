@@ -108,6 +108,8 @@ const codeGroup = handleActions(
       codeGroupList: null,
       initDone: true,
       getDone: null,
+      registerDone: null,
+      regInitDone: null,
       deleteDone: null,
       updateDone: null,
     }),

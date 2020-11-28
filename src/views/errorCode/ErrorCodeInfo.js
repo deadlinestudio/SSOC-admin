@@ -1,6 +1,14 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
+  changeField,
+  initializeForm,
+  deleteErrorCode,
+  putErrorCode,
+} from "../../modules/errorCode/errorCode";
+import {
+  CInput,
   CCard,
   CButton,
   CCardBody,
@@ -11,9 +19,16 @@ import {
 import CIcon from "@coreui/icons-react";
 
 const ErrorCodeInfo = ({ match }) => {
-  const { errorCodeList } = useSelector(({ errorCode }) => ({
-    errorCodeList: errorCode.errorCodeList,
-  }));
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { form, errorCodeList, deleteDone, updateDone } = useSelector(
+    ({ errorCode }) => ({
+      form: errorCode.update,
+      errorCodeList: errorCode.errorCodeList,
+      deleteDone: errorCode.deleteDone,
+      updateDone: errorCode.updateDone,
+    })
+  );
   const errorCodeInfo = errorCodeList.find(
     (info) => info.errorCode.toString() === match.params.id
   );
@@ -28,6 +43,70 @@ const ErrorCodeInfo = ({ match }) => {
         ],
       ];
 
+  // 에러 코드 삭제 dispatch 함수
+  const onRemove = () => {
+    console.log("에러 코드 삭제 dispatch");
+    console.log("삭제할 ID : ", errorCodeDetail[0][1]);
+
+    dispatch(deleteErrorCode(errorCodeDetail[0][1]));
+  };
+
+  // 에러 코드 수정 dispatch 함수
+  const onUpdate = () => {
+    console.log("에러 코드 수정 dispatch");
+
+    const { message } = form;
+    const id = errorCodeDetail[0][1];
+    console.log("message : ", message);
+    console.log("id : ", id);
+    // 하나라도 비어있다면
+    if ([message].includes("")) {
+      console.log("빈 칸을 모두 입력하세요");
+      return;
+    }
+
+    dispatch(putErrorCode({ id, message }));
+  };
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    dispatch(
+      changeField({
+        form: "update",
+        key: name,
+        value,
+      })
+    );
+  };
+
+  // 컴포넌트가 처음 렌더링될 때 form을 초기화함
+  useEffect(() => {
+    console.log("에러코드 인풋필드 초기화");
+    dispatch(initializeForm("update"));
+  }, [dispatch]);
+
+  // 에러 코드 삭제 dispatch 이후
+  useEffect(() => {
+    if (deleteDone === null) return;
+
+    if (deleteDone === true) {
+      console.log("에러코드 삭제 성공!");
+      history.push(`/errorCode/errorcodelist`);
+    } else if (deleteDone !== null && deleteDone !== true)
+      console.log("에러코드 삭제 실패!");
+  }, [deleteDone, history]);
+
+  // 에러 코드 수정 dispatch 이루
+  useEffect(() => {
+    if (updateDone === null) return;
+
+    if (updateDone === true) {
+      console.log("에러코드 수정 성공!");
+      history.push(`/errorCode/errorcodelist`);
+    } else if (updateDone !== null && updateDone !== true)
+      console.log("에러코드 수정 실패!");
+  }, [updateDone, history]);
+
   return (
     <CRow>
       <CCol lg={6}>
@@ -41,7 +120,17 @@ const ErrorCodeInfo = ({ match }) => {
                     <tr key={index.toString()}>
                       <td>{`${key}:`}</td>
                       <td>
-                        <strong>{value}</strong>
+                        {key === "errorMessage" ? (
+                          <CInput
+                            onChange={onChange}
+                            name="message"
+                            type="text"
+                            placeholder={key.toString()}
+                            defaultValue={value}
+                          />
+                        ) : (
+                          <strong>{value}</strong>
+                        )}
                       </td>
                     </tr>
                   );
@@ -53,8 +142,12 @@ const ErrorCodeInfo = ({ match }) => {
             <tbody>
               <tr>
                 <td align="right">
-                  <CButton color="danger">삭제</CButton>
-                  <CButton color="info">수정</CButton>
+                  <CButton onClick={onRemove} color="danger">
+                    삭제
+                  </CButton>
+                  <CButton onClick={onUpdate} color="info">
+                    수정
+                  </CButton>
                 </td>
               </tr>
             </tbody>

@@ -57,9 +57,9 @@ const Dashboard = () => {
             <strong>29.703 Users (40%)</strong>
             <CProgress
               className="progress-xs mt-2"
-              precision={1}
-              color="success"
-              value={40}
+              precision={1}     // 간격
+              color="success"   // 막대 색
+              value={40}        // 막대 퍼센트
             />
           </CCol>
           <CCol md sm="12" className="mb-sm-2 mb-0 d-md-down-none">
@@ -69,7 +69,7 @@ const Dashboard = () => {
               className="progress-xs mt-2"
               precision={1}
               color="info"
-              value={40}
+              value={20}
             />
           </CCol>
           <CCol md sm="12" className="mb-sm-2 mb-0">
@@ -79,7 +79,7 @@ const Dashboard = () => {
               className="progress-xs mt-2"
               precision={1}
               color="warning"
-              value={40}
+              value={60}
             />
           </CCol>
           <CCol md sm="12" className="mb-sm-2 mb-0">
@@ -89,13 +89,17 @@ const Dashboard = () => {
               className="progress-xs mt-2"
               precision={1}
               color="danger"
-              value={40}
+              value={80}
             />
           </CCol>
           <CCol md sm="12" className="mb-sm-2 mb-0 d-md-down-none">
             <div className="text-muted">Bounce Rate</div>
             <strong>Average Rate (40.15%)</strong>
-            <CProgress className="progress-xs mt-2" precision={1} value={40} />
+            <CProgress 
+              className="progress-xs mt-2" 
+              precision={1} 
+              value={40} 
+            />
           </CCol>
         </CRow>
       </CCardFooter>
