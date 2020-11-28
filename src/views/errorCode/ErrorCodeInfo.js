@@ -46,9 +46,9 @@ const ErrorCodeInfo = ({ match }) => {
   // 에러 코드 삭제 dispatch 함수
   const onRemove = () => {
     console.log("에러 코드 삭제 dispatch");
-    console.log("삭제할 ID : ", errorCodeDetail[0][1]);
+    console.log("삭제할 ID : ", errorCodeInfo.errorCode);
 
-    dispatch(deleteErrorCode(errorCodeDetail[0][1]));
+    dispatch(deleteErrorCode(errorCodeInfo.errorCode));
   };
 
   // 에러 코드 수정 dispatch 함수
@@ -56,7 +56,7 @@ const ErrorCodeInfo = ({ match }) => {
     console.log("에러 코드 수정 dispatch");
 
     const { message } = form;
-    const id = errorCodeDetail[0][1];
+    const id = errorCodeInfo.errorCode;
     console.log("message : ", message);
     console.log("id : ", id);
     // 하나라도 비어있다면

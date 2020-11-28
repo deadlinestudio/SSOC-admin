@@ -47,9 +47,9 @@ const CodeGroupInfo = ({ match }) => {
   // 코드 그룹 삭제 dispatch 함수
   const onRemove = () => {
     console.log("코드 그룹 삭제 dispatch");
-    console.log("삭제할 ID : ", CodeGroupDetail[0][1]);
+    console.log("삭제할 ID : ", codeGroupInfo.codeGroupId);
 
-    dispatch(deleteCodeGroup(CodeGroupDetail[0][1]));
+    dispatch(deleteCodeGroup(codeGroupInfo.codeGroupId));
   };
 
   // 코드 그룹 수정 dispatch 함수
@@ -57,7 +57,7 @@ const CodeGroupInfo = ({ match }) => {
     console.log("코드 그룹 수정 dispatch");
 
     const { definition } = form;
-    const id = CodeGroupDetail[0][1];
+    const id = codeGroupInfo.codeGroupId;
     console.log("definition : ", definition);
     console.log("id : ", id);
     // 하나라도 비어있다면

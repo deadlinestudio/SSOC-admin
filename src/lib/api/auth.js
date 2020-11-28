@@ -11,18 +11,53 @@ export const getClubList = () => {
 };
 
 // 클럽 등록
-export const postClub = ({areaCode, body, capacity, categoryCode, detailCategoryCode, ownerMemberId, privateFlag, title})=>{
-  return client.post("api/club",{areaCode, body, capacity, categoryCode, detailCategoryCode, ownerMemberId, privateFlag, title});
+export const postClub = ({
+  areaCode,
+  body,
+  capacity,
+  categoryCode,
+  detailCategoryCode,
+  ownerMemberId,
+  privateFlag,
+  title,
+}) => {
+  return client.post("api/club", {
+    areaCode,
+    body,
+    capacity,
+    categoryCode,
+    detailCategoryCode,
+    ownerMemberId,
+    privateFlag,
+    title,
+  });
 };
 
 // 클럽 삭제
-export const deleteClub = (id)=>{
+export const deleteClub = (id) => {
   return client.delete(`api/club/${id}`);
 };
 
 // 클럽 수정
-export const putClub = ({id, areaCode, body, capacity, categoryCode, detailCategoryCode, modifierId, privateFlag}) =>{
-  return client.put(`api/club/${id}`,{areaCode, body, capacity, categoryCode, detailCategoryCode, modifierId, privateFlag});
+export const putClub = ({
+  id,
+  areaCode,
+  body,
+  capacity,
+  categoryCode,
+  detailCategoryCode,
+  modifierId,
+  privateFlag,
+}) => {
+  return client.put(`api/club/${id}`, {
+    areaCode,
+    body,
+    capacity,
+    categoryCode,
+    detailCategoryCode,
+    modifierId,
+    privateFlag,
+  });
 };
 
 // 공통 코드 그룹 전체 조회
@@ -69,4 +104,3 @@ export const deleteErrorCode = (id) => {
 export const putErrorCode = ({ id, message }) => {
   return client.put(`api/common/error-code/${id}`, { message });
 };
-

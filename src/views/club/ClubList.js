@@ -85,7 +85,7 @@ const ClubList = () => {
               fields={[
                 { key: "title", _classes: "font-weight-bold" },
                 "body",
-                "categoryCode",
+                "category",
                 "statusCode",
               ]}
               hover
@@ -94,7 +94,7 @@ const ClubList = () => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                //history.push(`/users/${item.id}`)
+                history.push(`/club/clubinfo/${item.id}`);
                 console.log(item);
               }}
               scopedSlots={{
