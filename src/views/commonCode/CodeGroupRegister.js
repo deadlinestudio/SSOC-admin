@@ -73,7 +73,7 @@ const CodeGroupRegister = () => {
   };
 
   return (
-    <CCardGroup columns className = "cols-1" >
+    <CCardGroup columns className="cols-1">
       <CCard className="mx-4">
         <CCardBody className="p-4">
           <CForm>
@@ -82,23 +82,39 @@ const CodeGroupRegister = () => {
             <CInputGroup className="mb-3">
               <CInputGroupPrepend>
                 <CInputGroupText>
-                  <CIcon name="cil-user" /> 
+                  <CIcon name="cil-user" />
                 </CInputGroupText>
               </CInputGroupPrepend>
-              <CInput onChange={onChange} name="id" type="text" placeholder="id" autoComplete="id" value={form.id}/>
+              <CInput
+                onChange={onChange}
+                name="id"
+                type="text"
+                placeholder="id"
+                autoComplete="id"
+                value={form.id}
+              />
             </CInputGroup>
             <CInputGroup className="mb-3">
               <CInputGroupPrepend>
                 <CInputGroupText>@</CInputGroupText>
               </CInputGroupPrepend>
-              <CInput onChange={onChange} name="definition" type="text" placeholder="definition" autoComplete="definition" value={form.definition}/>
+              <CInput
+                onChange={onChange}
+                name="definition"
+                type="text"
+                placeholder="definition"
+                autoComplete="definition"
+                value={form.definition}
+              />
             </CInputGroup>
-            <CButton onClick={onSubmit} color="success" block>Create Account</CButton>
+            <CButton onClick={onSubmit} color="success" block>
+              Create CodeGroup
+            </CButton>
           </CForm>
         </CCardBody>
       </CCard>
     </CCardGroup>
-  )
+  );
 }
 
 export default CodeGroupRegister

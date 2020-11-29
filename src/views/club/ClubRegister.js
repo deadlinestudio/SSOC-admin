@@ -117,11 +117,11 @@ const ClubRegister = () => {
               </CInputGroupPrepend>
               <CInput
                 onChange={onChange}
-                name="id"
+                name="title"
                 type="text"
-                placeholder="id"
-                autoComplete="id"
-                value={form.id}
+                placeholder="title"
+                autoComplete="title"
+                value={form.title}
               />
             </CInputGroup>
             <CInputGroup className="mb-3">
@@ -130,15 +130,93 @@ const ClubRegister = () => {
               </CInputGroupPrepend>
               <CInput
                 onChange={onChange}
-                name="definition"
+                name="body"
                 type="text"
-                placeholder="definition"
-                autoComplete="definition"
-                value={form.definition}
+                placeholder="body"
+                autoComplete="body"
+                value={form.body}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                onChange={onChange}
+                name="categoryCode"
+                type="text"
+                placeholder="categoryCode"
+                autoComplete="categoryCode"
+                value={form.categoryCode}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                onChange={onChange}
+                name="detailCategoryCode"
+                type="text"
+                placeholder="detailCategoryCode"
+                autoComplete="detailCategoryCode"
+                value={form.detailCategoryCode}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                onChange={onChange}
+                name="areaCode"
+                type="text"
+                placeholder="areaCode"
+                autoComplete="areaCode"
+                value={form.areaCode}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                onChange={onChange}
+                name="ownerMemberId"
+                type="text"
+                placeholder="ownerMemberId"
+                autoComplete="ownerMemberId"
+                value={form.ownerMemberId}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                onChange={onChange}
+                name="capacity"
+                type="text"
+                placeholder="capacity"
+                autoComplete="capacity"
+                value={form.capacity}
+              />
+            </CInputGroup>
+            <CInputGroup className="mb-3">
+              <CInputGroupPrepend>
+                <CInputGroupText>@</CInputGroupText>
+              </CInputGroupPrepend>
+              <CInput
+                onChange={onChange}
+                name="privateFlag"
+                type="text"
+                placeholder="privateFlag"
+                autoComplete="privateFlag"
+                value={form.privateFlag}
               />
             </CInputGroup>
             <CButton onClick={onSubmit} color="success" block>
-              Create Account
+              Create Club
             </CButton>
           </CForm>
         </CCardBody>

@@ -116,14 +116,14 @@ export function* clubSaga() {
 
 const initialState = {
   register: {
-    id : "",
     areaCode : "",
     body : "",
     capacity : "",
     categoryCode : "",
     detailCategoryCode : "",
-    modifierId : "",
+    ownerMemberId : "",
     privateFlag : "",
+    title : ""
   },
   update:{
     areaCode : "",
