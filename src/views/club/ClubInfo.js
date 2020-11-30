@@ -16,7 +16,6 @@ import {
   CCol,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
 
 const ClubInfo = ({ match }) => {
   const dispatch = useDispatch();
@@ -33,16 +32,16 @@ const ClubInfo = ({ match }) => {
   const clubInfo = clubList.find(
     (info) => info.id.toString() === match.params.id
   );
-  const ClubDetail = clubInfo
-    ? Object.entries(clubInfo)
-    : [
-        [
-          "id",
-          <span>
-            <CIcon className="text-muted" name="cui-icon-ban" /> Not found
-          </span>,
-        ],
-      ];
+  // const ClubDetail = clubInfo
+  //   ? Object.entries(clubInfo)
+  //   : [
+  //       [
+  //         "id",
+  //         <span>
+  //           <CIcon className="text-muted" name="cui-icon-ban" /> Not found
+  //         </span>,
+  //       ],
+  //     ];
 
   // 클럽 삭제 dispatch 함수
   const onRemove = () => {

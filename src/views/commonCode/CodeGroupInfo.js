@@ -16,7 +16,6 @@ import {
   CCol,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
 
 const CodeGroupInfo = ({ match }) => {
   const dispatch = useDispatch();
@@ -33,16 +32,16 @@ const CodeGroupInfo = ({ match }) => {
   const codeGroupInfo = codeGroupList.find(
     (info) => info.codeGroupId.toString() === match.params.id
   );
-  const CodeGroupDetail = codeGroupInfo
-    ? Object.entries(codeGroupInfo)
-    : [
-        [
-          "id",
-          <span>
-            <CIcon className="text-muted" name="cui-icon-ban" /> Not found
-          </span>,
-        ],
-      ];
+  // const CodeGroupDetail = codeGroupInfo
+  //   ? Object.entries(codeGroupInfo)
+  //   : [
+  //       [
+  //         "id",
+  //         <span>
+  //           <CIcon className="text-muted" name="cui-icon-ban" /> Not found
+  //         </span>,
+  //       ],
+  //     ];
 
   // 코드 그룹 삭제 dispatch 함수
   const onRemove = () => {
@@ -116,7 +115,7 @@ const CodeGroupInfo = ({ match }) => {
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
-                {CodeGroupDetail.map(([key, value], index) => {
+                {/* {CodeGroupDetail.map(([key, value], index) => {
                   return (
                     <tr key={index.toString()}>
                       <td>{`${key}:`}</td>
@@ -135,7 +134,36 @@ const CodeGroupInfo = ({ match }) => {
                       </td>
                     </tr>
                   );
-                })}
+                })} */}
+                <tr>
+                  <td>codeGroupId</td>
+                  <td>
+                    <strong>{codeGroupInfo.codeGroupId}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>codeGroupDefinition</td>
+                  <td>
+                    <CInput
+                      onChange={onChange}
+                      name="definition"
+                      type="text"
+                      defaultValue={codeGroupInfo.codeGroupDefinition}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>createDateTime</td>
+                  <td>
+                    <strong>{codeGroupInfo.createDateTime}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>updateDateTime</td>
+                  <td>
+                    <strong>{codeGroupInfo.updateDateTime}</strong>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </CCardBody>

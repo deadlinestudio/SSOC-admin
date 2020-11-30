@@ -16,7 +16,6 @@ import {
   CCol,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
 
 const ErrorCodeInfo = ({ match }) => {
   const dispatch = useDispatch();
@@ -32,16 +31,16 @@ const ErrorCodeInfo = ({ match }) => {
   const errorCodeInfo = errorCodeList.find(
     (info) => info.errorCode.toString() === match.params.id
   );
-  const errorCodeDetail = errorCodeInfo
-    ? Object.entries(errorCodeInfo)
-    : [
-        [
-          "id",
-          <span>
-            <CIcon className="text-muted" name="cui-icon-ban" /> Not found
-          </span>,
-        ],
-      ];
+  // const errorCodeDetail = errorCodeInfo
+  //   ? Object.entries(errorCodeInfo)
+  //   : [
+  //       [
+  //         "id",
+  //         <span>
+  //           <CIcon className="text-muted" name="cui-icon-ban" /> Not found
+  //         </span>,
+  //       ],
+  //     ];
 
   // 에러 코드 삭제 dispatch 함수
   const onRemove = () => {
@@ -115,7 +114,7 @@ const ErrorCodeInfo = ({ match }) => {
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
-                {errorCodeDetail.map(([key, value], index) => {
+                {/* {errorCodeDetail.map(([key, value], index) => {
                   return (
                     <tr key={index.toString()}>
                       <td>{`${key}:`}</td>
@@ -134,7 +133,24 @@ const ErrorCodeInfo = ({ match }) => {
                       </td>
                     </tr>
                   );
-                })}
+                })} */}
+                <tr>
+                  <td>errorCode</td>
+                  <td>
+                    <strong>{errorCodeInfo.errorCode}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>errorMessage</td>
+                  <td>
+                    <CInput
+                      onChange={onChange}
+                      name="message"
+                      type="text"
+                      defaultValue={errorCodeInfo.errorMessage}
+                    />
+                  </td>
+                </tr>
               </tbody>
             </table>
           </CCardBody>
