@@ -3,6 +3,8 @@ import React from 'react';
 const Users = React.lazy(() => import('./views/users/Users'));
 const MemberList = React.lazy(() => import('./views/member/MemberList'));
 const ClubList = React.lazy(()=> import('./views/club/ClubList'));
+const ClubInfo = React.lazy(()=> import('./views/club/ClubInfo'));
+const ClubRegister = React.lazy(()=>import('./views/club/ClubRegister'));
 const CodeGroupList = React.lazy(()=> import('./views/commonCode/CodeGroupList'));
 const CodeGroupInfo = React.lazy(()=> import('./views/commonCode/CodeGroupInfo'));
 const CodeGroupRegister = React.lazy(()=>import('./views/commonCode/CodeGroupRegister'));
@@ -17,6 +19,8 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/member/memberlist', name: 'MemberList', component: MemberList },
   { path: '/club/clublist', name: 'ClubList', component: ClubList },
+  { path: '/club/clubinfo/:id', name: 'ClubInfo', component: ClubInfo },
+  { path: '/club/register', name: 'ClubRegister', component: ClubRegister }, 
   { path: '/commoncode/codegrouplist', name: 'CodeGroupList', component: CodeGroupList },
   { path: '/commoncode/codegroupinfo/:id', name: 'CodeGroupInfo', component: CodeGroupInfo },
   { path: '/commoncode/register', name: 'CodeGroupRegister', component: CodeGroupRegister }, 

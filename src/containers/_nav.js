@@ -68,8 +68,8 @@ export default [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Brand buttons',
-        to: '/club/brand-buttons',
+        name: '클럽 등록',
+        to: '/club/register',
       },
       {
         _tag: 'CSidebarNavItem',
