@@ -4,7 +4,7 @@ import { takeLatest } from "redux-saga/effects";
 import createRequestSaga, {
   createRequestActionTypes,
 } from "../../lib/createRequestSaga";
-import * as authAPI from "../../lib/api/auth";
+import * as errorCodeAPI from "../../lib/api/errorCode";
 
 // 에러코드 리스트 초기화
 const INITIALIZE_ERRORCODELIST = "error/INITIALIZE_ERRORCODELIST";
@@ -63,17 +63,17 @@ export const changeField = createAction(
 );
 const getErrorCodeListSaga = createRequestSaga(
   GET_ERRORCODELIST,
-  authAPI.getErrorCodeList
+  errorCodeAPI.getErrorCodeList
 );
 const postErrorCodeSaga = createRequestSaga(
   POST_ERRORCODE,
-  authAPI.postErrorCode
+  errorCodeAPI.postErrorCode
 );
 const deleteErrorCodeSaga = createRequestSaga(
   DELETE_ERRORCODE,
-  authAPI.deleteErrorCode
+  errorCodeAPI.deleteErrorCode
 );
-const putErrorCodeSaga = createRequestSaga(PUT_ERRORCODE, authAPI.putErrorCode);
+const putErrorCodeSaga = createRequestSaga(PUT_ERRORCODE, errorCodeAPI.putErrorCode);
 
 export function* errorCodeSaga() {
   yield takeLatest(GET_ERRORCODELIST, getErrorCodeListSaga);

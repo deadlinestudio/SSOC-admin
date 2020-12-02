@@ -3,7 +3,7 @@ import { takeLatest } from "redux-saga/effects";
 import createRequestSaga, {
   createRequestActionTypes,
 } from "../../lib/createRequestSaga";
-import * as authAPI from "../../lib/api/auth";
+import * as memberAPI from "../../lib/api/member";
 
 // 멤버리스트 초기화
 const INITIALIZE_MEMBERLIST = "member/INITIALIZE_MEMBERLIST";
@@ -20,7 +20,7 @@ export const initMemberList = createAction(INITIALIZE_MEMBERLIST);
 
 const getMemberListSaga = createRequestSaga(
   GET_MEMBERLIST,
-  authAPI.getMemberList
+  memberAPI.getMemberList
 );
 
 export function* memberSaga() {
