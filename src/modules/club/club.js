@@ -4,7 +4,7 @@ import { takeLatest } from "redux-saga/effects";
 import createRequestSaga, {
   createRequestActionTypes,
 } from "../../lib/createRequestSaga";
-import * as authAPI from "../../lib/api/auth";
+import * as clubAPI from "../../lib/api/club";
 
 // 클럽리스트 초기화
 const INITIALIZE_CLUBLIST = "club/INITIALIZE_CLUBLIST";
@@ -95,16 +95,16 @@ export const changeField = createAction(
     value, // 실제 바꾸려는 값
   })
 );
-const getClubListSaga = createRequestSaga(GET_CLUBLIST, authAPI.getClubList);
+const getClubListSaga = createRequestSaga(GET_CLUBLIST, clubAPI.getClubList);
 const postClubSaga = createRequestSaga(
   POST_CLUB,
-  authAPI.postClub
+  clubAPI.postClub
 );
 const deleteClubSaga = createRequestSaga(
   DELETE_CLUB,
-  authAPI.deleteClub
+  clubAPI.deleteClub
 );
-const putClubSaga = createRequestSaga(PUT_CLUB, authAPI.putClub);
+const putClubSaga = createRequestSaga(PUT_CLUB, clubAPI.putClub);
 
 
 export function* clubSaga() {

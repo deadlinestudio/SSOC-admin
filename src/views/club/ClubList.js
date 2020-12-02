@@ -73,7 +73,7 @@ const ClubList = () => {
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol sm="12" xl="12">
         <CCard>
           <CCardHeader>
             클럽목록
@@ -90,7 +90,7 @@ const ClubList = () => {
               ]}
               hover
               striped
-              itemsPerPage={10}
+              itemsPerPage={5}
               activePage={page}
               clickableRows
               onRowClick={(item) => {

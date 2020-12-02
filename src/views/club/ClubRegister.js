@@ -107,7 +107,7 @@ const ClubRegister = () => {
       <CCard className="mx-4">
         <CCardBody className="p-4">
           <CForm>
-            <h1>Club Register</h1>
+            <h3>Club Register</h3>
             <p className="text-muted">Create your Club</p>
             <CInputGroup className="mb-3">
               <CInputGroupPrepend>

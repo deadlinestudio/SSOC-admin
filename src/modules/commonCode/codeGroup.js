@@ -4,7 +4,7 @@ import { takeLatest } from "redux-saga/effects";
 import createRequestSaga, {
   createRequestActionTypes,
 } from "../../lib/createRequestSaga";
-import * as authAPI from "../../lib/api/auth";
+import * as commonCodeAPI from "../../lib/api/commonCode";
 
 // 코드그룹 리스트 초기화
 const INITIALIZE_CODEGROUPLIST = "common/INITIALIZE_CODEGROUPLIST";
@@ -64,17 +64,17 @@ export const changeField = createAction(
 
 const getCodeGroupListSaga = createRequestSaga(
   GET_CODEGROUPLIST,
-  authAPI.getCodeGroupList
+  commonCodeAPI.getCodeGroupList
 );
 const postCodeGroupSaga = createRequestSaga(
   POST_CODEGROUP,
-  authAPI.postCodeGroup
+  commonCodeAPI.postCodeGroup
 );
 const deleteCodeGroupSaga = createRequestSaga(
   DELETE_CODEGROUP,
-  authAPI.deleteCodeGroup
+  commonCodeAPI.deleteCodeGroup
 );
-const putCodeGroupSaga = createRequestSaga(PUT_CODEGROUP, authAPI.putCodeGroup);
+const putCodeGroupSaga = createRequestSaga(PUT_CODEGROUP, commonCodeAPI.putCodeGroup);
 
 export function* codeGroupSaga() {
   yield takeLatest(GET_CODEGROUPLIST, getCodeGroupListSaga);

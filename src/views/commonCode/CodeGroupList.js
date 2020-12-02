@@ -77,7 +77,7 @@ const CodeGroupList = () => {
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol sm="12" xl="12">
         <CCard>
           <CCardHeader>
             공통 코드 그룹 목록
