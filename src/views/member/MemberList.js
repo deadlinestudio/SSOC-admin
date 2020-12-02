@@ -74,7 +74,7 @@ const MemberList = () => {
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol sm="12" xl="12">
         <CCard>
           <CCardHeader>
             회원목록

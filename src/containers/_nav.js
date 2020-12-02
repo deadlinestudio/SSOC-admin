@@ -139,6 +139,12 @@ export default [
     ],
   },
   {
+    _tag: 'CSidebarNavItem',
+    name: '캐시리로드',
+    to: '/cachereload',
+    icon: 'cil-star',
+  },
+  {
     _tag: 'CSidebarNavDivider'
   },
   {

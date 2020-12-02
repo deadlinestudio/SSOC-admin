@@ -77,7 +77,7 @@ const CodeGroupRegister = () => {
       <CCard className="mx-4">
         <CCardBody className="p-4">
           <CForm>
-            <h1>CodeGroup Register</h1>
+            <h3>CodeGroup Register</h3>
             <p className="text-muted">Create your CodeGroup</p>
             <CInputGroup className="mb-3">
               <CInputGroupPrepend>

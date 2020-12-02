@@ -60,7 +60,7 @@ const ErrorCodeList = () => {
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol sm="12" xl="12">
         <CCard>
           <CCardHeader>
             에러 코드 목록

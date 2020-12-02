@@ -80,7 +80,7 @@ const ErrorCodeRegister = () => {
       <CCard className="mx-4">
         <CCardBody className="p-4">
           <CForm>
-            <h1>ErrorCode Register</h1>
+            <h3>ErrorCode Register</h3>
             <p className="text-muted">Create your ErrorCode</p>
             <CInputGroup className="mb-3">
               <CInputGroupPrepend>
