@@ -20,7 +20,7 @@ const [
   POST_COMMONCODEGROUP,
   POST_COMMONCODEGROUP_SUCCESS,
   POST_COMMONCODEGROUP_FAILURE,
-] = createRequestActionTypes("cache/POST_COMMONCODE");
+] = createRequestActionTypes("cache/POST_COMMONCODEGROUP");
 
 export const initCacheList = createAction(INITIALIZE_CACHELIST);
 
