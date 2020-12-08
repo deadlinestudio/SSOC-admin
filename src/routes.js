@@ -11,8 +11,9 @@ const CodeGroupRegister = React.lazy(()=>import('./views/commonCode/CodeGroupReg
 const ErrorCodeList = React.lazy(()=> import('./views/errorCode/ErrorCodeList'));
 const ErrorCodeInfo = React.lazy(()=> import('./views/errorCode/ErrorCodeInfo'));
 const ErrorCodeRegister = React.lazy(() => import('./views/errorCode/ErrorCodeRegister'));
-const Dashboard = React.lazy(()=> import('./views/dashboard/Dashboard'))
-const CacheReload = React.lazy(()=> import('./views/cacheReload/CacheReload'))
+const Dashboard = React.lazy(()=> import('./views/dashboard/Dashboard'));
+const CacheReload = React.lazy(()=> import('./views/cacheReload/CacheReload'));
+const Log = React.lazy(()=> import('./views/log/Log'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -28,7 +29,8 @@ const routes = [
   { path: '/errorcode/errorcodelist', name: 'ErrorCodeList', component: ErrorCodeList },
   { path: '/errorcode/errorcodeinfo/:id', name: 'ErrorCodeInfo', component: ErrorCodeInfo },
   { path: '/errorcode/register', name: 'ErrorCodeRegister', component: ErrorCodeRegister },
-  { path: '/cachereload', name: 'CacheReload', component: CacheReload }
+  { path: '/cachereload', name: 'CacheReload', component: CacheReload },
+  { path: '/log', name: 'Log', component: Log }
 ];
 
 export default routes;

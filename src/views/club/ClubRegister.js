@@ -12,6 +12,7 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
+  CSelect,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
@@ -141,14 +142,32 @@ const ClubRegister = () => {
               <CInputGroupPrepend>
                 <CInputGroupText>@</CInputGroupText>
               </CInputGroupPrepend>
-              <CInput
+              <CSelect
+                onChange={onChange}
+                name="categoryCode"
+                type="text"
+                placeholder="categoryCode"
+                autoComplete="categoryCode"
+              >
+                <option>0000</option>
+                <option>0001</option>
+                <option>0002</option>
+                <option>0003</option>
+                <option>2021</option>
+                <option>2022</option>
+                <option>2023</option>
+                <option>2024</option>
+                <option>2025</option>
+                <option>2026</option>
+              </CSelect>
+              {/*<CInput
                 onChange={onChange}
                 name="categoryCode"
                 type="text"
                 placeholder="categoryCode"
                 autoComplete="categoryCode"
                 value={form.categoryCode}
-              />
+              />*/}
             </CInputGroup>
             <CInputGroup className="mb-3">
               <CInputGroupPrepend>

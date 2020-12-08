@@ -43,16 +43,6 @@ export default [
         name: '회원 목록 조회',
         to: '/member/memberlist',
       },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Cards',
-        to: '/member/cards',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Carousel',
-        to: '/member/carousels',
-      },
     ],
   },
   {
@@ -71,16 +61,6 @@ export default [
         name: '클럽 등록',
         to: '/club/register',
       },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Buttons groups',
-        to: '/club/button-groups',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Dropdowns',
-        to: '/buttons/button-dropdowns',
-      }
     ],
   },
   {
@@ -99,16 +79,6 @@ export default [
         name: '공통 코드 그룹 등록',
         to: '/commoncode/register',
       },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Buttons groups',
-        to: '/code/button-groups',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Dropdowns',
-        to: '/code/button-dropdowns',
-      }
     ],
   },
   {
@@ -131,18 +101,41 @@ export default [
         name: '에러 코드 등록',
         to: '/errorcode/register',
       },
+    ],
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: '리로드',
+    to: '/cachereloadmenu',
+    icon: 'cil-star',
+    _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'CoreUI Brands',
-        to: '/icons/brands',
+        name: '캐시 리로드',
+        to: '/cachereload',
+        badge: {
+          color: 'success',
+          text: 'Click',
+        },
       },
     ],
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: '캐시리로드',
-    to: '/cachereload',
+    _tag: 'CSidebarNavDropdown',
+    name: '로그',
+    to: '/logmenu',
     icon: 'cil-star',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: '로그 확인',
+        to: '/log',
+        badge: {
+          color: 'success',
+          text: 'NEW',
+        },
+      },
+    ],
   },
   {
     _tag: 'CSidebarNavDivider'
