@@ -153,7 +153,7 @@ const ClubInfo = ({ match }) => {
 
   return (
     <CRow>
-      <CCol lg={6}>
+      <CCol sm="12" xl="12">
         <CCard>
           <CCardHeader>Club ID: {match.params.id}</CCardHeader>
           <CCardBody>

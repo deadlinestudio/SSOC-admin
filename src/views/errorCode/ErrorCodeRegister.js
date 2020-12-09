@@ -8,7 +8,6 @@ import {
 import { useHistory } from "react-router-dom";
 import {
   CButton,
-  CCardGroup,
   CCard,
   CCardBody,
   CForm,
@@ -16,6 +15,8 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
+  CRow,
+  CCol
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
@@ -76,47 +77,49 @@ const ErrorCodeRegister = () => {
   };
 
   return (
-    <CCardGroup columns className="cols-1">
-      <CCard className="mx-4">
-        <CCardBody className="p-4">
-          <CForm>
-            <h3>ErrorCode Register</h3>
-            <p className="text-muted">Create your ErrorCode</p>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>
-                  <CIcon name="cil-user" />
-                </CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="id"
-                type="text"
-                placeholder="errorCode"
-                autoComplete="errorCode"
-                value={form.id}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="message"
-                type="text"
-                placeholder="errorMessage"
-                autoComplete="errorMessage"
-                value={form.message}
-              />
-            </CInputGroup>
-            <CButton onClick={onSubmit} color="success" block>
-              Create ErrorCode
-            </CButton>
-          </CForm>
-        </CCardBody>
-      </CCard>
-    </CCardGroup>
+    <CRow>
+      <CCol sm="12" xl="12">
+        <CCard className="mx-4">
+          <CCardBody className="p-4">
+            <CForm>
+              <h3>ErrorCode Register</h3>
+              <p className="text-muted">Create your ErrorCode</p>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>
+                    <CIcon name="cil-user" />
+                  </CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="id"
+                  type="text"
+                  placeholder="errorCode"
+                  autoComplete="errorCode"
+                  value={form.id}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="message"
+                  type="text"
+                  placeholder="errorMessage"
+                  autoComplete="errorMessage"
+                  value={form.message}
+                />
+              </CInputGroup>
+              <CButton onClick={onSubmit} color="success" block>
+                Create ErrorCode
+              </CButton>
+            </CForm>
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
   );
 };
 
