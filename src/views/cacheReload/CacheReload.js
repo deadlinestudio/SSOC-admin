@@ -8,6 +8,7 @@ import {
 import {
   CButton,
   CCardGroup,
+  CButtonToolbar,
   CCard,
   CCardBody,
   CCardHeader,
@@ -21,15 +22,13 @@ import ConfirmModal from "../notification/modals/ConfirmModal";
 
 const CacheReload = () => {
   const dispatch = useDispatch();
-  const { cmnCdDone, cmnCdGrpDone } = useSelector(
-    ({ cacheReload }) => ({
-      cmnCdDone: cacheReload.commonCodeDone,
-      cmnCdGrpDone: cacheReload.commonCodeGroupDone,
-    })
-  );
+  const { cmnCdDone, cmnCdGrpDone } = useSelector(({ cacheReload }) => ({
+    cmnCdDone: cacheReload.commonCodeDone,
+    cmnCdGrpDone: cacheReload.commonCodeGroupDone,
+  }));
   const [errorCdModal, setErrorCdModal] = useState(false);
   const [cmnCdModal, setCmnCdModal] = useState(false);
-  const [cmnCdGrpModal, setCmnCdGrpModal] = useState(false); 
+  const [cmnCdGrpModal, setCmnCdGrpModal] = useState(false);
 
   // 공통코드 캐시 리로드 후 렌더링
   useEffect(() => {
@@ -38,8 +37,7 @@ const CacheReload = () => {
     if (cmnCdDone === true) {
       console.log("공통코드 캐시 리로드 완료");
       dispatch(initCacheList());
-    } else if (cmnCdDone !== null)
-      console.log("공통코드 캐시 리로드 실패");
+    } else if (cmnCdDone !== null) console.log("공통코드 캐시 리로드 실패");
 
     dispatch(initCacheList());
   }, [dispatch, cmnCdDone]);
@@ -118,64 +116,62 @@ const CacheReload = () => {
 
   return (
     <CRow>
-      <CCol sm="12" xl="12">
-        <CCardGroup columns className="cols-1">
-          <CCard className="mx-4">
-            <CCardBody className="p-4">
-              <CCardHeader>
-                <h3>Cache Reload</h3>
-                <p className="text-muted">Reoload your Cache</p>
-              </CCardHeader>
-              <CListGroup>
-                <CListGroupItem>
-                  <CLabel sm="10" col>
-                    <strong>공통코드 리로드</strong>
-                  </CLabel>
-                  <CButton onClick={onCmnCdClick} color="success">
-                    반영
-                  </CButton>
-                </CListGroupItem>
-                <CListGroupItem>
-                  <CLabel sm="10" col>
-                    <strong>공통코드그룹 리로드</strong>
-                  </CLabel>
-                  <CButton onClick={onCmnCdGrpClick} color="success">
-                    반영
-                  </CButton>
-                </CListGroupItem>
-                <CListGroupItem>
-                  <CLabel sm="10" col>
-                    <strong>에러코드 리로드</strong>
-                  </CLabel>
-                  <CButton onClick={onErrorCdClick} color="success">
-                    반영
-                  </CButton>
-                </CListGroupItem>
-              </CListGroup>
-              <ConfirmModal
-                visible = {cmnCdModal}
-                title = {"확인"}
-                body = {"공통코드를 리로드 하시겠습니까?"}
-                onConfirm = {onCmnCdSummit}
-                onCancel = {onCmnCdCancelClick}
-              />
-              <ConfirmModal
-                visible = {cmnCdGrpModal}
-                title = {"확인"}
-                body = {"공통코드그룹을 리로드 하시겠습니까?"}
-                onConfirm = {onCmnCdGrpSummit}
-                onCancel = {onCmnCdGrpCancelClick}
-              />
-              <ConfirmModal
-                visible = {errorCdModal}
-                title = {"확인"}
-                body = {"에러코드를 리로드 하시겠습니까?"}
-                onConfirm = {onErrorCdSummit}
-                onCancel = {onErrorCancelClick}
-              />
-            </CCardBody>
-          </CCard>
-        </CCardGroup>
+      <CCol sm="12" xl="6">
+        <CCard className="mx-4">
+          <CCardBody className="p-4">
+            <CCardHeader>
+              <h3>Cache Reload</h3>
+              <p className="text-muted">Reoload your Cache</p>
+            </CCardHeader>
+            <CListGroup>
+              <CListGroupItem>
+                <CLabel sm="10" col>
+                  <strong>공통코드 리로드</strong>
+                </CLabel>
+                <CButton onClick={onCmnCdClick} color="success" block>
+                  반영
+                </CButton>
+              </CListGroupItem>
+              <CListGroupItem>
+                <CLabel sm="10" col>
+                  <strong>공통코드그룹 리로드</strong>
+                </CLabel>
+                <CButton onClick={onCmnCdGrpClick} color="success" block>
+                  반영
+                </CButton>
+              </CListGroupItem>
+              <CListGroupItem>
+                <CLabel sm="10" col>
+                  <strong>에러코드 리로드</strong>
+                </CLabel>
+                <CButton onClick={onErrorCdClick} color="success" block>
+                  반영
+                </CButton>
+              </CListGroupItem>
+            </CListGroup>
+            <ConfirmModal
+              visible={cmnCdModal}
+              title={"확인"}
+              body={"공통코드를 리로드 하시겠습니까?"}
+              onConfirm={onCmnCdSummit}
+              onCancel={onCmnCdCancelClick}
+            />
+            <ConfirmModal
+              visible={cmnCdGrpModal}
+              title={"확인"}
+              body={"공통코드그룹을 리로드 하시겠습니까?"}
+              onConfirm={onCmnCdGrpSummit}
+              onCancel={onCmnCdGrpCancelClick}
+            />
+            <ConfirmModal
+              visible={errorCdModal}
+              title={"확인"}
+              body={"에러코드를 리로드 하시겠습니까?"}
+              onConfirm={onErrorCdSummit}
+              onCancel={onErrorCancelClick}
+            />
+          </CCardBody>
+        </CCard>
       </CCol>
     </CRow>
   );

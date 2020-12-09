@@ -13,6 +13,8 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CSelect,
+  CRow,
+  CCol,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
@@ -104,63 +106,64 @@ const ClubRegister = () => {
   };
 
   return (
-    <CCardGroup columns className="cols-1">
-      <CCard className="mx-4">
-        <CCardBody className="p-4">
-          <CForm>
-            <h3>Club Register</h3>
-            <p className="text-muted">Create your Club</p>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>
-                  <CIcon name="cil-user" />
-                </CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="title"
-                type="text"
-                placeholder="title"
-                autoComplete="title"
-                value={form.title}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="body"
-                type="text"
-                placeholder="body"
-                autoComplete="body"
-                value={form.body}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CSelect
-                onChange={onChange}
-                name="categoryCode"
-                type="text"
-                placeholder="categoryCode"
-                autoComplete="categoryCode"
-              >
-                <option>0000</option>
-                <option>0001</option>
-                <option>0002</option>
-                <option>0003</option>
-                <option>2021</option>
-                <option>2022</option>
-                <option>2023</option>
-                <option>2024</option>
-                <option>2025</option>
-                <option>2026</option>
-              </CSelect>
-              {/*<CInput
+    <CRow>
+      <CCol sm="12" xl="12">
+        <CCard className="mx-4">
+          <CCardBody className="p-4">
+            <CForm>
+              <h3>Club Register</h3>
+              <p className="text-muted">Create your Club</p>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>
+                    <CIcon name="cil-user" />
+                  </CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="title"
+                  type="text"
+                  placeholder="title"
+                  autoComplete="title"
+                  value={form.title}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="body"
+                  type="text"
+                  placeholder="body"
+                  autoComplete="body"
+                  value={form.body}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CSelect
+                  onChange={onChange}
+                  name="categoryCode"
+                  type="text"
+                  placeholder="categoryCode"
+                  autoComplete="categoryCode"
+                >
+                  <option>0000</option>
+                  <option>0001</option>
+                  <option>0002</option>
+                  <option>0003</option>
+                  <option>2021</option>
+                  <option>2022</option>
+                  <option>2023</option>
+                  <option>2024</option>
+                  <option>2025</option>
+                  <option>2026</option>
+                </CSelect>
+                {/*<CInput
                 onChange={onChange}
                 name="categoryCode"
                 type="text"
@@ -168,79 +171,80 @@ const ClubRegister = () => {
                 autoComplete="categoryCode"
                 value={form.categoryCode}
               />*/}
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="detailCategoryCode"
-                type="text"
-                placeholder="detailCategoryCode"
-                autoComplete="detailCategoryCode"
-                value={form.detailCategoryCode}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="areaCode"
-                type="text"
-                placeholder="areaCode"
-                autoComplete="areaCode"
-                value={form.areaCode}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="ownerMemberId"
-                type="text"
-                placeholder="ownerMemberId"
-                autoComplete="ownerMemberId"
-                value={form.ownerMemberId}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="capacity"
-                type="text"
-                placeholder="capacity"
-                autoComplete="capacity"
-                value={form.capacity}
-              />
-            </CInputGroup>
-            <CInputGroup className="mb-3">
-              <CInputGroupPrepend>
-                <CInputGroupText>@</CInputGroupText>
-              </CInputGroupPrepend>
-              <CInput
-                onChange={onChange}
-                name="privateFlag"
-                type="text"
-                placeholder="privateFlag"
-                autoComplete="privateFlag"
-                value={form.privateFlag}
-              />
-            </CInputGroup>
-            <CButton onClick={onSubmit} color="success" block>
-              Create Club
-            </CButton>
-          </CForm>
-        </CCardBody>
-      </CCard>
-    </CCardGroup>
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="detailCategoryCode"
+                  type="text"
+                  placeholder="detailCategoryCode"
+                  autoComplete="detailCategoryCode"
+                  value={form.detailCategoryCode}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="areaCode"
+                  type="text"
+                  placeholder="areaCode"
+                  autoComplete="areaCode"
+                  value={form.areaCode}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="ownerMemberId"
+                  type="text"
+                  placeholder="ownerMemberId"
+                  autoComplete="ownerMemberId"
+                  value={form.ownerMemberId}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="capacity"
+                  type="text"
+                  placeholder="capacity"
+                  autoComplete="capacity"
+                  value={form.capacity}
+                />
+              </CInputGroup>
+              <CInputGroup className="mb-3">
+                <CInputGroupPrepend>
+                  <CInputGroupText>@</CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput
+                  onChange={onChange}
+                  name="privateFlag"
+                  type="text"
+                  placeholder="privateFlag"
+                  autoComplete="privateFlag"
+                  value={form.privateFlag}
+                />
+              </CInputGroup>
+              <CButton onClick={onSubmit} color="success" block>
+                Create Club
+              </CButton>
+            </CForm>
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
   );
 };
 

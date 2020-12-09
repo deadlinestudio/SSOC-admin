@@ -17,35 +17,43 @@ import CIcon from "@coreui/icons-react";
 
 const Log = () => {
   return (
-    <CCardGroup columns className="cols-1">
-      <CCard className="mx-4">
-        <CCardBody className="p-4">
-          <CForm>
-            <h3>Log Check</h3>
-            <p className="text-muted">Choose a date</p>
-            <CCol xs="12" md="6">
+    <CRow>
+      <CCol sm="12" xl="6">
+        <CCard className="mx-4">
+          <CCardBody className="p-4">
+            <CForm>
+              <h3>Log Check</h3>
+              <p className="text-muted">Choose a date</p>
               <CRow>
-                <CInput
-                  type="date"
-                  id="date-input"
-                  name="date-input"
-                  placeholder="date"
-                />
-                <CButton color="success">Check</CButton>
+                <CCol xl="8">
+                  <CInput
+                    type="date"
+                    id="date-input"
+                    name="date-input"
+                    placeholder="date"
+                  />
+                </CCol>
+                <CCol xl="4">
+                  <CButton color="success" block>
+                    Check
+                  </CButton>
+                </CCol>
               </CRow>
-            </CCol>
-            <CCol xs="12" md="12">
-              <CTextarea
-                name="textarea-input"
-                id="textarea-input"
-                rows="15"
-                placeholder="Content..."
-              />
-            </CCol>
-          </CForm>
-        </CCardBody>
-      </CCard>
-    </CCardGroup>
+              <CRow>
+                <CCol>
+                  <CTextarea
+                    name="textarea-input"
+                    id="textarea-input"
+                    rows="15"
+                    placeholder="Content..."
+                  />
+                </CCol>
+              </CRow>
+            </CForm>
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
   );
 };
 
