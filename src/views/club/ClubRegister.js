@@ -4,7 +4,6 @@ import { changeField, postClub, initializeForm } from "../../modules/club/club";
 import { useHistory } from "react-router-dom";
 import {
   CButton,
-  CCardGroup,
   CCard,
   CCardBody,
   CForm,
@@ -152,6 +151,7 @@ const ClubRegister = () => {
                   placeholder="categoryCode"
                   autoComplete="categoryCode"
                 >
+                  <option value="0">Please select</option>
                   <option>0000</option>
                   <option>0001</option>
                   <option>0002</option>
