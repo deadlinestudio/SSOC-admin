@@ -12,13 +12,12 @@ import {
   CCardBody,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CCol,
-  CRow
+  CRow,
+  CCardHeader,
+  CFormGroup,
+  CLabel,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
 
 const CodeGroupRegister = () => {
   const history = useHistory();
@@ -80,38 +79,34 @@ const CodeGroupRegister = () => {
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
+          <CCardHeader>
+            <h4>CodeGroup Register</h4>
+            <small>Create your CodeGroup</small>
+          </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
-              <h3>CodeGroup Register</h3>
-              <p className="text-muted">Create your CodeGroup</p>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>
-                    <CIcon name="cil-user" />
-                  </CInputGroupText>
-                </CInputGroupPrepend>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">ID</CLabel>
                 <CInput
                   onChange={onChange}
                   name="id"
                   type="text"
-                  placeholder="id"
+                  placeholder="ID"
                   autoComplete="id"
                   value={form.id}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Definition</CLabel>
                 <CInput
                   onChange={onChange}
                   name="definition"
                   type="text"
-                  placeholder="definition"
+                  placeholder="Definition"
                   autoComplete="definition"
                   value={form.definition}
                 />
-              </CInputGroup>
+              </CFormGroup>
               <CButton onClick={onSubmit} color="success" block>
                 Create CodeGroup
               </CButton>

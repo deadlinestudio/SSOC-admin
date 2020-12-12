@@ -54,9 +54,8 @@ const ClubList = () => {
   // 클럽리스트 초기화 이후 렌더링 = 클럽리스트 dispatch
   useEffect(() => {
     if (initDone === null) return;
-    console.log("get clublist start");
+    console.log("get clublist");
     dispatch(getClubList());
-    console.log("get clublist end");
   }, [dispatch, initDone]);
 
   // 클럽리스트 가져온 후 렌더링
@@ -74,7 +73,7 @@ const ClubList = () => {
   return (
     <CRow>
       <CCol sm="12" xl="12">
-        <CCard>
+        <CCard className="mx-4">
           <CCardHeader>
             클럽목록
             <small className="text-muted"> example</small>

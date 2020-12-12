@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, postClub, initializeForm } from "../../modules/club/club";
+import { getCodeList, initCodeList } from "../../modules/commonCode/code";
 import { useHistory } from "react-router-dom";
 import {
   CButton,
@@ -8,14 +9,13 @@ import {
   CCardBody,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CSelect,
   CRow,
   CCol,
+  CCardHeader,
+  CFormGroup,
+  CLabel,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
 
 const ClubRegister = () => {
   const history = useHistory();
@@ -25,12 +25,28 @@ const ClubRegister = () => {
     registerDone: club.registerDone,
     regInitDone: club.regInitDone,
   }));
+  const { codeList, initDone, getDone } = useSelector(({ code }) => ({
+    codeList: code.codeList,
+    initDone: code.initDone,
+    getDone: code.getDone,
+  }));
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
     console.log("클럽 인풋필드 초기화");
     dispatch(initializeForm("register"));
+    console.log("코드 리스트 초기화");
+    dispatch(initCodeList());
   }, [dispatch]);
+
+  // 코드 리스트 초기화 이후 렌더링
+  useEffect(() => {
+    if (initDone === null) return;
+
+    const codeGroupId = "club-category";
+    dispatch(getCodeList({codeGroupId}));
+
+  },[initDone, dispatch]);
 
   // 클럽 성공/실패 처리
   useEffect(() => {
@@ -108,47 +124,41 @@ const ClubRegister = () => {
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
+          <CCardHeader>
+            <h4>Club Register</h4>
+            <small> Create your Club </small>
+          </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
-              <h3>Club Register</h3>
-              <p className="text-muted">Create your Club</p>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>
-                    <CIcon name="cil-user" />
-                  </CInputGroupText>
-                </CInputGroupPrepend>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Title</CLabel>
                 <CInput
                   onChange={onChange}
                   name="title"
                   type="text"
-                  placeholder="title"
+                  placeholder="Title"
                   autoComplete="title"
                   value={form.title}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Body</CLabel>
                 <CInput
                   onChange={onChange}
                   name="body"
                   type="text"
-                  placeholder="body"
+                  placeholder="Body"
                   autoComplete="body"
                   value={form.body}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Category Code</CLabel>
                 <CSelect
                   onChange={onChange}
                   name="categoryCode"
                   type="text"
-                  placeholder="categoryCode"
+                  placeholder="Category Code"
                   autoComplete="categoryCode"
                 >
                   <option value="0">Please select</option>
@@ -163,80 +173,62 @@ const ClubRegister = () => {
                   <option>2025</option>
                   <option>2026</option>
                 </CSelect>
-                {/*<CInput
-                onChange={onChange}
-                name="categoryCode"
-                type="text"
-                placeholder="categoryCode"
-                autoComplete="categoryCode"
-                value={form.categoryCode}
-              />*/}
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Detail Category Code</CLabel>
                 <CInput
                   onChange={onChange}
                   name="detailCategoryCode"
                   type="text"
-                  placeholder="detailCategoryCode"
+                  placeholder="Detail Category Code"
                   autoComplete="detailCategoryCode"
                   value={form.detailCategoryCode}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Area Code</CLabel>
                 <CInput
                   onChange={onChange}
                   name="areaCode"
                   type="text"
-                  placeholder="areaCode"
+                  placeholder="Area Code"
                   autoComplete="areaCode"
                   value={form.areaCode}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Owner Member Id</CLabel>
                 <CInput
                   onChange={onChange}
                   name="ownerMemberId"
                   type="text"
-                  placeholder="ownerMemberId"
+                  placeholder="Owner Member Id"
                   autoComplete="ownerMemberId"
                   value={form.ownerMemberId}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Capacity</CLabel>
                 <CInput
                   onChange={onChange}
                   name="capacity"
                   type="text"
-                  placeholder="capacity"
+                  placeholder="Capacity"
                   autoComplete="capacity"
                   value={form.capacity}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Private Flag</CLabel>
                 <CInput
                   onChange={onChange}
                   name="privateFlag"
                   type="text"
-                  placeholder="privateFlag"
+                  placeholder="Private Flag"
                   autoComplete="privateFlag"
                   value={form.privateFlag}
                 />
-              </CInputGroup>
+              </CFormGroup>
               <CButton onClick={onSubmit} color="success" block>
                 Create Club
               </CButton>

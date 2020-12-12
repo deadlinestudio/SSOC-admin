@@ -109,7 +109,7 @@ const ErrorCodeInfo = ({ match }) => {
   return (
     <CRow>
       <CCol sm="12" xl="12">
-        <CCard>
+        <CCard className="mx-4">
           <CCardHeader>ErrorCode id: {match.params.id}</CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">

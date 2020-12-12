@@ -12,13 +12,12 @@ import {
   CCardBody,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CRow,
-  CCol
+  CCol,
+  CFormGroup,
+  CCardHeader,
+  CLabel
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
 
 const ErrorCodeRegister = () => {
   const dispatch = useDispatch();
@@ -80,38 +79,34 @@ const ErrorCodeRegister = () => {
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
+          <CCardHeader>
+            <h4>ErrorCode Register</h4>
+            <small>Create your ErrorCode</small>
+          </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
-              <h3>ErrorCode Register</h3>
-              <p className="text-muted">Create your ErrorCode</p>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>
-                    <CIcon name="cil-user" />
-                  </CInputGroupText>
-                </CInputGroupPrepend>
+              <CFormGroup className="mb-3">
+                <CLabel htmlFor="text-input">ErrorCode</CLabel>
                 <CInput
                   onChange={onChange}
                   name="id"
                   type="text"
-                  placeholder="errorCode"
+                  placeholder="ErrorCode"
                   autoComplete="errorCode"
                   value={form.id}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup className="mb-3">
+                <CLabel htmlFor="text-input">Error Message</CLabel>
                 <CInput
                   onChange={onChange}
                   name="message"
                   type="text"
-                  placeholder="errorMessage"
+                  placeholder="Error Message"
                   autoComplete="errorMessage"
                   value={form.message}
                 />
-              </CInputGroup>
+              </CFormGroup>
               <CButton onClick={onSubmit} color="success" block>
                 Create ErrorCode
               </CButton>

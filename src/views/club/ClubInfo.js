@@ -154,7 +154,7 @@ const ClubInfo = ({ match }) => {
   return (
     <CRow>
       <CCol sm="12" xl="12">
-        <CCard>
+        <CCard className="mx-4">
           <CCardHeader>Club ID: {match.params.id}</CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
