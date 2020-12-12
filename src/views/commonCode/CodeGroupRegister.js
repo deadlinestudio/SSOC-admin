@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeField,
@@ -18,6 +18,7 @@ import {
   CFormGroup,
   CLabel,
 } from "@coreui/react";
+import { ConfirmModal } from "../notification/modals/Modals";
 
 const CodeGroupRegister = () => {
   const history = useHistory();
@@ -27,6 +28,7 @@ const CodeGroupRegister = () => {
     registerDone: codeGroup.registerDone,
     regInitDone: codeGroup.regInitDone,
   }));
+  const [cdGrpModal, setCdGrpModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -75,6 +77,18 @@ const CodeGroupRegister = () => {
     dispatch(postCodeGroup({ definition, id }));
   };
 
+  // 확인 모달 열기
+  const openModal = () => {
+    console.log("경고 모달 열기");
+    setCdGrpModal(true);
+  };
+
+  // 확인 모달 종료
+  const closeModal = () => {
+    console.log("경고 모달 닫기");
+    setCdGrpModal(false);
+  };
+  
   return (
     <CRow>
       <CCol sm="12" xl="12">
@@ -107,10 +121,17 @@ const CodeGroupRegister = () => {
                   value={form.definition}
                 />
               </CFormGroup>
-              <CButton onClick={onSubmit} color="success" block>
+              <CButton onClick={openModal} color="success" block>
                 Create CodeGroup
               </CButton>
             </CForm>
+            <ConfirmModal
+              visible={cdGrpModal}
+              title={"확인"}
+              body={"공통 코드 그룹을 생성하시겠습니까?"}
+              onConfirm={onSubmit}
+              onCancel={closeModal}
+            />
           </CCardBody>
         </CCard>
       </CCol>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeField,
@@ -18,6 +18,7 @@ import {
   CCardHeader,
   CLabel
 } from "@coreui/react";
+import { ConfirmModal } from "../notification/modals/Modals";
 
 const ErrorCodeRegister = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const ErrorCodeRegister = () => {
     registerDone: errorCode.registerDone,
     regInitDone: errorCode.regInitDone,
   }));
+  const [errorCodeModal, setErrorCodeModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -75,6 +77,18 @@ const ErrorCodeRegister = () => {
     dispatch(postErrorCode({ id, message }));
   };
 
+  // 확인 모달 열기
+  const openModal = () => {
+    console.log("경고 모달 열기");
+    setErrorCodeModal(true);
+  };
+
+  // 확인 모달 종료
+  const closeModal = () => {
+    console.log("경고 모달 닫기");
+    setErrorCodeModal(false);
+  };
+
   return (
     <CRow>
       <CCol sm="12" xl="12">
@@ -85,7 +99,7 @@ const ErrorCodeRegister = () => {
           </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
-              <CFormGroup className="mb-3">
+              <CFormGroup>
                 <CLabel htmlFor="text-input">ErrorCode</CLabel>
                 <CInput
                   onChange={onChange}
@@ -96,7 +110,7 @@ const ErrorCodeRegister = () => {
                   value={form.id}
                 />
               </CFormGroup>
-              <CFormGroup className="mb-3">
+              <CFormGroup>
                 <CLabel htmlFor="text-input">Error Message</CLabel>
                 <CInput
                   onChange={onChange}
@@ -107,10 +121,17 @@ const ErrorCodeRegister = () => {
                   value={form.message}
                 />
               </CFormGroup>
-              <CButton onClick={onSubmit} color="success" block>
+              <CButton onClick={openModal} color="success" block>
                 Create ErrorCode
               </CButton>
             </CForm>
+            <ConfirmModal
+              visible={errorCodeModal}
+              title={"확인"}
+              body={"에러 코드를 생성하시겠습니까?"}
+              onConfirm={onSubmit}
+              onCancel={closeModal}
+            />
           </CCardBody>
         </CCard>
       </CCol>

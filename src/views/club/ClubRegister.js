@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, postClub, initializeForm } from "../../modules/club/club";
 import { getCodeList, initCodeList } from "../../modules/commonCode/code";
@@ -16,6 +16,7 @@ import {
   CFormGroup,
   CLabel,
 } from "@coreui/react";
+import { ConfirmModal } from "../notification/modals/Modals";
 
 const ClubRegister = () => {
   const history = useHistory();
@@ -30,6 +31,7 @@ const ClubRegister = () => {
     initDone: code.initDone,
     getDone: code.getDone,
   }));
+  const [clubModal, setClubModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -44,9 +46,8 @@ const ClubRegister = () => {
     if (initDone === null) return;
 
     const codeGroupId = "club-category";
-    dispatch(getCodeList({codeGroupId}));
-
-  },[initDone, dispatch]);
+    dispatch(getCodeList({ codeGroupId }));
+  }, [initDone, dispatch]);
 
   // 클럽 성공/실패 처리
   useEffect(() => {
@@ -118,6 +119,18 @@ const ClubRegister = () => {
         title,
       })
     );
+  };
+
+  // 확인 모달 열기
+  const openModal = () => {
+    console.log("경고 모달 열기");
+    setClubModal(true);
+  };
+
+  // 확인 모달 종료
+  const closeModal = () => {
+    console.log("경고 모달 닫기");
+    setClubModal(false);
   };
 
   return (
@@ -229,10 +242,17 @@ const ClubRegister = () => {
                   value={form.privateFlag}
                 />
               </CFormGroup>
-              <CButton onClick={onSubmit} color="success" block>
+              <CButton onClick={openModal} color="success" block>
                 Create Club
               </CButton>
             </CForm>
+            <ConfirmModal
+              visible={clubModal}
+              title={"확인"}
+              body={"클럽을 생성하시겠습니까?"}
+              onConfirm={onSubmit}
+              onCancel={closeModal}
+            />
           </CCardBody>
         </CCard>
       </CCol>
