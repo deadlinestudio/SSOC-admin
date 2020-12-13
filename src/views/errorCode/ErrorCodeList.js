@@ -42,9 +42,8 @@ const ErrorCodeList = () => {
   // 에러코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
   useEffect(() => {
     if (initDone === null) return;
-    console.log("get codegrouplist start");
+    console.log("get codegrouplist");
     dispatch(getErrorCodeList());
-    console.log("get odegrouplist end");
   }, [dispatch, initDone]);
 
   // 에러코드 리스트 가져온 후 렌더링
@@ -61,7 +60,7 @@ const ErrorCodeList = () => {
   return (
     <CRow>
       <CCol sm="12" xl="12">
-        <CCard>
+        <CCard className="mx-4">
           <CCardHeader>
             에러 코드 목록
             <small className="text-muted"> example</small>

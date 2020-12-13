@@ -3,6 +3,7 @@ import { all } from "redux-saga/effects";
 import member, { memberSaga } from "./member/member";
 import club, { clubSaga } from "./club/club";
 import codeGroup, { codeGroupSaga } from "./commonCode/codeGroup";
+import code, {codeSaga} from "./commonCode/code";
 import errorCode, { errorCodeSaga } from "./errorCode/errorCode";
 import cacheReload, {cacheReloadSaga } from "./cacheReload/cacheReload";
 import log, {logSaga} from "./log/log";
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   member,
   club,
   codeGroup,
+  code,
   errorCode,
   cacheReload,
   log,
@@ -21,7 +23,7 @@ const rootReducer = combineReducers({
 });
 
 export function* rootSaga() {
-  yield all([memberSaga(), clubSaga(), codeGroupSaga(), errorCodeSaga(), cacheReloadSaga(), logSaga()]);
+  yield all([memberSaga(), clubSaga(), codeGroupSaga(), codeSaga(), errorCodeSaga(), cacheReloadSaga(), logSaga()]);
 }
 
 export default rootReducer;

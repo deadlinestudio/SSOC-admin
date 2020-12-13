@@ -36,7 +36,7 @@ export default [
     _tag: 'CSidebarNavDropdown',
     name: '회원',
     route: '/membermenu',
-    icon: 'cil-puzzle',
+    icon: 'cil-user',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -49,7 +49,7 @@ export default [
     _tag: 'CSidebarNavDropdown',
     name: '클럽',
     route: '/clubmenu',
-    icon: 'cil-cursor',
+    icon: 'cil-people',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -67,7 +67,7 @@ export default [
     _tag: 'CSidebarNavDropdown',
     name: '공통코드',
     to: '/commoncodemenu',
-    icon: 'cil-chart-pie',
+    icon: 'cil-spreadsheet',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -85,7 +85,7 @@ export default [
     _tag: 'CSidebarNavDropdown',
     name: '에러코드',
     route: '/errorcodemenu',
-    icon: 'cil-star',
+    icon: 'cil-bell',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -106,8 +106,8 @@ export default [
   {
     _tag: 'CSidebarNavDropdown',
     name: '리로드',
-    to: '/cachereloadmenu',
-    icon: 'cil-star',
+    to: '/reloadmenu',
+    icon: 'cil-code',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -124,7 +124,7 @@ export default [
     _tag: 'CSidebarNavDropdown',
     name: '로그',
     to: '/logmenu',
-    icon: 'cil-star',
+    icon: 'cil-comment-square',
     _children: [
       {
         _tag: 'CSidebarNavItem',

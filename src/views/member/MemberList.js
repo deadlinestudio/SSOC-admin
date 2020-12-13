@@ -75,7 +75,7 @@ const MemberList = () => {
   return (
     <CRow>
       <CCol sm="12" xl="12">
-        <CCard>
+        <CCard className="mx-4">
           <CCardHeader>
             회원목록
             <small className="text-muted"> example</small>

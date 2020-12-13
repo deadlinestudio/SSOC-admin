@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeField,
@@ -12,13 +12,13 @@ import {
   CCardBody,
   CForm,
   CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
   CCol,
-  CRow
+  CRow,
+  CCardHeader,
+  CFormGroup,
+  CLabel,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
+import { ConfirmModal } from "../notification/modals/Modals";
 
 const CodeGroupRegister = () => {
   const history = useHistory();
@@ -28,6 +28,7 @@ const CodeGroupRegister = () => {
     registerDone: codeGroup.registerDone,
     regInitDone: codeGroup.regInitDone,
   }));
+  const [cdGrpModal, setCdGrpModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -76,46 +77,61 @@ const CodeGroupRegister = () => {
     dispatch(postCodeGroup({ definition, id }));
   };
 
+  // 확인 모달 열기
+  const openModal = () => {
+    console.log("경고 모달 열기");
+    setCdGrpModal(true);
+  };
+
+  // 확인 모달 종료
+  const closeModal = () => {
+    console.log("경고 모달 닫기");
+    setCdGrpModal(false);
+  };
+  
   return (
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
+          <CCardHeader>
+            <h4>CodeGroup Register</h4>
+            <small>Create your CodeGroup</small>
+          </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
-              <h3>CodeGroup Register</h3>
-              <p className="text-muted">Create your CodeGroup</p>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>
-                    <CIcon name="cil-user" />
-                  </CInputGroupText>
-                </CInputGroupPrepend>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">ID</CLabel>
                 <CInput
                   onChange={onChange}
                   name="id"
                   type="text"
-                  placeholder="id"
+                  placeholder="ID"
                   autoComplete="id"
                   value={form.id}
                 />
-              </CInputGroup>
-              <CInputGroup className="mb-3">
-                <CInputGroupPrepend>
-                  <CInputGroupText>@</CInputGroupText>
-                </CInputGroupPrepend>
+              </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Definition</CLabel>
                 <CInput
                   onChange={onChange}
                   name="definition"
                   type="text"
-                  placeholder="definition"
+                  placeholder="Definition"
                   autoComplete="definition"
                   value={form.definition}
                 />
-              </CInputGroup>
-              <CButton onClick={onSubmit} color="success" block>
+              </CFormGroup>
+              <CButton onClick={openModal} color="success" block>
                 Create CodeGroup
               </CButton>
             </CForm>
+            <ConfirmModal
+              visible={cdGrpModal}
+              title={"확인"}
+              body={"공통 코드 그룹을 생성하시겠습니까?"}
+              onConfirm={onSubmit}
+              onCancel={closeModal}
+            />
           </CCardBody>
         </CCard>
       </CCol>

@@ -38,6 +38,7 @@ const log = handleActions(
     // 초기화
     [INITIALIZE_LOG]: (state) => ({
       ...state,
+      log : null,
       initDone: true,
       getDone: null,
     }),

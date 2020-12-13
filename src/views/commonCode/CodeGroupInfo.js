@@ -110,7 +110,7 @@ const CodeGroupInfo = ({ match }) => {
   return (
     <CRow>
       <CCol sm="12" xl="12">
-        <CCard>
+        <CCard className="mx-4">
           <CCardHeader>CodeGroup ID: {match.params.id}</CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">

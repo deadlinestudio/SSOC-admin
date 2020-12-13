@@ -16,7 +16,7 @@ import {
   CRow,
   CCol,
 } from "@coreui/react";
-import ConfirmModal from "../notification/modals/ConfirmModal";
+import {ConfirmModal} from "../notification/modals/Modals";
 
 const CacheReload = () => {
   const dispatch = useDispatch();
