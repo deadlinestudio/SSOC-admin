@@ -85,9 +85,11 @@ const MemberList = () => {
               items={memberList}
               fields={[
                 { key: "username", _classes: "font-weight-bold" },
-                "signUpDateTime",
                 "email",
                 "birthDay",
+                "gender",
+                "area",
+                "signUpDateTime",
                 "statusCode",
               ]}
               hover
