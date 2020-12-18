@@ -10,6 +10,7 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CButton
 } from "@coreui/react";
 
 import {
@@ -48,6 +49,11 @@ const CodeGroupList = () => {
     currentPage !== newPage &&
       history.push(`/commoncode/codegrouplist?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
+
+  const onButtonClick = ()=>{
+    console.log("등록화면 이동");
+    history.push(`/commoncode/register`);
+  }
 
   // 화면 첫 렌더링
   useEffect(() => {
@@ -114,6 +120,7 @@ const CodeGroupList = () => {
                 ),
               }}
             />
+            <CButton color="success" onClick={onButtonClick}>등록</CButton>
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}

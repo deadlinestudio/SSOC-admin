@@ -1,5 +1,5 @@
 import React from "react";
-import { CCardGroup, CCard, CCol, CRow } from "@coreui/react";
+import { CCardGroup, CCol, CRow } from "@coreui/react";
 
 import MainChartExample from "../charts/MainChartExample.js";
 import ChartPieSexRatio from "../charts/ChartPieSexRatio.js";

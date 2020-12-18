@@ -19,7 +19,10 @@ const CharBarSubscriptionNumber = () => {
           datasets={[
             {
               label: "subscriptions",
-              backgroundColor: "#636f83",
+              backgroundColor: "rgba(65,184,131,0.4)",
+              borderWidth: 1,
+              hoverBackgroundColor: "rgba(65,184,131,0.4)",
+              hoverBorderColor: "rgba(65,184,131,1)",
               data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11],
             },
           ]}
