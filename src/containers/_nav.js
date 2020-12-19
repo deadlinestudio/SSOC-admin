@@ -55,12 +55,7 @@ export default [
         _tag: 'CSidebarNavItem',
         name: '클럽 목록 조회',
         to: '/club/clublist',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: '클럽 등록',
-        to: '/club/register',
-      },
+      }
     ],
   },
   {
@@ -71,14 +66,9 @@ export default [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: '공통 코드 그룹 전체 조회',
+        name: '공통 코드 그룹 목록 조회',
         to: '/commoncode/codegrouplist',
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: '공통 코드 그룹 등록',
-        to: '/commoncode/register',
-      },
+      }
     ],
   },
   {
@@ -89,18 +79,13 @@ export default [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: '에러 코드 전체 조회',
+        name: '에러 코드 목록 조회',
         to: '/errorcode/errorcodelist',
         badge: {
           color: 'success',
           text: 'NEW',
         },
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: '에러 코드 등록',
-        to: '/errorcode/register',
-      },
+      }
     ],
   },
   {
@@ -128,7 +113,7 @@ export default [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: '로그 확인',
+        name: '로그 조회',
         to: '/log',
         badge: {
           color: 'success',

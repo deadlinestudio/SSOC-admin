@@ -10,6 +10,7 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CButton,
 } from "@coreui/react";
 
 import { initClubList, getClubList } from "../../modules/club/club";
@@ -44,6 +45,11 @@ const ClubList = () => {
   const pageChange = (newPage) => {
     currentPage !== newPage && history.push(`/club/clublist?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
+
+  const onButtonClick = ()=>{
+    console.log("등록화면 이동");
+    history.push(`/club/register`);
+  }
 
   // 화면 첫 렌더링
   useEffect(() => {
@@ -110,6 +116,7 @@ const ClubList = () => {
                 ),
               }}
             />
+            <CButton color="success" onClick={onButtonClick}>등록</CButton>
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}

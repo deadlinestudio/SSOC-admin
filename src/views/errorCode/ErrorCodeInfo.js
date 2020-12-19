@@ -153,21 +153,13 @@ const ErrorCodeInfo = ({ match }) => {
                 </tr>
               </tbody>
             </table>
+            <CButton onClick={onRemove} color="danger">
+              삭제
+            </CButton>
+            <CButton onClick={onUpdate} color="info">
+              수정
+            </CButton>
           </CCardBody>
-          <table>
-            <tbody>
-              <tr>
-                <td align="right">
-                  <CButton onClick={onRemove} color="danger">
-                    삭제
-                  </CButton>
-                  <CButton onClick={onUpdate} color="info">
-                    수정
-                  </CButton>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </CCard>
       </CCol>
     </CRow>

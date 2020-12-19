@@ -96,7 +96,7 @@ const Log = () => {
                 <CTextarea
                   name="textarea-input"
                   id="textarea-input"
-                  rows="15"
+                  rows="30"
                   value={logContent}
                 />
               </CCol>

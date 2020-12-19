@@ -19,8 +19,30 @@ const ChartBarMembersByCategory = () => {
           datasets={[
             {
               label: "number of members",
-              backgroundColor: "#3399ff",
-              data: [33, 20, 18, 25, 10, 4, 31, 55, 42, 61, 22, 31,43,18,22,25,15,40],
+              backgroundColor: "rgba(228,102,81,0.4)",
+              borderWidth: 1,
+              hoverBackgroundColor: "rgba(228,102,81,0.4)",
+              hoverBorderColor: "rgba(228,102,81,1)",
+              data: [
+                33,
+                20,
+                18,
+                25,
+                10,
+                4,
+                31,
+                55,
+                42,
+                61,
+                22,
+                31,
+                43,
+                18,
+                22,
+                25,
+                15,
+                40,
+              ],
             },
           ]}
           labels={[

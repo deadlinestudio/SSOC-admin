@@ -9,6 +9,7 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CButton
 } from "@coreui/react";
 
 import {
@@ -32,6 +33,11 @@ const ErrorCodeList = () => {
     currentPage !== newPage &&
       history.push(`/errorcode/errorcodelist?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
+
+  const onButtonClick = ()=>{
+    console.log("등록화면 이동");
+    history.push(`/errorcode/register`);
+  }
 
   // 화면 첫 렌더링
   useEffect(() => {
@@ -83,7 +89,7 @@ const ErrorCodeList = () => {
                 console.log(item);
               }}
             />
-
+            <CButton color="success" onClick={onButtonClick}>등록</CButton>
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
