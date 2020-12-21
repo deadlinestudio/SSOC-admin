@@ -8,66 +8,54 @@ import * as commonCodeAPI from "../../lib/api/commonCode";
 // 코드 리스트 초기화
 const INITIALIZE_CODELIST = "common/INITIALIZE_CODELIST";
 
+// DONE flag 초기화
+const INITIALIZE_DONELIST = "common/INITIALIZE_DONELIST"
+
 // 카테고리 코드 리스트 정보 확인
 const [
-  GET_CATEGORYCODELIST,
-  GET_CATEGORYCODELIST_SUCCESS,
-  GET_CATEGORYCODELIST_FAILURE,
-] = createRequestActionTypes("common/GET_CATEGORYCODELIST");
+  GET_MAINCODELIST,
+  GET_MAINCODELIST_SUCCESS,
+  GET_MAINCODELIST_FAILURE,
+] = createRequestActionTypes("common/GET_MAINCODELIST");
 
 // 서브 카테고리 코드 리스트 정보 확인
 const [
-  GET_DETAILCODELIST,
-  GET_DETAILCODELIST_SUCCESS,
-  GET_DETAILCODELIST_FAILURE,
-] = createRequestActionTypes("common/GET_DETAILCODELIST");
+  GET_SUBCODELIST,
+  GET_SUBCODELIST_SUCCESS,
+  GET_SUBCODELIST_FAILURE,
+] = createRequestActionTypes("common/GET_SUBCODELIST");
 
-// 지역 코드 리스트 정보 확인
-const [
-  GET_AREACODELIST,
-  GET_AREACODELIST_SUCCESS,
-  GET_AREACODELIST_FAILURE,
-] = createRequestActionTypes("common/GET_AREACODELIST");
-
-export const getCategoryCodeList = createAction(
-  GET_CATEGORYCODELIST,
-  ({codeGroupId}) => ({codeGroupId})
+export const getMainCodeList = createAction(
+  GET_MAINCODELIST,
+  ({ codeGroupId }) => ({ codeGroupId })
 );
-export const getDetailCodeList = createAction(
-  GET_DETAILCODELIST,
-  ({codeGroupId, codeId}) => ({codeGroupId, codeId})
-);
-export const getAreaCodeList = createAction(
-  GET_AREACODELIST,
-  ({codeGroupId, codeId}) => ({codeGroupId, codeId})
+export const getSubCodeList = createAction(
+  GET_SUBCODELIST,
+  ({ codeGroupId, codeId }) => ({ codeGroupId, codeId })
 );
 export const initCodeList = createAction(INITIALIZE_CODELIST);
+export const initDoneList = createAction(INITIALIZE_DONELIST);
 
-const getCategoryCodeListSaga = createRequestSaga(
-  GET_CATEGORYCODELIST,
-  commonCodeAPI.getCodeList
+const getMainCodeListSaga = createRequestSaga(
+  GET_MAINCODELIST,
+  commonCodeAPI.getMainCodeList
 );
-const getDetailCodeListSaga = createRequestSaga(
-  GET_DETAILCODELIST,
-  commonCodeAPI.getSubCodeList
-);
-const getAreaCodeListSaga = createRequestSaga(
-  GET_AREACODELIST,
+const getSubCodeListSaga = createRequestSaga(
+  GET_SUBCODELIST,
   commonCodeAPI.getSubCodeList
 );
 
 export function* codeSaga() {
-  yield takeLatest(GET_CATEGORYCODELIST, getCategoryCodeListSaga);
-  yield takeLatest(GET_DETAILCODELIST, getDetailCodeListSaga);
-  yield takeLatest(GET_AREACODELIST, getAreaCodeListSaga);
+  yield takeLatest(GET_MAINCODELIST, getMainCodeListSaga);
+  yield takeLatest(GET_SUBCODELIST, getSubCodeListSaga);
 }
 
 const initialState = {
-  categoryCode: null,
-  detailCode: null,
-  areaCode: null,
+  mainCodeList: null,
+  subCodeList: null,
   initDone: null,
-  getDone: null
+  getMainDone: null,
+  getSubDone: null
 };
 
 const code = handleActions(
@@ -75,44 +63,42 @@ const code = handleActions(
     // 코드 리스트 초기화
     [INITIALIZE_CODELIST]: (state) => ({
       ...state,
-      categoryCode: null,
-      detailCode: null,
-      areaCode: null,
+      mainCodeList: null,
+      subCodeList: null,
       initDone: true,
-      getDone: null
+      getMainDone: null,
+      getSubDone: null
     }),
-    // 카테고리 코드 리스트 조회 성공
-    [GET_CATEGORYCODELIST_SUCCESS]: (state, { payload: List }) => ({
+    // Done 리스트 초기화
+    [INITIALIZE_DONELIST]: (state) => ({
       ...state,
-      categoryCode: List,
-      getDone: true
+      initDone: null,
+      getMainDone: null,
+      getSubDone: null
     }),
-    // 카테고리 코드 리스트 조회 실패
-    [GET_CATEGORYCODELIST_FAILURE]: (state, { payload: error }) => ({
+    // 메인 코드 리스트 조회 성공
+    [GET_MAINCODELIST_SUCCESS]: (state, { payload: List }) => ({
       ...state,
-      getDone: error
+      mainCodeList: List,
+      getMainDone: true,
+      initDone : null
     }),
-    // 서브 카테고리 코드 리스트 조회 성공
-    [GET_DETAILCODELIST_SUCCESS]: (state, { payload: List }) => ({
+    // 메인 코드 리스트 조회 실패
+    [GET_MAINCODELIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      detailCode: List.subCodeList,
-      getDone: true
+      getMainDone: error,
     }),
-    // 서브 카테고리 코드 리스트 조회 실패
-    [GET_DETAILCODELIST_FAILURE]: (state, { payload: error }) => ({
+    // 서브 코드 리스트 조회 성공
+    [GET_SUBCODELIST_SUCCESS]: (state, { payload: List }) => ({
       ...state,
-      getDone: error
+      subCodeList: List.subCodeList,
+      getSubDone: true,
+      initDone : null
     }),
-    // 지역 코드 리스트 조회 성공
-    [GET_AREACODELIST_SUCCESS]: (state, { payload: List }) => ({
+    // 서브 코드 리스트 조회 실패
+    [GET_SUBCODELIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      areaCode: List.subCodeList,
-      getDone: true
-    }),
-    // 지역 코드 리스트 조회 실패
-    [GET_AREACODELIST_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      getDone: error
+      getSubDone: error,
     }),
   },
   initialState

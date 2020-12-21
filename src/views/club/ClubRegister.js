@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, postClub, initializeForm } from "../../modules/club/club";
 import {
-  getAreaCodeList,
-  getCategoryCodeList,
-  getDetailCodeList,
+  getMainCodeList,
+  getSubCodeList,
   initCodeList,
+  initDoneList
 } from "../../modules/commonCode/code";
 import { useHistory } from "react-router-dom";
 import {
@@ -31,16 +31,22 @@ const ClubRegister = () => {
     registerDone: club.registerDone,
     regInitDone: club.regInitDone,
   }));
-  const { categoryCode, detailCode, areaCode, initDone } = useSelector(
-    ({ code }) => ({
-      categoryCode: code.categoryCode,
-      detailCode: code.detailCode,
-      areaCode: code.areaCode,
-      initDone: code.initDone,
-      getDone: code.getDone,
-    })
-  );
+  const {
+    mainCodeList,
+    subCodeList,
+    initDone,
+    getMainDone,
+    getSubDone,
+  } = useSelector(({ code }) => ({
+    mainCodeList: code.mainCodeList,
+    subCodeList: code.subCodeList,
+    initDone: code.initDone,
+  }));
   const [clubModal, setClubModal] = useState(false);
+  const categoryCode = useRef(null);
+  const areaCode = useRef(null);
+  const detailCode = useRef(null);
+  const getAreaCode = useRef(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -54,9 +60,28 @@ const ClubRegister = () => {
   useEffect(() => {
     if (initDone === null) return;
 
-    dispatch(getCategoryCodeList({ codeGroupId: "club-category" }));
-    dispatch(getAreaCodeList({ codeGroupId: "area-code", codeId: "0000" }));
+    dispatch(getMainCodeList({ codeGroupId: "club-category" }));
+    dispatch(getSubCodeList({ codeGroupId: "area-code", codeId: "0000" }));
   }, [initDone, dispatch]);
+
+  // 카테고리 코드 리스트 get 이후
+  useEffect(() => {
+    if (getMainDone === null) return;
+
+    categoryCode.current = mainCodeList;
+  },[getMainDone,categoryCode,mainCodeList,dispatch]);
+
+  // 지역 코드 리스트 get 이후
+  useEffect(() => {
+    if (getSubDone === null) return;
+
+    if(getAreaCode.current === false){
+      areaCode.current = subCodeList;
+    }else{
+      detailCode.current = subCodeList;
+      dispatch(initDoneList());
+    }
+  },[getSubDone,areaCode,subCodeList,dispatch]);
 
   // 카테고리 코드가 선택되었을 때
   useEffect(() => {
@@ -65,11 +90,12 @@ const ClubRegister = () => {
 
     console.log("서브 코드 가져오기");
     dispatch(
-      getDetailCodeList({
+      getSubCodeList({
         codeGroupId: "club-category",
         codeId: form.categoryCode,
       })
     );
+    getAreaCode.current = true;
   }, [regInitDone, form.categoryCode, dispatch]);
 
   // 클럽 등록 성공/실패 처리
@@ -198,9 +224,9 @@ const ClubRegister = () => {
                   autoComplete="categoryCode"
                 >
                   <option value="0">Please select</option>
-                  {categoryCode === null
+                  {categoryCode.current === null
                     ? null
-                    : categoryCode.map((code, i) => (
+                    : categoryCode.current.map((code, i) => (
                         <option key={i} value={code.codeId}>
                           {code.codeDefinition}
                         </option>
@@ -217,9 +243,9 @@ const ClubRegister = () => {
                   autoComplete="detailCategoryCode"
                 >
                   <option>Please Select</option>
-                  {detailCode === null
+                  {detailCode.current === null
                     ? null
-                    : detailCode.map((code, i) => (
+                    : detailCode.current.map((code, i) => (
                         <option key={i} value={code.codeId}>
                           {code.codeDefinition}
                         </option>
@@ -236,9 +262,9 @@ const ClubRegister = () => {
                   autoComplete="areaCode"
                 >
                   <option>Please Select</option>
-                  {areaCode === null
+                  {areaCode.current === null
                     ? null
-                    : areaCode.map((code, i) => (
+                    : areaCode.current.map((code, i) => (
                         <option key={i} value={code.codeId}>
                           {code.codeDefinition}
                         </option>

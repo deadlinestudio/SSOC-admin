@@ -20,8 +20,8 @@ export const putCodeGroup = ({ id, definition }) => {
   return client.put(`api/common/code-group/${id}`, { definition });
 };
 
-// 공통 코드 조회
-export const getCodeList = ({codeGroupId}) => {
+// 메인 코드 조회
+export const getMainCodeList = ({codeGroupId}) => {
   return client.get(`api/common/code/${codeGroupId}?parentOnly=true`);
 };
 
