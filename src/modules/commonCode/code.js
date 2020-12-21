@@ -8,9 +8,6 @@ import * as commonCodeAPI from "../../lib/api/commonCode";
 // 코드 리스트 초기화
 const INITIALIZE_CODELIST = "common/INITIALIZE_CODELIST";
 
-// DONE flag 초기화
-const INITIALIZE_DONELIST = "common/INITIALIZE_DONELIST"
-
 // 카테고리 코드 리스트 정보 확인
 const [
   GET_MAINCODELIST,
@@ -34,7 +31,6 @@ export const getSubCodeList = createAction(
   ({ codeGroupId, codeId }) => ({ codeGroupId, codeId })
 );
 export const initCodeList = createAction(INITIALIZE_CODELIST);
-export const initDoneList = createAction(INITIALIZE_DONELIST);
 
 const getMainCodeListSaga = createRequestSaga(
   GET_MAINCODELIST,
@@ -66,13 +62,6 @@ const code = handleActions(
       mainCodeList: null,
       subCodeList: null,
       initDone: true,
-      getMainDone: null,
-      getSubDone: null
-    }),
-    // Done 리스트 초기화
-    [INITIALIZE_DONELIST]: (state) => ({
-      ...state,
-      initDone: null,
       getMainDone: null,
       getSubDone: null
     }),

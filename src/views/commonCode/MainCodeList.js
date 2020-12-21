@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -11,18 +11,17 @@ import {
   CPagination,
   CButton,
 } from "@coreui/react";
-
 import {
-  getCodeGroupList,
-  initCodeGroupList,
-} from "../../modules/commonCode/codeGroup";
+  getMainCodeList,
+  initCodeList,
+} from "../../modules/commonCode/code";
 
-const CodeGroupList = () => {
+const MainCodeList = ({match}) => {
   const dispatch = useDispatch();
-  const { codeGroupList, initDone, getDone } = useSelector(({ codeGroup }) => ({
-    codeGroupList: codeGroup.codeGroupList,
-    initDone: codeGroup.initDone,
-    getDone: codeGroup.getDone,
+  const { mainCodeList, initDone, getMainDone } = useSelector(({ code }) => ({
+    mainCodeList: code.mainCodeList,
+    initDone: code.initDone,
+    getDone: code.getMainDone,
   }));
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
@@ -32,35 +31,34 @@ const CodeGroupList = () => {
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/commoncode/codegroup/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+      history.push(`/commoncode/maincode/list/${match.params.id}/?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
   const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/commoncode/codegroup/register`);
+    history.push(`/commoncode/maincode/register`);
   };
 
   // 화면 첫 렌더링
   useEffect(() => {
     console.log("user first rendering");
-    detail.current = false;
-    dispatch(initCodeGroupList());
+    dispatch(initCodeList());
   }, [dispatch]);
 
   // 코드그룹 리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
   useEffect(() => {
     if (initDone === null) return;
-    console.log("get codegrouplist");
-    dispatch(getCodeGroupList());
-  }, [dispatch, initDone]);
+    console.log("get maincode list");
+    dispatch(getMainCodeList({ codeGroupId: match.params.id }));
+  }, [dispatch, initDone, match.params.id]);
 
   // 코드그룹 리스트 가져온 후 렌더링
   useEffect(() => {
-    if (getDone !== true) return;
+    if (getMainDone !== true) return;
 
-    console.log("get codegrouplist success");
-    console.log("getDone : ", getDone);
-  }, [getDone]);
+    console.log("get maincode list success");
+    console.log("getDone : ", getMainDone);
+  }, [getMainDone]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -71,15 +69,15 @@ const CodeGroupList = () => {
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>
-            공통 코드 그룹 목록
-            <small className="text-muted"> example</small>
+            메인 코드 목록
+            <small className="text-muted"> {match.params.id}</small>
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={codeGroupList}
+              items={mainCodeList}
               fields={[
-                { key: "codeGroupId", _classes: "font-weight-bold" },
-                { key: "codeGroupDefinition" },
+                { key: "codeDefinition", _classes: "font-weight-bold" },
+                { key: "codeId" },
                 { key: "createDateTime" },
                 { key: "updateDateTime" },
                 {
@@ -95,14 +93,8 @@ const CodeGroupList = () => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                if (detail.current === false) {
-                  history.push(
-                    `/commoncode/codegroup/info/${item.codeGroupId}`
-                  );
+                  history.push(`/commoncode/maincode/info/${item.codeGroupId}`);
                   console.log(item);
-                } else {
-                  console.log("상세코드 버튼 눌름");
-                }
               }}
               scopedSlots={{
                 show_details: (item, i) => {
@@ -118,7 +110,7 @@ const CodeGroupList = () => {
                           );
                         }}
                       >
-                        메인코드
+                        서브코드
                       </CButton>
                     </td>
                   );
@@ -142,7 +134,7 @@ const CodeGroupList = () => {
   );
 };
 
-export default CodeGroupList;
+export default MainCodeList;
 
 /*
 useHistory : location객체에 접근할 수 있게 해주는 hook입니다.

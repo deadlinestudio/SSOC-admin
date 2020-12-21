@@ -8,6 +8,12 @@ const ClubRegister = React.lazy(()=>import('./views/club/ClubRegister'));
 const CodeGroupList = React.lazy(()=> import('./views/commonCode/CodeGroupList'));
 const CodeGroupInfo = React.lazy(()=> import('./views/commonCode/CodeGroupInfo'));
 const CodeGroupRegister = React.lazy(()=>import('./views/commonCode/CodeGroupRegister'));
+const MainCodeList = React.lazy(()=> import('./views/commonCode/MainCodeList'));
+const MainCodeInfo = React.lazy(()=> import('./views/commonCode/MainCodeInfo'));
+const MainCodeRegister = React.lazy(()=>import('./views/commonCode/MainCodeRegister'));
+const SubCodeList = React.lazy(()=> import('./views/commonCode/SubCodeList'));
+const SubCodeInfo = React.lazy(()=> import('./views/commonCode/SubCodeInfo'));
+const SubCodeRegister = React.lazy(()=>import('./views/commonCode/SubCodeRegister'));
 const ErrorCodeList = React.lazy(()=> import('./views/errorCode/ErrorCodeList'));
 const ErrorCodeInfo = React.lazy(()=> import('./views/errorCode/ErrorCodeInfo'));
 const ErrorCodeRegister = React.lazy(() => import('./views/errorCode/ErrorCodeRegister'));
@@ -27,9 +33,12 @@ const routes = [
   { path: '/commoncode/codegroup/info/:id', name: 'CodeGroupInfo', component: CodeGroupInfo },
   { path: '/commoncode/codegroup/register', name: 'CodeGroupRegister', component: CodeGroupRegister }, 
   { path: '/errorcode/list', name: 'ErrorCodeList', component: ErrorCodeList },
-  { path: '/commoncode/subcode/list/:id', name: 'CodeGroupList', component: CodeGroupList },
-  { path: '/commoncode/subcode/info/:id', name: 'CodeGroupInfo', component: CodeGroupInfo },
-  { path: '/commoncode/subcode/register', name: 'CodeGroupRegister', component: CodeGroupRegister }, 
+  { path: '/commoncode/maincode/list/:id', name: 'MainCodeList', component: MainCodeList },
+  { path: '/commoncode/maincode/info/:id', name: 'MainCodeInfo', component: MainCodeInfo },
+  { path: '/commoncode/maincode/register', name: 'MainCodeRegister', component: MainCodeRegister }, 
+  { path: '/commoncode/subcode/list/:id', name: 'SubCodeList', component: SubCodeList },
+  { path: '/commoncode/subcode/info/:id', name: 'SubCodeInfo', component: SubCodeInfo },
+  { path: '/commoncode/subcode/register', name: 'SubCodeRegister', component: SubCodeRegister }, 
   { path: '/errorcode/list', name: 'ErrorCodeList', component: ErrorCodeList },
   { path: '/errorcode/info/:id', name: 'ErrorCodeInfo', component: ErrorCodeInfo },
   { path: '/errorcode/register', name: 'ErrorCodeRegister', component: ErrorCodeRegister },

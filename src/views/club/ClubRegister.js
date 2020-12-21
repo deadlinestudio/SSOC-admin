@@ -79,7 +79,6 @@ const ClubRegister = () => {
       setAreaCode(subCodeList);
     }else{
       setDetailCode(subCodeList);
-      dispatch(initDoneList());
     }
   },[getSubDone,getCode,subCodeList,dispatch]);
 
