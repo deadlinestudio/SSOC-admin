@@ -80,7 +80,7 @@ const ClubRegister = () => {
       console.log(registerDone);
       console.log("클럽 등록 성공!");
       dispatch(initializeForm("register"));
-      history.push(`/club/clublist`);
+      history.push(`/club/list`);
     } else if (registerDone !== true && registerDone !== null) {
       console.log(registerDone);
       console.log("클럽 등록 실패!");

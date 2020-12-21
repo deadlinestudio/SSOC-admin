@@ -22,7 +22,7 @@ export const putCodeGroup = ({ id, definition }) => {
 
 // 공통 코드 조회
 export const getCodeList = ({codeGroupId}) => {
-  return client.get(`api/common/code?codeGroupId=${codeGroupId}`);
+  return client.get(`api/common/code/${codeGroupId}?parentOnly=true`);
 };
 
 // 서브 코드 조회

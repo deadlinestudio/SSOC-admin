@@ -135,7 +135,7 @@ const ClubInfo = ({ match }) => {
 
     if (deleteDone === true) {
       console.log("클럽 삭제 성공!");
-      history.push(`/club/clublist`);
+      history.push(`/club/list`);
     } else if (deleteDone !== null && deleteDone !== true)
       console.log("클럽 삭제 실패!");
   }, [deleteDone, history]);
@@ -146,7 +146,7 @@ const ClubInfo = ({ match }) => {
 
     if (updateDone === true) {
       console.log("클럽 수정 성공!");
-      history.push(`/club/clublist`);
+      history.push(`/club/list`);
     } else if (updateDone !== null && updateDone !== true)
       console.log("클럽 수정 실패!");
   }, [updateDone, history]);
