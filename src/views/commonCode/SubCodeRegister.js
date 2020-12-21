@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeField,
-  postErrorCode,
+  postCodeGroup,
   initializeForm,
-} from "../../modules/errorCode/errorCode";
+} from "../../modules/commonCode/codeGroup";
 import { useHistory } from "react-router-dom";
 import {
   CButton,
@@ -12,42 +12,43 @@ import {
   CCardBody,
   CForm,
   CInput,
-  CRow,
   CCol,
-  CFormGroup,
+  CRow,
   CCardHeader,
-  CLabel
+  CFormGroup,
+  CLabel,
 } from "@coreui/react";
 import { ConfirmModal } from "../notification/modals/Modals";
 
-const ErrorCodeRegister = () => {
-  const dispatch = useDispatch();
+const SubCodeRegister = () => {
   const history = useHistory();
-  const { form, registerDone, regInitDone } = useSelector(({ errorCode }) => ({
-    form: errorCode.register,
-    registerDone: errorCode.registerDone,
-    regInitDone: errorCode.regInitDone,
+  const dispatch = useDispatch();
+  const { form, registerDone, regInitDone } = useSelector(({ codeGroup }) => ({
+    form: codeGroup.register,
+    registerDone: codeGroup.registerDone,
+    regInitDone: codeGroup.regInitDone,
   }));
-  const [errorCodeModal, setErrorCodeModal] = useState(false);
+  const [cdGrpModal, setCdGrpModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
-    console.log("에러코드 인풋필드 초기화");
+    console.log("공통코드 인풋필드 초기화");
     dispatch(initializeForm("register"));
   }, [dispatch]);
 
-  // 에러코드 성공/실패 처리
+  // 서브코드 등록 성공/실패 처리
   useEffect(() => {
     if (regInitDone === null) return;
 
     if (registerDone === true) {
       console.log(registerDone);
-      console.log("에러코드 등록 성공!");
+      console.log("코드그룹 등록 성공!");
+
       dispatch(initializeForm("register"));
-      history.push(`/errorCode/list`);
+      history.push(`/commoncode/codegroup/list`);
     } else if (registerDone !== true && registerDone !== null) {
       console.log(registerDone);
-      console.log("에러코드 등록 실패!");
+      console.log("코드그룹 등록 실패!");
     }
   }, [registerDone, regInitDone, dispatch, history]);
 
@@ -67,68 +68,68 @@ const ErrorCodeRegister = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const { id, message } = form;
+    const { definition, id } = form;
     // 하나라도 비어있다면
-    if ([id, message].includes("")) {
+    if ([definition, id].includes("")) {
       console.log("빈 칸을 모두 입력하세요");
       return;
     }
 
-    dispatch(postErrorCode({ id, message }));
+    dispatch(postCodeGroup({ definition, id }));
   };
 
   // 확인 모달 열기
   const openModal = () => {
     console.log("경고 모달 열기");
-    setErrorCodeModal(true);
+    setCdGrpModal(true);
   };
 
   // 확인 모달 종료
   const closeModal = () => {
     console.log("경고 모달 닫기");
-    setErrorCodeModal(false);
+    setCdGrpModal(false);
   };
-
+  
   return (
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>
-            <h4>ErrorCode Register</h4>
-            <small>Create your ErrorCode</small>
+            <h4>CodeGroup Register</h4>
+            <small>Create your CodeGroup</small>
           </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
               <CFormGroup>
-                <CLabel htmlFor="text-input">ErrorCode</CLabel>
+                <CLabel htmlFor="text-input">ID</CLabel>
                 <CInput
                   onChange={onChange}
                   name="id"
                   type="text"
-                  placeholder="ErrorCode"
-                  autoComplete="errorCode"
+                  placeholder="ID"
+                  autoComplete="id"
                   value={form.id}
                 />
               </CFormGroup>
               <CFormGroup>
-                <CLabel htmlFor="text-input">Error Message</CLabel>
+                <CLabel htmlFor="text-input">Definition</CLabel>
                 <CInput
                   onChange={onChange}
-                  name="message"
+                  name="definition"
                   type="text"
-                  placeholder="Error Message"
-                  autoComplete="errorMessage"
-                  value={form.message}
+                  placeholder="Definition"
+                  autoComplete="definition"
+                  value={form.definition}
                 />
               </CFormGroup>
               <CButton onClick={openModal} color="success" block>
-                Create ErrorCode
+                Create CodeGroup
               </CButton>
             </CForm>
             <ConfirmModal
-              visible={errorCodeModal}
+              visible={cdGrpModal}
               title={"확인"}
-              body={"에러 코드를 생성하시겠습니까?"}
+              body={"공통 코드 그룹을 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
             />
@@ -139,4 +140,4 @@ const ErrorCodeRegister = () => {
   );
 };
 
-export default ErrorCodeRegister;
+export default SubCodeRegister;

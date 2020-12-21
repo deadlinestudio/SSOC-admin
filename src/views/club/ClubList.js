@@ -43,7 +43,7 @@ const ClubList = () => {
   const [page, setPage] = useState(currentPage);
 
   const pageChange = (newPage) => {
-    currentPage !== newPage && history.push(`/club/clublist?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+    currentPage !== newPage && history.push(`/club/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
   const onButtonClick = ()=>{
@@ -99,7 +99,7 @@ const ClubList = () => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                history.push(`/club/clubinfo/${item.id}`);
+                history.push(`/club/info/${item.id}`);
                 console.log(item);
               }}
               scopedSlots={{

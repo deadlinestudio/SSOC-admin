@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -9,20 +9,20 @@ import {
   CDataTable,
   CRow,
   CPagination,
-  CButton
+  CButton,
 } from "@coreui/react";
 
 import {
-  getErrorCodeList,
-  initErrorCodeList,
-} from "../../modules/errorCode/errorCode";
+  getCodeGroupList,
+  initCodeGroupList,
+} from "../../modules/commonCode/codeGroup";
 
-const ErrorCodeList = () => {
+const SubCodeList = ({match}) => {
   const dispatch = useDispatch();
-  const { errorCodeList, initDone, getDone } = useSelector(({ errorCode }) => ({
-    errorCodeList: errorCode.errorCodeList,
-    initDone: errorCode.initDone,
-    getDone: errorCode.getDone,
+  const { codeGroupList, initDone, getDone } = useSelector(({ codeGroup }) => ({
+    codeGroupList: codeGroup.codeGroupList,
+    initDone: codeGroup.initDone,
+    getDone: codeGroup.getDone,
   }));
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
@@ -31,31 +31,32 @@ const ErrorCodeList = () => {
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/errorcode/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+      history.push(`/commoncode/subcode/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
-  const onButtonClick = ()=>{
+  const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/errorcode/register`);
-  }
+    history.push(`/commoncode/register`);
+  };
 
   // 화면 첫 렌더링
   useEffect(() => {
     console.log("user first rendering");
-    dispatch(initErrorCodeList());
+    dispatch(initCodeGroupList());
   }, [dispatch]);
 
-  // 에러코드 목록 초기화 이후 렌더링 = 에러코드 dispatch
+  // 코드그룹 리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
   useEffect(() => {
     if (initDone === null) return;
     console.log("get codegrouplist");
-    dispatch(getErrorCodeList());
+    dispatch(getCodeGroupList());
   }, [dispatch, initDone]);
 
-  // 에러코드 리스트 가져온 후 렌더링
+  // 코드그룹 리스트 가져온 후 렌더링
   useEffect(() => {
     if (getDone !== true) return;
-    console.log("get errorcodelist success");
+
+    console.log("get codegrouplist success");
     console.log("getDone : ", getDone);
   }, [getDone]);
 
@@ -68,15 +69,23 @@ const ErrorCodeList = () => {
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>
-            에러 코드 목록
+            서브 코드 목록
             <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={errorCodeList}
+              items={codeGroupList}
               fields={[
-                { key: "errorCode", _classes: "font-weight-bold" },
-                "errorMessage",
+                { key: "codeGroupId", _classes: "font-weight-bold" },
+                { key: "codeGroupDefinition" },
+                { key: "createDateTime" },
+                { key: "updateDateTime" },
+                {
+                  key: "show_details",
+                  label: "",
+                  sorter: false,
+                  filter: false,
+                },
               ]}
               hover
               striped
@@ -84,12 +93,13 @@ const ErrorCodeList = () => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                // (item, key) 를 넣고 key로 넘길 수 있음
-                history.push(`/errorcode/info/${item.errorCode}`);
-                console.log(item);
+                  history.push(`/commoncode/codegroup/info/${item.codeGroupId}`);
+                  console.log(item);
               }}
             />
-            <CButton color="success" onClick={onButtonClick}>등록</CButton>
+            <CButton color="success" onClick={onButtonClick}>
+              등록
+            </CButton>
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
@@ -104,9 +114,15 @@ const ErrorCodeList = () => {
   );
 };
 
-export default ErrorCodeList;
+export default SubCodeList;
 
 /*
 useHistory : location객체에 접근할 수 있게 해주는 hook입니다.
 useLocation : location객체에 접근할 수 있게 해주는 hook입니다. 
+*/
+
+/*
+useState와 useRef 모두 상태관리를 위해 사용할 수 있습니다. 
+다만 useState의 경우 state변화 후에 re-rendering을 진행하는 반면 useRef는 진행하지 않습니다. 
+이러한 특성에 맞추어 렌더링이 필요한 state의 경우에는 useState를 사용하며 그렇지 않은 경우 useRef를 사용하는 것이 좋습니다.
 */

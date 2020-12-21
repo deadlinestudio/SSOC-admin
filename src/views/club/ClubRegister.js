@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, postClub, initializeForm } from "../../modules/club/club";
-import { getCodeList, initCodeList } from "../../modules/commonCode/code";
+import {
+  getAreaCodeList,
+  getCategoryCodeList,
+  getDetailCodeList,
+  initCodeList,
+} from "../../modules/commonCode/code";
 import { useHistory } from "react-router-dom";
 import {
   CButton,
@@ -26,11 +31,15 @@ const ClubRegister = () => {
     registerDone: club.registerDone,
     regInitDone: club.regInitDone,
   }));
-  const { codeList, initDone, getDone } = useSelector(({ code }) => ({
-    codeList: code.codeList,
-    initDone: code.initDone,
-    getDone: code.getDone,
-  }));
+  const { categoryCode, detailCode, areaCode, initDone } = useSelector(
+    ({ code }) => ({
+      categoryCode: code.categoryCode,
+      detailCode: code.detailCode,
+      areaCode: code.areaCode,
+      initDone: code.initDone,
+      getDone: code.getDone,
+    })
+  );
   const [clubModal, setClubModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
@@ -45,11 +54,25 @@ const ClubRegister = () => {
   useEffect(() => {
     if (initDone === null) return;
 
-    const codeGroupId = "club-category";
-    dispatch(getCodeList({ codeGroupId }));
+    dispatch(getCategoryCodeList({ codeGroupId: "club-category" }));
+    dispatch(getAreaCodeList({ codeGroupId: "area-code", codeId: "0000" }));
   }, [initDone, dispatch]);
 
-  // 클럽 성공/실패 처리
+  // 카테고리 코드가 선택되었을 때
+  useEffect(() => {
+    if (regInitDone === null) return;
+    if (form.categoryCode === "") return;
+
+    console.log("서브 코드 가져오기");
+    dispatch(
+      getDetailCodeList({
+        codeGroupId: "club-category",
+        codeId: form.categoryCode,
+      })
+    );
+  }, [regInitDone, form.categoryCode, dispatch]);
+
+  // 클럽 등록 성공/실패 처리
   useEffect(() => {
     if (regInitDone === null) return;
 
@@ -57,7 +80,7 @@ const ClubRegister = () => {
       console.log(registerDone);
       console.log("클럽 등록 성공!");
       dispatch(initializeForm("register"));
-      history.push(`/club/clublist`);
+      history.push(`/club/list`);
     } else if (registerDone !== true && registerDone !== null) {
       console.log(registerDone);
       console.log("클럽 등록 실패!");
@@ -175,39 +198,52 @@ const ClubRegister = () => {
                   autoComplete="categoryCode"
                 >
                   <option value="0">Please select</option>
-                  <option>0000</option>
-                  <option>0001</option>
-                  <option>0002</option>
-                  <option>0003</option>
-                  <option>2021</option>
-                  <option>2022</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                  <option>2026</option>
+                  {categoryCode === null
+                    ? null
+                    : categoryCode.map((code, i) => (
+                        <option key={i} value={code.codeId}>
+                          {code.codeDefinition}
+                        </option>
+                      ))}
                 </CSelect>
               </CFormGroup>
               <CFormGroup>
                 <CLabel htmlFor="text-input">Detail Category Code</CLabel>
-                <CInput
+                <CSelect
                   onChange={onChange}
                   name="detailCategoryCode"
                   type="text"
                   placeholder="Detail Category Code"
                   autoComplete="detailCategoryCode"
-                  value={form.detailCategoryCode}
-                />
+                >
+                  <option>Please Select</option>
+                  {detailCode === null
+                    ? null
+                    : detailCode.map((code, i) => (
+                        <option key={i} value={code.codeId}>
+                          {code.codeDefinition}
+                        </option>
+                      ))}
+                </CSelect>
               </CFormGroup>
               <CFormGroup>
                 <CLabel htmlFor="text-input">Area Code</CLabel>
-                <CInput
+                <CSelect
                   onChange={onChange}
                   name="areaCode"
                   type="text"
                   placeholder="Area Code"
                   autoComplete="areaCode"
-                  value={form.areaCode}
-                />
+                >
+                  <option>Please Select</option>
+                  {areaCode === null
+                    ? null
+                    : areaCode.map((code, i) => (
+                        <option key={i} value={code.codeId}>
+                          {code.codeDefinition}
+                        </option>
+                      ))}
+                </CSelect>
               </CFormGroup>
               <CFormGroup>
                 <CLabel htmlFor="text-input">Owner Member Id</CLabel>

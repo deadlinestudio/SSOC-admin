@@ -41,7 +41,7 @@ export default [
       {
         _tag: 'CSidebarNavItem',
         name: '회원 목록 조회',
-        to: '/member/memberlist',
+        to: '/member/list',
       },
     ],
   },
@@ -54,7 +54,7 @@ export default [
       {
         _tag: 'CSidebarNavItem',
         name: '클럽 목록 조회',
-        to: '/club/clublist',
+        to: '/club/list',
       }
     ],
   },
@@ -67,7 +67,7 @@ export default [
       {
         _tag: 'CSidebarNavItem',
         name: '공통 코드 그룹 목록 조회',
-        to: '/commoncode/codegrouplist',
+        to: '/commoncode/codegroup/list',
       }
     ],
   },
@@ -80,7 +80,7 @@ export default [
       {
         _tag: 'CSidebarNavItem',
         name: '에러 코드 목록 조회',
-        to: '/errorcode/errorcodelist',
+        to: '/errorcode/list',
         badge: {
           color: 'success',
           text: 'NEW',

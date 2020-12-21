@@ -17,7 +17,7 @@ import {
   CRow,
 } from "@coreui/react";
 
-const CodeGroupInfo = ({ match }) => {
+const SubCodeInfo = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { form, codeGroupList, deleteDone, updateDone } = useSelector(
@@ -179,7 +179,7 @@ const CodeGroupInfo = ({ match }) => {
   );
 };
 
-export default CodeGroupInfo;
+export default SubCodeInfo;
 
 // table 태그를 쓸 때 유의할 점
 // 브라우저에는 tbody태그가 필요합니다.

@@ -90,7 +90,7 @@ const ErrorCodeInfo = ({ match }) => {
 
     if (deleteDone === true) {
       console.log("에러코드 삭제 성공!");
-      history.push(`/errorCode/errorcodelist`);
+      history.push(`/errorCode/list`);
     } else if (deleteDone !== null && deleteDone !== true)
       console.log("에러코드 삭제 실패!");
   }, [deleteDone, history]);
@@ -101,7 +101,7 @@ const ErrorCodeInfo = ({ match }) => {
 
     if (updateDone === true) {
       console.log("에러코드 수정 성공!");
-      history.push(`/errorCode/errorcodelist`);
+      history.push(`/errorCode/list`);
     } else if (updateDone !== null && updateDone !== true)
       console.log("에러코드 수정 실패!");
   }, [updateDone, history]);

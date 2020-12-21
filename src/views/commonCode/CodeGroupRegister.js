@@ -36,7 +36,7 @@ const CodeGroupRegister = () => {
     dispatch(initializeForm("register"));
   }, [dispatch]);
 
-  // 에러코드 성공/실패 처리
+  // 코드그룹 등록 성공/실패 처리
   useEffect(() => {
     if (regInitDone === null) return;
 
@@ -44,7 +44,7 @@ const CodeGroupRegister = () => {
       console.log(registerDone);
       console.log("코드그룹 등록 성공!");
       dispatch(initializeForm("register"));
-      history.push(`/commoncode/codegrouplist`);
+      history.push(`/commoncode/codegroup/list`);
     } else if (registerDone !== true && registerDone !== null) {
       console.log(registerDone);
       console.log("코드그룹 등록 실패!");
