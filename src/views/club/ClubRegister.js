@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, postClub, initializeForm } from "../../modules/club/club";
 import {
@@ -43,10 +43,10 @@ const ClubRegister = () => {
     initDone: code.initDone,
   }));
   const [clubModal, setClubModal] = useState(false);
-  const categoryCode = useRef(null);
-  const areaCode = useRef(null);
-  const detailCode = useRef(null);
-  const getAreaCode = useRef(false);
+  const [categoryCode,setCategoryCode] = useState(null);
+  const [areaCode, setAreaCode] = useState(null);
+  const [detailCode, setDetailCode] = useState(null);
+  const [getCode, setGetCode] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -68,20 +68,20 @@ const ClubRegister = () => {
   useEffect(() => {
     if (getMainDone === null) return;
 
-    categoryCode.current = mainCodeList;
+    setCategoryCode(mainCodeList);
   },[getMainDone,categoryCode,mainCodeList,dispatch]);
 
   // 지역 코드 리스트 get 이후
   useEffect(() => {
     if (getSubDone === null) return;
 
-    if(getAreaCode.current === false){
-      areaCode.current = subCodeList;
+    if(getCode === false){
+      setAreaCode(subCodeList);
     }else{
-      detailCode.current = subCodeList;
+      setDetailCode(subCodeList);
       dispatch(initDoneList());
     }
-  },[getSubDone,areaCode,subCodeList,dispatch]);
+  },[getSubDone,getCode,subCodeList,dispatch]);
 
   // 카테고리 코드가 선택되었을 때
   useEffect(() => {
@@ -95,7 +95,7 @@ const ClubRegister = () => {
         codeId: form.categoryCode,
       })
     );
-    getAreaCode.current = true;
+    setGetCode(true);
   }, [regInitDone, form.categoryCode, dispatch]);
 
   // 클럽 등록 성공/실패 처리
@@ -224,9 +224,9 @@ const ClubRegister = () => {
                   autoComplete="categoryCode"
                 >
                   <option value="0">Please select</option>
-                  {categoryCode.current === null
+                  {categoryCode === null
                     ? null
-                    : categoryCode.current.map((code, i) => (
+                    : categoryCode.map((code, i) => (
                         <option key={i} value={code.codeId}>
                           {code.codeDefinition}
                         </option>
@@ -243,9 +243,9 @@ const ClubRegister = () => {
                   autoComplete="detailCategoryCode"
                 >
                   <option>Please Select</option>
-                  {detailCode.current === null
+                  {detailCode === null
                     ? null
-                    : detailCode.current.map((code, i) => (
+                    : detailCode.map((code, i) => (
                         <option key={i} value={code.codeId}>
                           {code.codeDefinition}
                         </option>
@@ -262,9 +262,9 @@ const ClubRegister = () => {
                   autoComplete="areaCode"
                 >
                   <option>Please Select</option>
-                  {areaCode.current === null
+                  {areaCode === null
                     ? null
-                    : areaCode.current.map((code, i) => (
+                    : areaCode.map((code, i) => (
                         <option key={i} value={code.codeId}>
                           {code.codeDefinition}
                         </option>
