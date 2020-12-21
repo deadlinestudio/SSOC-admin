@@ -58,6 +58,20 @@ const ClubRegister = () => {
     dispatch(getAreaCodeList({ codeGroupId: "area-code", codeId: "0000" }));
   }, [initDone, dispatch]);
 
+  // 카테고리 코드가 선택되었을 때
+  useEffect(() => {
+    if (regInitDone === null) return;
+    if (form.categoryCode === "") return;
+
+    console.log("서브 코드 가져오기");
+    dispatch(
+      getDetailCodeList({
+        codeGroupId: "club-category",
+        codeId: form.categoryCode,
+      })
+    );
+  }, [regInitDone, form.categoryCode, dispatch]);
+
   // 클럽 등록 성공/실패 처리
   useEffect(() => {
     if (regInitDone === null) return;
@@ -142,28 +156,6 @@ const ClubRegister = () => {
     setClubModal(false);
   };
 
-  const AreaCode = () => {
-    if (areaCode === null) return null;
-
-    console.log("areaCode : ", areaCode);
-    const codeList = areaCode.map((code, i) => (
-      <option key={i} value={code.codeId}>
-        {code.codeDefinition}
-      </option>
-    ));
-    return codeList;
-  };
-
-  const CategoryCode = () => {
-    if (categoryCode === null) return null;
-
-    console.log("categoryCode : ", categoryCode);
-    const codeList = categoryCode.map((code, i) => (
-      <option value={code.codeId}>{code.codeDefinition}</option>
-    ));
-    return codeList;
-  };
-
   return (
     <CRow>
       <CCol sm="12" xl="12">
@@ -217,14 +209,22 @@ const ClubRegister = () => {
               </CFormGroup>
               <CFormGroup>
                 <CLabel htmlFor="text-input">Detail Category Code</CLabel>
-                <CInput
+                <CSelect
                   onChange={onChange}
                   name="detailCategoryCode"
                   type="text"
                   placeholder="Detail Category Code"
                   autoComplete="detailCategoryCode"
-                  value={form.detailCategoryCode}
-                />
+                >
+                  <option>Please Select</option>
+                  {detailCode === null
+                    ? null
+                    : detailCode.map((code, i) => (
+                        <option key={i} value={code.codeId}>
+                          {code.codeDefinition}
+                        </option>
+                      ))}
+                </CSelect>
               </CFormGroup>
               <CFormGroup>
                 <CLabel htmlFor="text-input">Area Code</CLabel>
