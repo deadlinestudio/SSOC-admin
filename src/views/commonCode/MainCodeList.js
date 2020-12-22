@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -11,56 +11,55 @@ import {
   CPagination,
   CButton,
 } from "@coreui/react";
+import {
+  getMainCodeList,
+  initCodeList,
+} from "../../modules/commonCode/code";
 
-import { getSubCodeList, initCodeList } from "../../modules/commonCode/code";
-
-const SubCodeList = ({ match }) => {
+const MainCodeList = ({match}) => {
   const dispatch = useDispatch();
-  const { subCodeList, initDone, getSubDone } = useSelector(({ code }) => ({
-    subCodeList: code.subCodeList,
+  const { mainCodeList, initDone, getMainDone } = useSelector(({ code }) => ({
+    mainCodeList: code.mainCodeList,
     initDone: code.initDone,
-    getSubDone: code.getSubDone,
+    getDone: code.getMainDone,
   }));
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
+  const detail = useRef(false);
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/commoncode/subcode/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+      history.push(`/commoncode/maincode/list/${match.params.codeGroupId}/?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
   const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/commoncode/subcode/register/${match.params.codeGroupId}/${match.params.codeId}`);
+    history.push(`/commoncode/maincode/register/${match.params.codeGroupId}`);
   };
 
   // 화면 첫 렌더링
   useEffect(() => {
     console.log("user first rendering");
+    detail.current = false;
     dispatch(initCodeList());
   }, [dispatch]);
 
-  // 코드 리스트 초기화 이후 렌더링 = 서브코드 리스트 dispatch
+  // 코드 리스트 초기화 이후 렌더링 = 메인코드 리스트 dispatch
   useEffect(() => {
     if (initDone === null) return;
-    console.log("get subcode list");
-    dispatch(
-      getSubCodeList({
-        codeGroupId: match.params.codeGroupId,
-        codeId: match.params.codeId,
-      })
-    );
-  }, [dispatch, initDone, match.params.codeGroupId, match.params.codeId]);
+    console.log("get maincode list");
+    dispatch(getMainCodeList({ codeGroupId: match.params.codeGroupId }));
+  }, [dispatch, initDone, match.params.codeGroupId]);
 
-  // 서브코드 리스트 가져온 후 렌더링
+  // 메인코드 리스트 가져온 후 렌더링
   useEffect(() => {
-    if (getSubDone !== true) return;
+    if (getMainDone !== true) return;
 
-    console.log("get subcode list success");
-    console.log("getDone : ", getSubDone);
-  }, [getSubDone]);
+    console.log("get maincode list success");
+    console.log("getDone : ", getMainDone);
+  }, [getMainDone]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -71,17 +70,23 @@ const SubCodeList = ({ match }) => {
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>
-            서브 코드 목록
-            <small className="text-muted"> example</small>
+            메인 코드 목록
+            <small className="text-muted"> {match.params.codeGroupId}</small>
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={subCodeList}
+              items={mainCodeList}
               fields={[
                 { key: "codeDefinition", _classes: "font-weight-bold" },
                 { key: "codeId" },
                 { key: "createDateTime" },
                 { key: "updateDateTime" },
+                {
+                  key: "show_details",
+                  label: "",
+                  sorter: false,
+                  filter: false,
+                },
               ]}
               hover
               striped
@@ -89,8 +94,33 @@ const SubCodeList = ({ match }) => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                history.push(`/commoncode/codegroup/info/${item.codeGroupId}`);
-                console.log(item);
+                if (detail.current === false) {
+                  history.push(`/commoncode/maincode/info/${item.codeGroupId}/${item.codeId}`);
+                  console.log(item);
+                } else {
+                  console.log("상세코드 버튼 눌름");
+                }
+                  
+              }}
+              scopedSlots={{
+                show_details: (item, i) => {
+                  return (
+                    <td>
+                      <CButton
+                        size="sm"
+                        color="primary"
+                        onClick={() => {
+                          detail.current = true;
+                          history.push(
+                            `/commoncode/subcode/list/${item.codeGroupId}/${item.codeId}`
+                          );
+                        }}
+                      >
+                        서브코드
+                      </CButton>
+                    </td>
+                  );
+                },
               }}
             />
             <CButton color="success" onClick={onButtonClick}>
@@ -110,7 +140,7 @@ const SubCodeList = ({ match }) => {
   );
 };
 
-export default SubCodeList;
+export default MainCodeList;
 
 /*
 useHistory : location객체에 접근할 수 있게 해주는 hook입니다.

@@ -74,7 +74,10 @@ const deleteCodeGroupSaga = createRequestSaga(
   DELETE_CODEGROUP,
   commonCodeAPI.deleteCodeGroup
 );
-const putCodeGroupSaga = createRequestSaga(PUT_CODEGROUP, commonCodeAPI.putCodeGroup);
+const putCodeGroupSaga = createRequestSaga(
+  PUT_CODEGROUP,
+  commonCodeAPI.putCodeGroup
+);
 
 export function* codeGroupSaga() {
   yield takeLatest(GET_CODEGROUPLIST, getCodeGroupListSaga);

@@ -17,7 +17,7 @@ import {
   CRow,
 } from "@coreui/react";
 
-const CodeGroupInfo = ({ match }) => {
+const MainCodeInfo = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { form, codeGroupList, deleteDone, updateDone } = useSelector(
@@ -111,10 +111,8 @@ const CodeGroupInfo = ({ match }) => {
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
-          <CCardHeader>
-            공통 코드 그룹 정보 수정{" "}
-            <small className="text-muted"> {match.params.codeGroupId}</small>
-          </CCardHeader>
+          <CCardHeader>메인 코드 정보 수정{" "}
+            <small className="text-muted"> {match.params.id}</small></CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
@@ -182,7 +180,7 @@ const CodeGroupInfo = ({ match }) => {
   );
 };
 
-export default CodeGroupInfo;
+export default MainCodeInfo;
 
 // table 태그를 쓸 때 유의할 점
 // 브라우저에는 tbody태그가 필요합니다.

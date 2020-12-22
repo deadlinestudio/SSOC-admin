@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, postClub, initializeForm } from "../../modules/club/club";
 import {
-  getAreaCodeList,
-  getCategoryCodeList,
-  getDetailCodeList,
+  getMainCodeList,
+  getSubCodeList,
   initCodeList,
 } from "../../modules/commonCode/code";
 import { useHistory } from "react-router-dom";
@@ -31,16 +30,22 @@ const ClubRegister = () => {
     registerDone: club.registerDone,
     regInitDone: club.regInitDone,
   }));
-  const { categoryCode, detailCode, areaCode, initDone } = useSelector(
-    ({ code }) => ({
-      categoryCode: code.categoryCode,
-      detailCode: code.detailCode,
-      areaCode: code.areaCode,
-      initDone: code.initDone,
-      getDone: code.getDone,
-    })
-  );
+  const {
+    mainCodeList,
+    subCodeList,
+    initDone,
+    getMainDone,
+    getSubDone,
+  } = useSelector(({ code }) => ({
+    mainCodeList: code.mainCodeList,
+    subCodeList: code.subCodeList,
+    initDone: code.initDone,
+  }));
   const [clubModal, setClubModal] = useState(false);
+  const [categoryCode,setCategoryCode] = useState(null);
+  const [areaCode, setAreaCode] = useState(null);
+  const [detailCode, setDetailCode] = useState(null);
+  const [getCode, setGetCode] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -54,9 +59,27 @@ const ClubRegister = () => {
   useEffect(() => {
     if (initDone === null) return;
 
-    dispatch(getCategoryCodeList({ codeGroupId: "club-category" }));
-    dispatch(getAreaCodeList({ codeGroupId: "area-code", codeId: "0000" }));
+    dispatch(getMainCodeList({ codeGroupId: "club-category" }));
+    dispatch(getSubCodeList({ codeGroupId: "area-code", codeId: "0000" }));
   }, [initDone, dispatch]);
+
+  // 카테고리 코드 리스트 get 이후
+  useEffect(() => {
+    if (getMainDone === null) return;
+
+    setCategoryCode(mainCodeList);
+  },[getMainDone,categoryCode,mainCodeList,dispatch]);
+
+  // 지역 코드 리스트 get 이후
+  useEffect(() => {
+    if (getSubDone === null) return;
+
+    if(getCode === false){
+      setAreaCode(subCodeList);
+    }else{
+      setDetailCode(subCodeList);
+    }
+  },[getSubDone,getCode,subCodeList,dispatch]);
 
   // 카테고리 코드가 선택되었을 때
   useEffect(() => {
@@ -65,11 +88,12 @@ const ClubRegister = () => {
 
     console.log("서브 코드 가져오기");
     dispatch(
-      getDetailCodeList({
+      getSubCodeList({
         codeGroupId: "club-category",
         codeId: form.categoryCode,
       })
     );
+    setGetCode(true);
   }, [regInitDone, form.categoryCode, dispatch]);
 
   // 클럽 등록 성공/실패 처리

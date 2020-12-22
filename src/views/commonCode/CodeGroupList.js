@@ -37,7 +37,7 @@ const CodeGroupList = () => {
 
   const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/commoncode/register`);
+    history.push(`/commoncode/codegroup/register`);
   };
 
   // 화면 첫 렌더링
@@ -95,10 +95,12 @@ const CodeGroupList = () => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                if(detail.current === false){
-                  history.push(`/commoncode/codegroup/info/${item.codeGroupId}`);
+                if (detail.current === false) {
+                  history.push(
+                    `/commoncode/codegroup/info/${item.codeGroupId}`
+                  );
                   console.log(item);
-                }else{
+                } else {
                   console.log("상세코드 버튼 눌름");
                 }
               }}
@@ -108,14 +110,15 @@ const CodeGroupList = () => {
                     <td>
                       <CButton
                         size="sm"
-                        shape="square"
                         color="primary"
-                        onClick={()=>{
+                        onClick={() => {
                           detail.current = true;
-                          history.push(`/commoncode/register`);
+                          history.push(
+                            `/commoncode/maincode/list/${item.codeGroupId}`
+                          );
                         }}
                       >
-                        서브코드
+                        메인코드
                       </CButton>
                     </td>
                   );
