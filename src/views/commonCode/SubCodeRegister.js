@@ -50,7 +50,7 @@ const SubCodeRegister = ({ match }) => {
       console.log(registerDone);
       console.log("서브코드 등록 실패!");
     }
-  }, [registerDone, regInitDone, dispatch, history, match.params.codeGroupId]);
+  }, [registerDone, regInitDone, dispatch, history, match.params.codeGroupId,match.params.codeId]);
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e) => {

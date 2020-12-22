@@ -28,7 +28,7 @@ const ErrorCodeRegister = () => {
     registerDone: errorCode.registerDone,
     regInitDone: errorCode.regInitDone,
   }));
-  const [errorCodeModal, setErrorCodeModal] = useState(false);
+  const [modal, setModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
@@ -79,14 +79,14 @@ const ErrorCodeRegister = () => {
 
   // 확인 모달 열기
   const openModal = () => {
-    console.log("경고 모달 열기");
-    setErrorCodeModal(true);
+    console.log("확인 모달 열기");
+    setModal(true);
   };
 
   // 확인 모달 종료
   const closeModal = () => {
-    console.log("경고 모달 닫기");
-    setErrorCodeModal(false);
+    console.log("확인 모달 닫기");
+    setModal(false);
   };
 
   return (
@@ -126,7 +126,7 @@ const ErrorCodeRegister = () => {
               </CButton>
             </CForm>
             <ConfirmModal
-              visible={errorCodeModal}
+              visible={modal}
               title={"확인"}
               body={"에러 코드를 생성하시겠습니까?"}
               onConfirm={onSubmit}
