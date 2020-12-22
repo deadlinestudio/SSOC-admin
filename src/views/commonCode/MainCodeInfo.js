@@ -30,7 +30,7 @@ const MainCodeInfo = ({ match }) => {
   );
 
   const codeGroupInfo = codeGroupList.find(
-    (info) => info.codeGroupId.toString() === match.params.id
+    (info) => info.codeGroupId.toString() === match.params.codeGroupId
   );
   // const CodeGroupDetail = codeGroupInfo
   //   ? Object.entries(codeGroupInfo)

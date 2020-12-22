@@ -66,7 +66,7 @@ export default [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: '공통 코드 그룹 목록 조회',
+        name: '공통 코드 목록 조회',
         to: '/commoncode/codegroup/list',
       }
     ],

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -12,17 +12,14 @@ import {
   CButton,
 } from "@coreui/react";
 
-import {
-  getCodeGroupList,
-  initCodeGroupList,
-} from "../../modules/commonCode/codeGroup";
+import { getSubCodeList, initCodeList } from "../../modules/commonCode/code";
 
-const SubCodeList = ({match}) => {
+const SubCodeList = ({ match }) => {
   const dispatch = useDispatch();
-  const { codeGroupList, initDone, getDone } = useSelector(({ codeGroup }) => ({
-    codeGroupList: codeGroup.codeGroupList,
-    initDone: codeGroup.initDone,
-    getDone: codeGroup.getDone,
+  const { subCodeList, initDone, getSubDone } = useSelector(({ code }) => ({
+    subCodeList: code.subCodeList,
+    initDone: code.initDone,
+    getSubDone: code.getSubDone,
   }));
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
@@ -42,23 +39,28 @@ const SubCodeList = ({match}) => {
   // 화면 첫 렌더링
   useEffect(() => {
     console.log("user first rendering");
-    dispatch(initCodeGroupList());
+    dispatch(initCodeList());
   }, [dispatch]);
 
-  // 코드그룹 리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
+  // 코드 리스트 초기화 이후 렌더링 = 서브코드 리스트 dispatch
   useEffect(() => {
     if (initDone === null) return;
-    console.log("get codegrouplist");
-    dispatch(getCodeGroupList());
-  }, [dispatch, initDone]);
+    console.log("get subcode list");
+    dispatch(
+      getSubCodeList({
+        codeGroupId: match.params.codeGroupId,
+        codeId: match.params.codeId,
+      })
+    );
+  }, [dispatch, initDone, match.params.codeGroupId, match.params.codeId]);
 
-  // 코드그룹 리스트 가져온 후 렌더링
+  // 서브코드 리스트 가져온 후 렌더링
   useEffect(() => {
-    if (getDone !== true) return;
+    if (getSubDone !== true) return;
 
-    console.log("get codegrouplist success");
-    console.log("getDone : ", getDone);
-  }, [getDone]);
+    console.log("get subcode list success");
+    console.log("getDone : ", getSubDone);
+  }, [getSubDone]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -74,18 +76,12 @@ const SubCodeList = ({match}) => {
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={codeGroupList}
+              items={subCodeList}
               fields={[
-                { key: "codeGroupId", _classes: "font-weight-bold" },
-                { key: "codeGroupDefinition" },
+                { key: "codeDefinition", _classes: "font-weight-bold" },
+                { key: "codeId" },
                 { key: "createDateTime" },
                 { key: "updateDateTime" },
-                {
-                  key: "show_details",
-                  label: "",
-                  sorter: false,
-                  filter: false,
-                },
               ]}
               hover
               striped
@@ -93,8 +89,8 @@ const SubCodeList = ({match}) => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                  history.push(`/commoncode/codegroup/info/${item.codeGroupId}`);
-                  console.log(item);
+                history.push(`/commoncode/codegroup/info/${item.codeGroupId}`);
+                console.log(item);
               }}
             />
             <CButton color="success" onClick={onButtonClick}>

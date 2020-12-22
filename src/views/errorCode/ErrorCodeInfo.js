@@ -29,7 +29,7 @@ const ErrorCodeInfo = ({ match }) => {
     })
   );
   const errorCodeInfo = errorCodeList.find(
-    (info) => info.errorCode.toString() === match.params.id
+    (info) => info.errorCode.toString() === match.params.errorCodeId
   );
   // const errorCodeDetail = errorCodeInfo
   //   ? Object.entries(errorCodeInfo)
@@ -111,7 +111,7 @@ const ErrorCodeInfo = ({ match }) => {
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>에러 코드 정보 수정{" "}
-            <small className="text-muted"> {match.params.id}</small></CCardHeader>
+            <small className="text-muted"> {match.params.errorCodeId}</small></CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>

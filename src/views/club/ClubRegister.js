@@ -5,7 +5,6 @@ import {
   getMainCodeList,
   getSubCodeList,
   initCodeList,
-  initDoneList
 } from "../../modules/commonCode/code";
 import { useHistory } from "react-router-dom";
 import {

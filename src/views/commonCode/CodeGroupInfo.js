@@ -30,7 +30,7 @@ const CodeGroupInfo = ({ match }) => {
   );
 
   const codeGroupInfo = codeGroupList.find(
-    (info) => info.codeGroupId.toString() === match.params.id
+    (info) => info.codeGroupId.toString() === match.params.codeGroupId
   );
   // const CodeGroupDetail = codeGroupInfo
   //   ? Object.entries(codeGroupInfo)
@@ -113,7 +113,7 @@ const CodeGroupInfo = ({ match }) => {
         <CCard className="mx-4">
           <CCardHeader>
             공통 코드 그룹 정보 수정{" "}
-            <small className="text-muted"> {match.params.id}</small>
+            <small className="text-muted"> {match.params.codeGroupId}</small>
           </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">

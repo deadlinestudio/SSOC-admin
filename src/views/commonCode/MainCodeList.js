@@ -31,7 +31,7 @@ const MainCodeList = ({match}) => {
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/commoncode/maincode/list/${match.params.id}/?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+      history.push(`/commoncode/maincode/list/${match.params.codeGroupId}/?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
   const onButtonClick = () => {
@@ -42,17 +42,18 @@ const MainCodeList = ({match}) => {
   // 화면 첫 렌더링
   useEffect(() => {
     console.log("user first rendering");
+    detail.current = false;
     dispatch(initCodeList());
   }, [dispatch]);
 
-  // 코드그룹 리스트 초기화 이후 렌더링 = 멤버리스트 dispatch
+  // 코드 리스트 초기화 이후 렌더링 = 메인코드 리스트 dispatch
   useEffect(() => {
     if (initDone === null) return;
     console.log("get maincode list");
-    dispatch(getMainCodeList({ codeGroupId: match.params.id }));
-  }, [dispatch, initDone, match.params.id]);
+    dispatch(getMainCodeList({ codeGroupId: match.params.codeGroupId }));
+  }, [dispatch, initDone, match.params.codeGroupId]);
 
-  // 코드그룹 리스트 가져온 후 렌더링
+  // 메인코드 리스트 가져온 후 렌더링
   useEffect(() => {
     if (getMainDone !== true) return;
 
@@ -70,7 +71,7 @@ const MainCodeList = ({match}) => {
         <CCard className="mx-4">
           <CCardHeader>
             메인 코드 목록
-            <small className="text-muted"> {match.params.id}</small>
+            <small className="text-muted"> {match.params.codeGroupId}</small>
           </CCardHeader>
           <CCardBody>
             <CDataTable
@@ -93,8 +94,13 @@ const MainCodeList = ({match}) => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                  history.push(`/commoncode/maincode/info/${item.codeGroupId}`);
+                if (detail.current === false) {
+                  history.push(`/commoncode/maincode/info/${item.codeGroupId}/${item.codeId}`);
                   console.log(item);
+                } else {
+                  console.log("상세코드 버튼 눌름");
+                }
+                  
               }}
               scopedSlots={{
                 show_details: (item, i) => {
@@ -106,7 +112,7 @@ const MainCodeList = ({match}) => {
                         onClick={() => {
                           detail.current = true;
                           history.push(
-                            `/commoncode/maincode/list/${item.codeGroupId}`
+                            `/commoncode/subcode/list/${item.codeGroupId}/${item.codeId}`
                           );
                         }}
                       >
