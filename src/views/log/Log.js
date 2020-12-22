@@ -20,7 +20,7 @@ const Log = () => {
     initDone: log.initDone,
     getDone: log.getDone,
   }));
-  const [logModal, setLogModal] = useState(false);
+  const [modal, setModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 초기화
   useEffect(() => {
@@ -60,13 +60,13 @@ const Log = () => {
   // 경고 모달 열기
   const openModal = () => {
     console.log("경고 모달 열기");
-    setLogModal(true);
+    setModal(true);
   };
 
   // 경고 모달 종료
   const closeModal = () => {
     console.log("경고 모달 닫기");
-    setLogModal(false);
+    setModal(false);
   };
 
   return (
@@ -104,7 +104,7 @@ const Log = () => {
           </CCardBody>
         </CCard>
         <AlertModal
-          visible={logModal}
+          visible={modal}
           title={"경고"}
           body={"날짜를 선택하여 주세요."}
           onCancel={closeModal}

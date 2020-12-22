@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import {
   changeField,
   initializeForm,
-  deleteCodeGroup,
-  putCodeGroup,
-} from "../../modules/commonCode/codeGroup";
+  deleteCode,
+  putCode,
+} from "../../modules/commonCode/code";
 import {
   CInput,
   CCard,
@@ -20,17 +20,17 @@ import {
 const MainCodeInfo = ({ match }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { form, codeGroupList, deleteDone, updateDone } = useSelector(
-    ({ codeGroup }) => ({
-      form: codeGroup.update,
-      codeGroupList: codeGroup.codeGroupList,
-      deleteDone: codeGroup.deleteDone,
-      updateDone: codeGroup.updateDone,
+  const { form, mainCodeList, deleteDone, updateDone } = useSelector(
+    ({ code }) => ({
+      form: code.update,
+      mainCodeList: code.mainCodeList,
+      deleteDone: code.deleteDone,
+      updateDone: code.updateDone,
     })
   );
 
-  const codeGroupInfo = codeGroupList.find(
-    (info) => info.codeGroupId.toString() === match.params.codeGroupId
+  const codeInfo = mainCodeList.find(
+    (info) => info.codeId.toString() === match.params.codeId
   );
   // const CodeGroupDetail = codeGroupInfo
   //   ? Object.entries(codeGroupInfo)
@@ -43,20 +43,20 @@ const MainCodeInfo = ({ match }) => {
   //       ],
   //     ];
 
-  // 코드 그룹 삭제 dispatch 함수
+  // 코드 삭제 dispatch 함수
   const onRemove = () => {
     console.log("코드 그룹 삭제 dispatch");
-    console.log("삭제할 ID : ", codeGroupInfo.codeGroupId);
+    console.log("삭제할 ID : ", codeInfo.codeGroupId);
 
-    dispatch(deleteCodeGroup(codeGroupInfo.codeGroupId));
+    dispatch(deleteCode({codeGroupId: codeInfo.codeGroupId, codeId: codeInfo.codeId}));
   };
 
-  // 코드 그룹 수정 dispatch 함수
+  // 코드 수정 dispatch 함수
   const onUpdate = () => {
     console.log("코드 그룹 수정 dispatch");
 
     const { definition } = form;
-    const id = codeGroupInfo.codeGroupId;
+    const id = codeInfo.codeGroupId;
     console.log("definition : ", definition);
     console.log("id : ", id);
     // 하나라도 비어있다면
@@ -65,7 +65,7 @@ const MainCodeInfo = ({ match }) => {
       return;
     }
 
-    dispatch(putCodeGroup({ id, definition }));
+    dispatch(putCode({ codeGroupId:codeInfo.codeGroupId, codeId:codeInfo.codeId, definition:definition }));
   };
 
   const onChange = (e) => {
@@ -85,84 +85,76 @@ const MainCodeInfo = ({ match }) => {
     dispatch(initializeForm("update"));
   }, [dispatch]);
 
-  // 코드 그룹 삭제 dispatch 이후
+  // 코드 삭제 dispatch 이후
   useEffect(() => {
     if (deleteDone === null) return;
 
     if (deleteDone === true) {
-      console.log("코드그룹 삭제 성공!");
-      history.push(`/commoncode/codegroup/list`);
+      console.log("코드 삭제 성공!");
+      history.push(`/commoncode/maincode/list/${match.params.codeGroupId}`);
     } else if (deleteDone !== null && deleteDone !== true)
-      console.log("코드그룹 삭제 실패!");
-  }, [deleteDone, history]);
+      console.log("코드 삭제 실패!");
+  }, [deleteDone, history,match.params.codeGroupId]);
 
-  // 코드 그룹 수정 dispatch 이루
+  // 코드 수정 dispatch 이루
   useEffect(() => {
     if (updateDone === null) return;
 
     if (updateDone === true) {
-      console.log("코드그룹 수정 성공!");
-      history.push(`/commoncode/codegroup/list`);
+      console.log("코드 수정 성공!");
+      history.push(`/commoncode/maincode/list/${match.params.codeGroupId}`);
     } else if (updateDone !== null && updateDone !== true)
-      console.log("코드그룹 수정 실패!");
-  }, [updateDone, history]);
+      console.log("코드 수정 실패!");
+  }, [updateDone, history,match.params.codeGroupId]);
 
   return (
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>메인 코드 정보 수정{" "}
-            <small className="text-muted"> {match.params.id}</small></CCardHeader>
+            <small className="text-muted"> {match.params.codeGroupId}</small></CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
-                {/* {CodeGroupDetail.map(([key, value], index) => {
-                  return (
-                    <tr key={index.toString()}>
-                      <td>{`${key}:`}</td>
-                      <td>
-                        {key === "codeGroupDefinition" ? (
-                          <CInput
-                            onChange={onChange}
-                            name="definition"
-                            type="text"
-                            placeholder={key.toString()}
-                            defaultValue={value}
-                          />
-                        ) : (
-                          <strong>{value}</strong>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })} */}
                 <tr>
                   <td>codeGroupId</td>
                   <td>
-                    <strong>{codeGroupInfo.codeGroupId}</strong>
+                    <strong>{codeInfo.codeGroupId}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>codeId</td>
+                  <td>
+                    <strong>{codeInfo.codeId}</strong>
                   </td>
                 </tr>
                 <tr>
                   <td>codeGroupDefinition</td>
                   <td>
+                    <strong>{codeInfo.codeGroupDefinition}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>codeDefinition</td>
+                  <td>
                     <CInput
                       onChange={onChange}
                       name="definition"
                       type="text"
-                      defaultValue={codeGroupInfo.codeGroupDefinition}
+                      defaultValue={codeInfo.codeDefinition}
                     />
                   </td>
                 </tr>
                 <tr>
                   <td>createDateTime</td>
                   <td>
-                    <strong>{codeGroupInfo.createDateTime}</strong>
+                    <strong>{codeInfo.createDateTime}</strong>
                   </td>
                 </tr>
                 <tr>
                   <td>updateDateTime</td>
                   <td>
-                    <strong>{codeGroupInfo.updateDateTime}</strong>
+                    <strong>{codeInfo.updateDateTime}</strong>
                   </td>
                 </tr>
               </tbody>

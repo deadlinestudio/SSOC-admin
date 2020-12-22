@@ -135,6 +135,10 @@ const code = handleActions(
       initDone: true,
       getMainDone: null,
       getSubDone: null,
+      registerDone: null,
+      regInitDone: null,
+      deleteDone: null,
+      updateDone: null,
     }),
     // 메인 코드 리스트 조회 성공
     [GET_MAINCODELIST_SUCCESS]: (state, { payload: List }) => ({

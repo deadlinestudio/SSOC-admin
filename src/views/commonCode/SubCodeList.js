@@ -89,7 +89,7 @@ const SubCodeList = ({ match }) => {
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                history.push(`/commoncode/codegroup/info/${item.codeGroupId}`);
+                history.push(`/commoncode/subcode/info/${item.codeGroupId}/${item.codeId}`);
                 console.log(item);
               }}
             />
