@@ -105,7 +105,7 @@ const CodeGroupRegister = () => {
                   onChange={onChange}
                   name="id"
                   type="text"
-                  placeholder="ID"
+                  placeholder="ex) club-category"
                   autoComplete="id"
                   value={form.id}
                 />
@@ -116,7 +116,7 @@ const CodeGroupRegister = () => {
                   onChange={onChange}
                   name="definition"
                   type="text"
-                  placeholder="Definition"
+                  placeholder="ex) 클럽 카테고리"
                   autoComplete="definition"
                   value={form.definition}
                 />

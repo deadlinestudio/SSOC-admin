@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeField,
-  postCodeGroup,
+  postCode,
   initializeForm,
-} from "../../modules/commonCode/codeGroup";
+} from "../../modules/commonCode/code";
 import { useHistory } from "react-router-dom";
 import {
   CButton,
@@ -20,37 +20,37 @@ import {
 } from "@coreui/react";
 import { ConfirmModal } from "../notification/modals/Modals";
 
-const MainCodeRegister = () => {
+const MainCodeRegister = ({ match }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { form, registerDone, regInitDone } = useSelector(({ codeGroup }) => ({
-    form: codeGroup.register,
-    registerDone: codeGroup.registerDone,
-    regInitDone: codeGroup.regInitDone,
+  const { form, registerDone, regInitDone } = useSelector(({ code }) => ({
+    form: code.register,
+    registerDone: code.registerDone,
+    regInitDone: code.regInitDone,
   }));
-  const [cdGrpModal, setCdGrpModal] = useState(false);
+  const [modal, setModal] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
-    console.log("공통코드 인풋필드 초기화");
+    console.log("메인코드 인풋필드 초기화");
     dispatch(initializeForm("register"));
   }, [dispatch]);
 
-  // 서브코드 등록 성공/실패 처리
+  // 메인코드 등록 성공/실패 처리
   useEffect(() => {
     if (regInitDone === null) return;
 
     if (registerDone === true) {
       console.log(registerDone);
-      console.log("코드그룹 등록 성공!");
+      console.log("메인코드 등록 성공!");
 
       dispatch(initializeForm("register"));
-      history.push(`/commoncode/codegroup/list`);
+      history.push(`/commoncode/maincode/list/${match.params.codeGroupId}`);
     } else if (registerDone !== true && registerDone !== null) {
       console.log(registerDone);
-      console.log("코드그룹 등록 실패!");
+      console.log("메인코드 등록 실패!");
     }
-  }, [registerDone, regInitDone, dispatch, history]);
+  }, [registerDone, regInitDone, dispatch, history, match.params.codeGroupId]);
 
   // 인풋 변경 이벤트 핸들러
   const onChange = (e) => {
@@ -75,61 +75,68 @@ const MainCodeRegister = () => {
       return;
     }
 
-    dispatch(postCodeGroup({ definition, id }));
+    dispatch(
+      postCode({
+        codeGroupId: match.params.codeGroupId,
+        id: id,
+        definition: definition,
+      })
+    );
   };
 
   // 확인 모달 열기
   const openModal = () => {
     console.log("경고 모달 열기");
-    setCdGrpModal(true);
+    setModal(true);
   };
 
   // 확인 모달 종료
   const closeModal = () => {
     console.log("경고 모달 닫기");
-    setCdGrpModal(false);
+    setModal(false);
   };
-  
+
   return (
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
           <CCardHeader>
-            <h4>CodeGroup Register</h4>
-            <small>Create your CodeGroup</small>
+            <h4>MainCode Register</h4>
+            <small>Create your MainCode</small>
           </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
               <CFormGroup>
-                <CLabel htmlFor="text-input">ID</CLabel>
-                <CInput
-                  onChange={onChange}
-                  name="id"
-                  type="text"
-                  placeholder="ID"
-                  autoComplete="id"
-                  value={form.id}
-                />
-              </CFormGroup>
-              <CFormGroup>
-                <CLabel htmlFor="text-input">Definition</CLabel>
+                <CLabel htmlFor="text-input">Code Definition</CLabel>
                 <CInput
                   onChange={onChange}
                   name="definition"
                   type="text"
-                  placeholder="Definition"
+                  placeholder="ex) 운동/스포츠"
                   autoComplete="definition"
                   value={form.definition}
                 />
               </CFormGroup>
+              <CFormGroup>
+                <CLabel htmlFor="text-input">Code ID</CLabel>
+                <CInput
+                  onChange={onChange}
+                  name="id"
+                  type="text"
+                  placeholder="ex) 0100"
+                  autoComplete="id"
+                  value={form.id}
+                />
+              </CFormGroup>
+
               <CButton onClick={openModal} color="success" block>
-                Create CodeGroup
+                Create MainCode
               </CButton>
             </CForm>
             <ConfirmModal
-              visible={cdGrpModal}
+              visible={modal}
               title={"확인"}
-              body={"공통 코드 그룹을 생성하시겠습니까?"}
+              body={"메인코드를 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
             />

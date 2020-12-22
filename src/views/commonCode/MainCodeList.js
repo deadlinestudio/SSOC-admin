@@ -36,7 +36,7 @@ const MainCodeList = ({match}) => {
 
   const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/commoncode/maincode/register`);
+    history.push(`/commoncode/maincode/register/${match.params.codeGroupId}`);
   };
 
   // 화면 첫 렌더링

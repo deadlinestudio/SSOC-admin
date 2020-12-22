@@ -33,7 +33,7 @@ const SubCodeList = ({ match }) => {
 
   const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/commoncode/register`);
+    history.push(`/commoncode/subcode/register/${match.params.codeGroupId}/${match.params.codeId}`);
   };
 
   // 화면 첫 렌더링
