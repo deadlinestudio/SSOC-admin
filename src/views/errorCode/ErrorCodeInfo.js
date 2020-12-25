@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -7,6 +7,7 @@ import {
   deleteErrorCode,
   putErrorCode,
 } from "../../modules/errorCode/errorCode";
+import { ConfirmModal } from "../notification/modals/Modals";
 import {
   CInput,
   CCard,
@@ -31,16 +32,8 @@ const ErrorCodeInfo = ({ match }) => {
   const errorCodeInfo = errorCodeList.find(
     (info) => info.errorCode.toString() === match.params.errorCodeId
   );
-  // const errorCodeDetail = errorCodeInfo
-  //   ? Object.entries(errorCodeInfo)
-  //   : [
-  //       [
-  //         "id",
-  //         <span>
-  //           <CIcon className="text-muted" name="cui-icon-ban" /> Not found
-  //         </span>,
-  //       ],
-  //     ];
+  const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   // 에러 코드 삭제 dispatch 함수
   const onRemove = () => {
@@ -76,6 +69,30 @@ const ErrorCodeInfo = ({ match }) => {
         value,
       })
     );
+  };
+
+  // 수정 확인 모달 열기
+  const openEditModal = () => {
+    console.log("수정 확인 모달 열기");
+    setEditModal(true);
+  };
+
+  // 수정 확인 모달 종료
+  const closeEditModal = () => {
+    console.log("수정 확인 모달 닫기");
+    setEditModal(false);
+  };
+
+  // 삭제 확인 모달 열기
+  const openDeleteModal = () => {
+    console.log("삭제 확인 모달 열기");
+    setDeleteModal(true);
+  };
+
+  // 삭제 확인 모달 종료
+  const closeDeleteModal = () => {
+    console.log("삭제 확인 모달 닫기");
+    setDeleteModal(false);
   };
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
@@ -115,26 +132,6 @@ const ErrorCodeInfo = ({ match }) => {
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
-                {/* {errorCodeDetail.map(([key, value], index) => {
-                  return (
-                    <tr key={index.toString()}>
-                      <td>{`${key}:`}</td>
-                      <td>
-                        {key === "errorMessage" ? (
-                          <CInput
-                            onChange={onChange}
-                            name="message"
-                            type="text"
-                            placeholder={key.toString()}
-                            defaultValue={value}
-                          />
-                        ) : (
-                          <strong>{value}</strong>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })} */}
                 <tr>
                   <td>errorCode</td>
                   <td>
@@ -154,12 +151,28 @@ const ErrorCodeInfo = ({ match }) => {
                 </tr>
               </tbody>
             </table>
-            <CButton onClick={onRemove} color="danger">
+            <CButton onClick={openDeleteModal} color="danger">
               삭제
             </CButton>
-            <CButton onClick={onUpdate} color="info">
+            <CButton onClick={openEditModal} color="info">
               수정
             </CButton>
+            <ConfirmModal
+              visible={editModal}
+              title={"확인"}
+              body={"에러 코드를 수정하시겠습니까?"}
+              onConfirm={onUpdate}
+              onCancel={closeEditModal}
+              color={"info"}
+            />
+            <ConfirmModal
+              visible={deleteModal}
+              title={"확인"}
+              body={"에러 코드를 삭제하시겠습니까?"}
+              onConfirm={onRemove}
+              onCancel={closeDeleteModal}
+              color={"danger"}
+            />
           </CCardBody>
         </CCard>
       </CCol>

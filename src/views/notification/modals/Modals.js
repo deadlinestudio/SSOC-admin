@@ -8,9 +8,9 @@ import {
   CModalTitle,
 } from "@coreui/react";
 
-export const ConfirmModal = ({ visible, title, body, onConfirm, onCancel }) => {
+export const ConfirmModal = ({ visible, title, body, onConfirm, onCancel, color }) => {
   return (
-    <CModal show={visible} onClose={onCancel} color="info">
+    <CModal show={visible} onClose={onCancel} color={color}>
       <CModalHeader closeButton>
         <CModalTitle>{title}</CModalTitle>
       </CModalHeader>
@@ -18,7 +18,7 @@ export const ConfirmModal = ({ visible, title, body, onConfirm, onCancel }) => {
         {body}
       </CModalBody>
       <CModalFooter>
-        <CButton color="info" onClick={onConfirm}>
+        <CButton color={color} onClick={onConfirm}>
           확인
         </CButton>
         <CButton color="secondary" onClick={onCancel}>
@@ -29,10 +29,10 @@ export const ConfirmModal = ({ visible, title, body, onConfirm, onCancel }) => {
   );
 };
 
-export const AlertModal = ({ visible, title, body, onCancel }) =>{
+export const AlertModal = ({ visible, title, body, onCancel, color }) =>{
   return (
     <div>
-      <CModal show={visible} onClose={onCancel} color="danger">
+      <CModal show={visible} onClose={onCancel} color={color}>
       <CModalHeader closeButton>
         <CModalTitle>{title}</CModalTitle>
       </CModalHeader>
@@ -40,7 +40,7 @@ export const AlertModal = ({ visible, title, body, onCancel }) =>{
         {body}
       </CModalBody>
       <CModalFooter>
-        <CButton color="danger" onClick={onCancel}>
+        <CButton color={color} onClick={onCancel}>
           확인
         </CButton>{" "}
       </CModalFooter>

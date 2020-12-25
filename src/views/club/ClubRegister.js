@@ -42,7 +42,7 @@ const ClubRegister = () => {
     initDone: code.initDone,
   }));
   const [clubModal, setClubModal] = useState(false);
-  const [categoryCode,setCategoryCode] = useState(null);
+  const [categoryCode, setCategoryCode] = useState(null);
   const [areaCode, setAreaCode] = useState(null);
   const [detailCode, setDetailCode] = useState(null);
   const [getCode, setGetCode] = useState(false);
@@ -68,18 +68,18 @@ const ClubRegister = () => {
     if (getMainDone === null) return;
 
     setCategoryCode(mainCodeList);
-  },[getMainDone,categoryCode,mainCodeList,dispatch]);
+  }, [getMainDone, categoryCode, mainCodeList, dispatch]);
 
   // 지역 코드 리스트 get 이후
   useEffect(() => {
     if (getSubDone === null) return;
 
-    if(getCode === false){
+    if (getCode === false) {
       setAreaCode(subCodeList);
-    }else{
+    } else {
       setDetailCode(subCodeList);
     }
-  },[getSubDone,getCode,subCodeList,dispatch]);
+  }, [getSubDone, getCode, subCodeList, dispatch]);
 
   // 카테고리 코드가 선택되었을 때
   useEffect(() => {
@@ -312,6 +312,7 @@ const ClubRegister = () => {
               body={"클럽을 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
+              color={"info"}
             />
           </CCardBody>
         </CCard>

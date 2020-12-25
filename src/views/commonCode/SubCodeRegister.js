@@ -102,7 +102,7 @@ const SubCodeRegister = ({ match }) => {
         <CCard className="mx-4">
           <CCardHeader>
             <h4>SubCode Register</h4>
-            <small>Create your SubCode</small>
+            <small>Create your SubCode : {match.params.codeId}</small>
           </CCardHeader>
           <CCardBody className="p-4">
             <CForm>
@@ -139,6 +139,7 @@ const SubCodeRegister = ({ match }) => {
               body={"서브코드를 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
+              color={"info"}
             />
           </CCardBody>
         </CCard>
