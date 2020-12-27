@@ -7,6 +7,7 @@ import code, {codeSaga} from "./commonCode/code";
 import errorCode, { errorCodeSaga } from "./errorCode/errorCode";
 import cacheReload, {cacheReloadSaga } from "./cacheReload/cacheReload";
 import log, {logSaga} from "./log/log";
+import chart, {chartSaga} from "./chart/chart"
 import loading from "./loading";
 import sideBarShow from "./sideBarShow";
 
@@ -19,11 +20,12 @@ const rootReducer = combineReducers({
   errorCode,
   cacheReload,
   log,
+  chart,
   sideBarShow,
 });
 
 export function* rootSaga() {
-  yield all([memberSaga(), clubSaga(), codeGroupSaga(), codeSaga(), errorCodeSaga(), cacheReloadSaga(), logSaga()]);
+  yield all([memberSaga(), clubSaga(), codeGroupSaga(), codeSaga(), errorCodeSaga(), cacheReloadSaga(), logSaga(), chartSaga()]);
 }
 
 export default rootReducer;
