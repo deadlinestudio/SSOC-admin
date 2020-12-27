@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -10,6 +10,8 @@ import {
   CRow,
   CPagination,
   CButton,
+  CSelect,
+  CLabel,
 } from "@coreui/react";
 
 import { getSubCodeList, initCodeList } from "../../modules/commonCode/code";
@@ -25,15 +27,25 @@ const SubCodeList = ({ match }) => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
+  const listSize = useRef(5);
+  const [itemsPPg, setItemsPPg] = useState(5);
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/commoncode/subcode/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+      history.push(`/commoncode/subcode/list/${match.params.codeGroupId}/${match.params.codeId}/?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+  };
+
+  // 인풋 변경 이벤트 핸들러
+  const onChangeItemsPPg = (e) => {
+    const { value } = e.target;
+    setItemsPPg(value);
   };
 
   const onButtonClick = () => {
     console.log("등록화면 이동");
-    history.push(`/commoncode/subcode/register/${match.params.codeGroupId}/${match.params.codeId}`);
+    history.push(
+      `/commoncode/subcode/register/${match.params.codeGroupId}/${match.params.codeId}`
+    );
   };
 
   // 화면 첫 렌더링
@@ -60,7 +72,8 @@ const SubCodeList = ({ match }) => {
 
     console.log("get subcode list success");
     console.log("getDone : ", getSubDone);
-  }, [getSubDone]);
+    if (subCodeList.length !== null && subCodeList.length!==0) listSize.current = subCodeList.length;
+  }, [getSubDone, subCodeList]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -75,6 +88,27 @@ const SubCodeList = ({ match }) => {
             <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
+            <CRow className="row no-gutters">
+              <CCol md="11">
+                <CLabel className="d-flex justify-content-end">
+                  Items per page : &nbsp;
+                </CLabel>
+              </CCol>
+              <div></div>
+              <CCol md="1">
+                <CSelect
+                  onChange={onChangeItemsPPg}
+                  name="itemsPPg"
+                  type="text"
+                  size="sm"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </CSelect>
+              </CCol>
+            </CRow>
             <CDataTable
               items={subCodeList}
               fields={[
@@ -85,11 +119,15 @@ const SubCodeList = ({ match }) => {
               ]}
               hover
               striped
-              itemsPerPage={10}
+              itemsPerPage={Number(itemsPPg)}
+              sorter
+              columnFilter
               activePage={page}
               clickableRows
               onRowClick={(item) => {
-                history.push(`/commoncode/subcode/info/${item.codeGroupId}/${item.codeId}`);
+                history.push(
+                  `/commoncode/subcode/info/${item.codeGroupId}/${item.codeId}`
+                );
                 console.log(item);
               }}
             />
@@ -99,9 +137,13 @@ const SubCodeList = ({ match }) => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
               doubleArrows={false}
               align="center"
+              pages={
+                listSize.current % itemsPPg === 0
+                  ? listSize.current / itemsPPg
+                  : listSize.current / itemsPPg + 1
+              }
             />
           </CCardBody>
         </CCard>

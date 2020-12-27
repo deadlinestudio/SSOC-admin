@@ -42,18 +42,16 @@ const MemberList = () => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
-  const listSize = useRef(3);
-  const [itemsPPg,setItemsPPg] = useState(5);
+  const listSize = useRef(5);
+  const [itemsPPg, setItemsPPg] = useState(5);
 
   const pageChange = (newPage) => {
     currentPage !== newPage && history.push(`/member/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
   // 인풋 변경 이벤트 핸들러
-  const onChange = (e) => {
+  const onChangeItemsPPg = (e) => {
     const { value } = e.target;
-    console.log("e : ",e.target);
-    console.log(value);
     setItemsPPg(value);
   };
 
@@ -102,15 +100,13 @@ const MemberList = () => {
               <div></div>
               <CCol md="1">
                 <CSelect
-                  onChange={onChange}
+                  onChange={onChangeItemsPPg}
                   name="itemsPPg"
                   type="text"
-                  placeholder="Area Code"
-                  autoComplete="areaCode"
                   size="sm"
                 >
                   <option value="5">5</option>
-                  <option value="10">10</option>
+                  <option selected value="10">10</option>
                   <option value="15">15</option>
                   <option value="20">20</option>
                 </CSelect>
@@ -130,7 +126,7 @@ const MemberList = () => {
               ]}
               hover
               striped
-              itemsPerPage={itemsPPg}
+              itemsPerPage={Number(itemsPPg)}
               sorter
               columnFilter
               activePage={page}

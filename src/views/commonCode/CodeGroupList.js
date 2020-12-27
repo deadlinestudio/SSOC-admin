@@ -10,6 +10,8 @@ import {
   CRow,
   CPagination,
   CButton,
+  CSelect,
+  CLabel,
 } from "@coreui/react";
 
 import {
@@ -29,10 +31,18 @@ const CodeGroupList = () => {
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
   const detail = useRef(false);
+  const listSize = useRef(5);
+  const [itemsPPg, setItemsPPg] = useState(5);
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
       history.push(`/commoncode/codegroup/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+  };
+
+  // 인풋 변경 이벤트 핸들러
+  const onChangeItemsPPg = (e) => {
+    const { value } = e.target;
+    setItemsPPg(value);
   };
 
   const onButtonClick = () => {
@@ -59,8 +69,9 @@ const CodeGroupList = () => {
     if (getDone !== true) return;
 
     console.log("get codegrouplist success");
-    console.log("getDone : ", getDone);
-  }, [getDone]);
+    if (codeGroupList.length !== null) listSize.current = codeGroupList.length;
+    console.log("codeGroupList.length : ", listSize.current);
+  }, [getDone, codeGroupList]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -75,6 +86,27 @@ const CodeGroupList = () => {
             <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
+            <CRow className="row no-gutters">
+              <CCol md="11">
+                <CLabel className="d-flex justify-content-end">
+                  Items per page : &nbsp;
+                </CLabel>
+              </CCol>
+              <div></div>
+              <CCol md="1">
+                <CSelect
+                  onChange={onChangeItemsPPg}
+                  name="itemsPPg"
+                  type="text"
+                  size="sm"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </CSelect>
+              </CCol>
+            </CRow>
             <CDataTable
               items={codeGroupList}
               fields={[
@@ -91,7 +123,9 @@ const CodeGroupList = () => {
               ]}
               hover
               striped
-              itemsPerPage={10}
+              itemsPerPage={Number(itemsPPg)}
+              sorter
+              columnFilter
               activePage={page}
               clickableRows
               onRowClick={(item) => {
@@ -131,9 +165,13 @@ const CodeGroupList = () => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
               doubleArrows={false}
               align="center"
+              pages={
+                listSize.current % itemsPPg === 0
+                  ? listSize.current / itemsPPg
+                  : listSize.current / itemsPPg + 1
+              }
             />
           </CCardBody>
         </CCard>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -11,6 +11,8 @@ import {
   CRow,
   CPagination,
   CButton,
+  CSelect,
+  CLabel,
 } from "@coreui/react";
 
 import { initClubList, getClubList } from "../../modules/club/club";
@@ -41,15 +43,23 @@ const ClubList = () => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
+  const listSize = useRef(3);
+  const [itemsPPg, setItemsPPg] = useState(5);
 
   const pageChange = (newPage) => {
     currentPage !== newPage && history.push(`/club/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
   };
 
-  const onButtonClick = ()=>{
+  // 인풋 변경 이벤트 핸들러
+  const onChangeItemsPPg = (e) => {
+    const { value } = e.target;
+    setItemsPPg(value);
+  };
+
+  const onButtonClick = () => {
     console.log("등록화면 이동");
     history.push(`/club/register`);
-  }
+  };
 
   // 화면 첫 렌더링
   useEffect(() => {
@@ -70,7 +80,8 @@ const ClubList = () => {
 
     console.log("get clublist success");
     console.log("getDone : ", getDone);
-  });
+    if (clubList.length !== null) listSize.current = clubList.length;
+  }, [getDone, clubList]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -85,6 +96,27 @@ const ClubList = () => {
             <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
+            <CRow className="row no-gutters">
+              <CCol md="11">
+                <CLabel className="d-flex justify-content-end">
+                  Items per page : &nbsp;
+                </CLabel>
+              </CCol>
+              <div></div>
+              <CCol md="1">
+                <CSelect
+                  onChange={onChangeItemsPPg}
+                  name="itemsPPg"
+                  type="text"
+                  size="sm"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </CSelect>
+              </CCol>
+            </CRow>
             <CDataTable
               items={clubList}
               fields={[
@@ -95,7 +127,9 @@ const ClubList = () => {
               ]}
               hover
               striped
-              itemsPerPage={5}
+              itemsPerPage={Number(itemsPPg)}
+              sorter
+              columnFilter
               activePage={page}
               clickableRows
               onRowClick={(item) => {
@@ -116,13 +150,19 @@ const ClubList = () => {
                 ),
               }}
             />
-            <CButton color="success" onClick={onButtonClick}>등록</CButton>
+            <CButton color="success" onClick={onButtonClick}>
+              등록
+            </CButton>
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
               doubleArrows={false}
               align="center"
+              pages={
+                listSize.current % itemsPPg === 0
+                  ? listSize.current / itemsPPg
+                  : listSize.current / itemsPPg + 1
+              }
             />
           </CCardBody>
         </CCard>
