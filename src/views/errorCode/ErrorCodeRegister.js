@@ -131,6 +131,7 @@ const ErrorCodeRegister = () => {
               body={"에러 코드를 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
+              color={"info"}
             />
           </CCardBody>
         </CCard>

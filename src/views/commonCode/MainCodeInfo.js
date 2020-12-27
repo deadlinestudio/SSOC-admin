@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -7,6 +7,7 @@ import {
   deleteCode,
   putCode,
 } from "../../modules/commonCode/code";
+import { ConfirmModal } from "../notification/modals/Modals";
 import {
   CInput,
   CCard,
@@ -32,23 +33,17 @@ const MainCodeInfo = ({ match }) => {
   const codeInfo = mainCodeList.find(
     (info) => info.codeId.toString() === match.params.codeId
   );
-  // const CodeGroupDetail = codeGroupInfo
-  //   ? Object.entries(codeGroupInfo)
-  //   : [
-  //       [
-  //         "id",
-  //         <span>
-  //           <CIcon className="text-muted" name="cui-icon-ban" /> Not found
-  //         </span>,
-  //       ],
-  //     ];
+  const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   // 코드 삭제 dispatch 함수
   const onRemove = () => {
     console.log("코드 그룹 삭제 dispatch");
     console.log("삭제할 ID : ", codeInfo.codeGroupId);
 
-    dispatch(deleteCode({codeGroupId: codeInfo.codeGroupId, codeId: codeInfo.codeId}));
+    dispatch(
+      deleteCode({ codeGroupId: codeInfo.codeGroupId, codeId: codeInfo.codeId })
+    );
   };
 
   // 코드 수정 dispatch 함수
@@ -65,7 +60,13 @@ const MainCodeInfo = ({ match }) => {
       return;
     }
 
-    dispatch(putCode({ codeGroupId:codeInfo.codeGroupId, codeId:codeInfo.codeId, definition:definition }));
+    dispatch(
+      putCode({
+        codeGroupId: codeInfo.codeGroupId,
+        codeId: codeInfo.codeId,
+        definition: definition,
+      })
+    );
   };
 
   const onChange = (e) => {
@@ -77,6 +78,30 @@ const MainCodeInfo = ({ match }) => {
         value,
       })
     );
+  };
+
+  // 수정 확인 모달 열기
+  const openEditModal = () => {
+    console.log("수정 확인 모달 열기");
+    setEditModal(true);
+  };
+
+  // 수정 확인 모달 종료
+  const closeEditModal = () => {
+    console.log("수정 확인 모달 닫기");
+    setEditModal(false);
+  };
+
+  // 삭제 확인 모달 열기
+  const openDeleteModal = () => {
+    console.log("삭제 확인 모달 열기");
+    setDeleteModal(true);
+  };
+
+  // 삭제 확인 모달 종료
+  const closeDeleteModal = () => {
+    console.log("삭제 확인 모달 닫기");
+    setDeleteModal(false);
   };
 
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
@@ -94,7 +119,7 @@ const MainCodeInfo = ({ match }) => {
       history.push(`/commoncode/maincode/list/${match.params.codeGroupId}`);
     } else if (deleteDone !== null && deleteDone !== true)
       console.log("코드 삭제 실패!");
-  }, [deleteDone, history,match.params.codeGroupId]);
+  }, [deleteDone, history, match.params.codeGroupId]);
 
   // 코드 수정 dispatch 이루
   useEffect(() => {
@@ -105,14 +130,16 @@ const MainCodeInfo = ({ match }) => {
       history.push(`/commoncode/maincode/list/${match.params.codeGroupId}`);
     } else if (updateDone !== null && updateDone !== true)
       console.log("코드 수정 실패!");
-  }, [updateDone, history,match.params.codeGroupId]);
+  }, [updateDone, history, match.params.codeGroupId]);
 
   return (
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
-          <CCardHeader>메인 코드 정보 수정{" "}
-            <small className="text-muted"> {match.params.codeGroupId}</small></CCardHeader>
+          <CCardHeader>
+            메인 코드 정보 수정{" "}
+            <small className="text-muted"> {match.params.codeGroupId}</small>
+          </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
@@ -159,13 +186,29 @@ const MainCodeInfo = ({ match }) => {
                 </tr>
               </tbody>
             </table>
-            <CButton onClick={onRemove} color="danger">
+            <CButton onClick={openDeleteModal} color="danger">
               삭제
             </CButton>
-            <CButton onClick={onUpdate} color="info">
+            <CButton onClick={openEditModal} color="info">
               수정
             </CButton>
           </CCardBody>
+          <ConfirmModal
+            visible={editModal}
+            title={"확인"}
+            body={"메인코드를 수정하시겠습니까?"}
+            onConfirm={onUpdate}
+            onCancel={closeEditModal}
+            color={"info"}
+          />
+          <ConfirmModal
+            visible={deleteModal}
+            title={"확인"}
+            body={"메인코드를 삭제하시겠습니까?"}
+            onConfirm={onRemove}
+            onCancel={closeDeleteModal}
+            color={"danger"}
+          />
         </CCard>
       </CCol>
     </CRow>

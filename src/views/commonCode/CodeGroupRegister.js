@@ -131,6 +131,7 @@ const CodeGroupRegister = () => {
               body={"공통 코드 그룹을 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
+              color={"info"}
             />
           </CCardBody>
         </CCard>

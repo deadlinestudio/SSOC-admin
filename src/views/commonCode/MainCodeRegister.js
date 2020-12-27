@@ -139,6 +139,7 @@ const MainCodeRegister = ({ match }) => {
               body={"메인코드를 생성하시겠습니까?"}
               onConfirm={onSubmit}
               onCancel={closeModal}
+              color={"info"}
             />
           </CCardBody>
         </CCard>

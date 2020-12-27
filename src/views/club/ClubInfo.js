@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -7,6 +7,7 @@ import {
   deleteClub,
   putClub,
 } from "../../modules/club/club";
+import { ConfirmModal } from "../notification/modals/Modals";
 import {
   CInput,
   CCard,
@@ -28,20 +29,11 @@ const ClubInfo = ({ match }) => {
       updateDone: club.updateDone,
     })
   );
-
   const clubInfo = clubList.find(
     (info) => info.id.toString() === match.params.clubId
   );
-  // const ClubDetail = clubInfo
-  //   ? Object.entries(clubInfo)
-  //   : [
-  //       [
-  //         "id",
-  //         <span>
-  //           <CIcon className="text-muted" name="cui-icon-ban" /> Not found
-  //         </span>,
-  //       ],
-  //     ];
+  const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   // 클럽 삭제 dispatch 함수
   const onRemove = () => {
@@ -108,6 +100,30 @@ const ClubInfo = ({ match }) => {
     );
   };
 
+  // 수정 확인 모달 열기
+  const openEditModal = () => {
+    console.log("수정 확인 모달 열기");
+    setEditModal(true);
+  };
+
+  // 수정 확인 모달 종료
+  const closeEditModal = () => {
+    console.log("수정 확인 모달 닫기");
+    setEditModal(false);
+  };
+
+  // 삭제 확인 모달 열기
+  const openDeleteModal = () => {
+    console.log("삭제 확인 모달 열기");
+    setDeleteModal(true);
+  };
+
+  // 삭제 확인 모달 종료
+  const closeDeleteModal = () => {
+    console.log("삭제 확인 모달 닫기");
+    setDeleteModal(false);
+  };
+
   // 컴포넌트가 처음 렌더링될 때 form을 초기화함
   useEffect(() => {
     console.log("클럽 인풋필드 초기화");
@@ -155,8 +171,10 @@ const ClubInfo = ({ match }) => {
     <CRow>
       <CCol sm="12" xl="12">
         <CCard className="mx-4">
-          <CCardHeader>클럽 정보 수정{" "}
-            <small className="text-muted"> {match.params.cludId}</small></CCardHeader>
+          <CCardHeader>
+            클럽 정보 수정{" "}
+            <small className="text-muted"> {match.params.cludId}</small>
+          </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
@@ -264,12 +282,28 @@ const ClubInfo = ({ match }) => {
                 </tr>
               </tbody>
             </table>
-            <CButton onClick={onRemove} color="danger">
+            <CButton onClick={openDeleteModal} color="danger">
               삭제
             </CButton>
-            <CButton onClick={onUpdate} color="info">
+            <CButton onClick={openEditModal} color="info">
               수정
             </CButton>
+            <ConfirmModal
+              visible={editModal}
+              title={"확인"}
+              body={"클럽을 수정하시겠습니까?"}
+              onConfirm={onUpdate}
+              onCancel={closeEditModal}
+              color={"info"}
+            />
+            <ConfirmModal
+              visible={deleteModal}
+              title={"확인"}
+              body={"클럽을 삭제하시겠습니까?"}
+              onConfirm={onRemove}
+              onCancel={closeDeleteModal}
+              color={"danger"}
+            />
           </CCardBody>
         </CCard>
       </CCol>
