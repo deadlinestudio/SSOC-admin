@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -10,28 +10,37 @@ import {
   CRow,
   CPagination,
   CButton,
+  CSelect,
+  CLabel,
 } from "@coreui/react";
-import {
-  getMainCodeList,
-  initCodeList,
-} from "../../modules/commonCode/code";
+import { getMainCodeList, initCodeList } from "../../modules/commonCode/code";
 
-const MainCodeList = ({match}) => {
+const MainCodeList = ({ match }) => {
   const dispatch = useDispatch();
   const { mainCodeList, initDone, getMainDone } = useSelector(({ code }) => ({
     mainCodeList: code.mainCodeList,
     initDone: code.initDone,
-    getDone: code.getMainDone,
+    getMainDone: code.getMainDone,
   }));
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
   const detail = useRef(false);
+  const listSize = useRef(5);
+  const [itemsPPg, setItemsPPg] = useState(5);
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/commoncode/maincode/list/${match.params.codeGroupId}/?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+      history.push(
+        `/commoncode/maincode/list/${match.params.codeGroupId}/?page=${newPage}`
+      ); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+  };
+
+  // 인풋 변경 이벤트 핸들러
+  const onChangeItemsPPg = (e) => {
+    const { value } = e.target;
+    setItemsPPg(value);
   };
 
   const onButtonClick = () => {
@@ -59,7 +68,8 @@ const MainCodeList = ({match}) => {
 
     console.log("get maincode list success");
     console.log("getDone : ", getMainDone);
-  }, [getMainDone]);
+    if (mainCodeList.length !== null && mainCodeList.length!==0) listSize.current = mainCodeList.length;
+  }, [getMainDone,mainCodeList]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -74,6 +84,27 @@ const MainCodeList = ({match}) => {
             <small className="text-muted"> {match.params.codeGroupId}</small>
           </CCardHeader>
           <CCardBody>
+            <CRow className="row no-gutters">
+              <CCol md="11">
+                <CLabel className="d-flex justify-content-end">
+                  Items per page : &nbsp;
+                </CLabel>
+              </CCol>
+              <div></div>
+              <CCol md="1">
+                <CSelect
+                  onChange={onChangeItemsPPg}
+                  name="itemsPPg"
+                  type="text"
+                  size="sm"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </CSelect>
+              </CCol>
+            </CRow>
             <CDataTable
               items={mainCodeList}
               fields={[
@@ -90,17 +121,20 @@ const MainCodeList = ({match}) => {
               ]}
               hover
               striped
-              itemsPerPage={10}
+              itemsPerPage={Number(itemsPPg)}
+              sorter
+              columnFilter
               activePage={page}
               clickableRows
               onRowClick={(item) => {
                 if (detail.current === false) {
-                  history.push(`/commoncode/maincode/info/${item.codeGroupId}/${item.codeId}`);
+                  history.push(
+                    `/commoncode/maincode/info/${item.codeGroupId}/${item.codeId}`
+                  );
                   console.log(item);
                 } else {
                   console.log("상세코드 버튼 눌름");
                 }
-                  
               }}
               scopedSlots={{
                 show_details: (item, i) => {
@@ -129,9 +163,13 @@ const MainCodeList = ({match}) => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
               doubleArrows={false}
               align="center"
+              pages={
+                listSize.current % itemsPPg === 0
+                  ? listSize.current / itemsPPg
+                  : listSize.current / itemsPPg + 1
+              }
             />
           </CCardBody>
         </CCard>
