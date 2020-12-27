@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -10,6 +10,8 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CSelect,
+  CLabel,
 } from "@coreui/react";
 
 import { initMemberList, getMemberList } from "../../modules/member/member";
@@ -40,10 +42,19 @@ const MemberList = () => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
+  const listSize = useRef(3);
+  const [itemsPPg,setItemsPPg] = useState(5);
 
   const pageChange = (newPage) => {
-    currentPage !== newPage &&
-      history.push(`/member/memberlist?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+    currentPage !== newPage && history.push(`/member/list?page=${newPage}`); // currentPage !== newPage 이면 history.push(`/users?page=${newPage}`
+  };
+
+  // 인풋 변경 이벤트 핸들러
+  const onChange = (e) => {
+    const { value } = e.target;
+    console.log("e : ",e.target);
+    console.log(value);
+    setItemsPPg(value);
   };
 
   // 화면 첫 렌더링
@@ -66,7 +77,8 @@ const MemberList = () => {
 
     console.log("get memberlist success");
     console.log("getDone : ", getDone);
-  }, [getDone]);
+    if (memberList.length !== null) listSize.current = memberList.length;
+  }, [getDone, memberList]);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage); // currentPage !== newPage 이면 setPage(currentPage)
@@ -81,7 +93,31 @@ const MemberList = () => {
             <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
+            <CRow className="row no-gutters">
+              <CCol md="11">
+                <CLabel className="d-flex justify-content-end">
+                  Items per page : &nbsp;
+                </CLabel>
+              </CCol>
+              <div></div>
+              <CCol md="1">
+                <CSelect
+                  onChange={onChange}
+                  name="itemsPPg"
+                  type="text"
+                  placeholder="Area Code"
+                  autoComplete="areaCode"
+                  size="sm"
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </CSelect>
+              </CCol>
+            </CRow>
             <CDataTable
+              id="data-table"
               items={memberList}
               fields={[
                 { key: "username", _classes: "font-weight-bold" },
@@ -94,7 +130,9 @@ const MemberList = () => {
               ]}
               hover
               striped
-              itemsPerPage={10}
+              itemsPerPage={itemsPPg}
+              sorter
+              columnFilter
               activePage={page}
               clickableRows
               onRowClick={(item) => {
@@ -118,9 +156,13 @@ const MemberList = () => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
               doubleArrows={false}
               align="center"
+              pages={
+                listSize.current % itemsPPg === 0
+                  ? listSize.current / itemsPPg
+                  : listSize.current / itemsPPg + 1
+              }
             />
           </CCardBody>
         </CCard>

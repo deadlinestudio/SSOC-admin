@@ -1,6 +1,5 @@
 import React from 'react';
 
-const Users = React.lazy(() => import('./views/users/Users'));
 const MemberList = React.lazy(() => import('./views/member/MemberList'));
 const ClubList = React.lazy(()=> import('./views/club/ClubList'));
 const ClubInfo = React.lazy(()=> import('./views/club/ClubInfo'));
@@ -24,7 +23,6 @@ const Log = React.lazy(()=> import('./views/log/Log'));
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/member/list', name: 'MemberList', component: MemberList },
   { path: '/club/list', name: 'ClubList', component: ClubList },
   { path: '/club/info/:clubId', name: 'ClubInfo', component: ClubInfo },
